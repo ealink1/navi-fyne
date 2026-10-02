@@ -9,6 +9,7 @@ import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
+	"github.com/ealink1/navi-fyne/internal/application"
 	"github.com/ealink1/navi-fyne/internal/domain"
 )
 
@@ -24,14 +25,15 @@ type navNode struct {
 }
 
 type navigator struct {
-	owner        *Window
-	tree         *widget.Tree
-	nodes        map[string]*navNode
-	roots        []string
-	breadcrumb   *widget.Label
-	contextLabel *widget.Label
-	selected     string
-	kindFilter   string
+	owner              *Window
+	tree               *widget.Tree
+	nodes              map[string]*navNode
+	roots              []string
+	breadcrumb         *widget.Label
+	contextLabel       *widget.Label
+	selected           string
+	kindFilter         string
+	connectionStatuses map[string]application.ConnectionStatus
 }
 
 func newNavigator(w *Window) *navigator {
@@ -64,6 +66,7 @@ func newNavigator(w *Window) *navigator {
 	n.tree.HideSeparators = true
 	n.tree.OnBranchOpened = n.expand
 	n.tree.OnSelected = n.selectNode
+	n.watchConnectionStatuses()
 	return n
 }
 
@@ -342,93 +345,4 @@ func (n *navigator) locate() {
 func (n *navigator) connectionMenu() {
 	menu := fyne.NewMenu("连接", fyne.NewMenuItem("新建查询", n.owner.newSelectedQuery), fyne.NewMenuItem("打开工作台", n.owner.openSelected), fyne.NewMenuItem("编辑连接", n.owner.editSelected), fyne.NewMenuItem("断开连接", n.owner.disconnectSelected), fyne.NewMenuItem("删除连接", n.owner.deleteSelected))
 	widget.ShowPopUpMenuAtPosition(menu, n.owner.Window.Canvas(), fyne.NewPos(12, 90))
-}
-
-type treeRow struct {
-	widget.BaseWidget
-	navigator *navigator
-	node      *navNode
-	image     *databaseBadge
-	label     *widget.Label
-}
-
-func newTreeRow(n *navigator) *treeRow {
-	r := &treeRow{navigator: n, image: newDatabaseBadge("folder"), label: widget.NewLabel("")}
-	r.label.Wrapping = fyne.TextTruncate
-	r.ExtendBaseWidget(r)
-	return r
-}
-func (r *treeRow) bind(node *navNode) {
-	r.node = node
-	if node == nil {
-		return
-	}
-	r.label.SetText(node.label)
-	name := "folder"
-	if node.kind == "database" {
-		name = "database"
-	}
-	if node.kind == "object" {
-		name = "table"
-		if node.object.Kind == "view" {
-			name = "view"
-		}
-	}
-	if node.kind == "category" {
-		parts := strings.Split(node.id, "/")
-		name = parts[len(parts)-1]
-	}
-	if node.kind == "connection" {
-		for _, p := range r.navigator.owner.profiles {
-			if p.ID == node.profileID {
-				name = "db-" + p.Config.Type
-				if p.IconType != "" {
-					name = "db-" + p.IconType
-				}
-				break
-			}
-		}
-	}
-	r.image.set(name)
-	if node.kind != "connection" {
-		shade := "#15803d"
-		if node.kind == "database" {
-			shade = "#4286a5"
-		} else if node.kind == "schema" {
-			shade = "#89918b"
-		}
-		r.image.image.Resource = coloredIcon(name, shade)
-	}
-	if node.kind == "connection" {
-		for _, p := range r.navigator.owner.profiles {
-			if p.ID == node.profileID && p.IconColor != "" {
-				r.image.frame.StrokeColor = hexColor(p.IconColor)
-				r.image.Refresh()
-				break
-			}
-		}
-	}
-	r.Refresh()
-}
-func (r *treeRow) CreateRenderer() fyne.WidgetRenderer {
-	return widget.NewSimpleRenderer(container.NewBorder(nil, nil, r.image, nil, r.label))
-}
-func (r *treeRow) Tapped(*fyne.PointEvent) {
-	if r.node != nil {
-		r.navigator.tree.Select(r.node.id)
-	}
-}
-func (r *treeRow) DoubleTapped(*fyne.PointEvent) {
-	if r.node != nil {
-		r.navigator.activate(r.node.id)
-	}
-}
-func (r *treeRow) TappedSecondary(event *fyne.PointEvent) {
-	if r.node == nil {
-		return
-	}
-	r.navigator.tree.Select(r.node.id)
-	node := r.node
-	menu := r.navigator.nodeMenu(node)
-	widget.ShowPopUpMenuAtPosition(menu, r.navigator.owner.Window.Canvas(), event.AbsolutePosition)
 }

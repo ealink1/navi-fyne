@@ -229,6 +229,9 @@ func (w *Window) disconnectSelected() {
 			w.showError(err)
 		} else {
 			w.status.SetText("已断开：" + p.Name)
+			if w.sidebar != nil {
+				w.sidebar.resetDisconnectedConnection(p.ID)
+			}
 		}
 	})
 }

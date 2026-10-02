@@ -77,6 +77,7 @@ func (e *Engine) StreamQuery(ctx context.Context, id string, request domain.Exec
 	if err != nil {
 		_ = session.client.Close()
 		session.client = nil
+		session.setConnectionStatus(ConnectionFailed)
 	}
 	if err == nil {
 		err = e.checkRevision(ctx, id, p.Revision)

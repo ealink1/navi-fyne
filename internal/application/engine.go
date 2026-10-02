@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"strings"
 	"sync"
+	"sync/atomic"
 	"time"
 
 	"github.com/ealink1/navi-fyne/internal/domain"
@@ -18,25 +19,29 @@ import (
 )
 
 type session struct {
-	gate     chan struct{}
-	client   adapter.Client
-	revision int64
+	gate              chan struct{}
+	client            adapter.Client
+	revision          int64
+	connectionStatus  atomic.Uint32
+	connectionChanges chan<- struct{}
 }
 type permission struct {
 	fingerprint string
 	expires     time.Time
 }
 type Engine struct {
-	Profiles    *Profiles
-	Factory     adapter.Factory
-	mu          sync.Mutex
-	sessions    map[string]*session
-	permissions map[string]permission
-	closed      bool
+	Profiles          *Profiles
+	Factory           adapter.Factory
+	mu                sync.Mutex
+	sessions          map[string]*session
+	permissions       map[string]permission
+	closed            bool
+	connectionChanges chan struct{}
 }
 
 func NewEngine(profiles *Profiles) *Engine {
-	return &Engine{Profiles: profiles, Factory: adapter.Open, sessions: map[string]*session{}, permissions: map[string]permission{}}
+	// One pending notification is sufficient: the UI reads the latest snapshot.
+	return &Engine{Profiles: profiles, Factory: adapter.Open, sessions: map[string]*session{}, permissions: map[string]permission{}, connectionChanges: make(chan struct{}, 1)}
 }
 
 func (e *Engine) acquire(ctx context.Context, id, scope string) (domain.Profile, *session, func(), error) {
@@ -61,7 +66,7 @@ func (e *Engine) acquire(ctx context.Context, id, scope string) (domain.Profile,
 			e.mu.Unlock()
 			return p, nil, nil, errors.New("session limit reached; disconnect unused connections")
 		}
-		s = &session{gate: make(chan struct{}, 1)}
+		s = &session{gate: make(chan struct{}, 1), connectionChanges: e.connectionChanges}
 		e.sessions[key] = s
 	}
 	e.mu.Unlock()
@@ -81,19 +86,24 @@ func (e *Engine) acquire(ctx context.Context, id, scope string) (domain.Profile,
 	if s.client != nil && s.revision != p.Revision {
 		_ = s.client.Close()
 		s.client = nil
+		s.setConnectionStatus(ConnectionDisconnected)
 	}
 	if s.client == nil {
+		s.setConnectionStatus(ConnectionConnecting)
 		p, err = adapter.ConfigForScope(p, scope)
 		if err != nil {
+			s.setConnectionStatus(ConnectionFailed)
 			release()
 			return p, nil, nil, err
 		}
 		s.client, err = e.Factory(ctx, p)
 		if err != nil {
+			s.setConnectionStatus(ConnectionFailed)
 			release()
 			return p, nil, nil, err
 		}
 		s.revision = p.Revision
+		s.setConnectionStatus(ConnectionConnected)
 	}
 	return p, s, release, nil
 }
@@ -203,6 +213,7 @@ func (e *Engine) Execute(ctx context.Context, id string, request domain.Executio
 	if runError != nil {
 		_ = s.client.Close()
 		s.client = nil
+		s.setConnectionStatus(ConnectionFailed)
 	}
 	historyCtx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
 	defer cancel()
@@ -272,6 +283,7 @@ func (e *Engine) Disconnect(ctx context.Context, id string) error {
 			errs = append(errs, s.client.Close())
 			s.client = nil
 		}
+		s.setConnectionStatus(ConnectionDisconnected)
 		<-s.gate
 	}
 	return errors.Join(errs...)
@@ -291,6 +303,7 @@ func (e *Engine) Close() error {
 			errs = append(errs, s.client.Close())
 			s.client = nil
 		}
+		s.setConnectionStatus(ConnectionDisconnected)
 		<-s.gate
 	}
 	return errors.Join(errs...)

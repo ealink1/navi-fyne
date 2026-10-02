@@ -16,4 +16,5 @@ func discardFailedWriteSession(s *session, err error) {
 	}
 	_ = s.client.Close()
 	s.client = nil
+	s.setConnectionStatus(ConnectionFailed)
 }

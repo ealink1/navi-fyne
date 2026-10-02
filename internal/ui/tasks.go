@@ -61,3 +61,35 @@ func (t *tasks) runWithCancel(handle *context.CancelFunc, work func(context.Cont
 	return cancel
 }
 func (t *tasks) stop() { t.closing.Store(true); t.cancel(); t.wg.Wait() }
+
+// watch joins a signal listener on shutdown without treating it as a pending I/O job.
+// Only one refresh may be queued; its callback reads the latest state on the UI thread.
+func (t *tasks) watch(signals <-chan struct{}, changed func()) {
+	if t.closing.Load() {
+		return
+	}
+	t.wg.Add(1)
+	go func() {
+		defer t.wg.Done()
+		var queued atomic.Bool
+		for {
+			select {
+			case <-t.ctx.Done():
+				return
+			case _, ok := <-signals:
+				if !ok {
+					return
+				}
+				if !queued.CompareAndSwap(false, true) {
+					continue
+				}
+				t.dispatch(func() {
+					queued.Store(false)
+					if !t.closing.Load() {
+						changed()
+					}
+				})
+			}
+		}
+	}()
+}

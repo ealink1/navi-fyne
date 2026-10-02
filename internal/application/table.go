@@ -130,5 +130,6 @@ func (e *Engine) checkRevision(ctx context.Context, id string, revision int64) e
 func (e *Engine) discardTableTransport(session *session, err error) error {
 	_ = session.client.Close()
 	session.client = nil
+	session.setConnectionStatus(ConnectionFailed)
 	return err
 }
