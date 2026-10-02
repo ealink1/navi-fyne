@@ -78,7 +78,7 @@ def main():
     if args.package:
         if args.skip_app:
             raise RuntimeError('--package requires the application build')
-        package_root = binary / ('NaviFyne.app' if goos=='darwin' else 'NaviFyne')
+        package_root = binary / ('SuperLink.app' if goos=='darwin' else 'SuperLink')
         if package_root.exists():
             shutil.rmtree(package_root)
         executable_dir = package_root / 'Contents/MacOS' if goos=='darwin' else package_root
@@ -104,6 +104,8 @@ def main():
         for source in (ROOT/'third_party/fonts').glob('*OFL*'):
             shutil.copy2(source, license_dir/source.name)
         shutil.copy2(ROOT/'internal/ui/assets/gonavi/sources.json', resources/'gonavi-ui-assets.json')
+        shutil.copy2(ROOT/'internal/ui/assets/shell/sources.json', resources/'shell-ui-assets.json')
+        shutil.copy2(ROOT/'internal/ui/assets/shell/LICENSE', license_dir/'Lucide-LICENSE.txt')
         for name in ['highgo-pq','go-irisnative']:
             source=ROOT/'third_party'/name
             for item in source.glob('*LICENSE*'):
@@ -111,7 +113,7 @@ def main():
         if goos=='darwin':
             import plistlib
             (package_root/'Contents/Info.plist').write_bytes(plistlib.dumps({
-                'CFBundleName':'Navi Fyne','CFBundleDisplayName':'Navi Fyne',
+                'CFBundleName':'SuperLink','CFBundleDisplayName':'SuperLink',
                 'CFBundleIdentifier':'io.github.ealink1.navifyne','CFBundleExecutable':'navi-fyne',
                 'CFBundlePackageType':'APPL','CFBundleShortVersionString':version,
                 'CFBundleVersion':version,'NSHighResolutionCapable':True,

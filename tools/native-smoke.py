@@ -104,7 +104,7 @@ def verify_upgrade(directory, root, old_process, executable):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--app', type=Path, default=ROOT/'bin/NaviFyne.app/Contents/MacOS/navi-fyne')
+    parser.add_argument('--app', type=Path, default=ROOT/'bin/SuperLink.app/Contents/MacOS/navi-fyne')
     parser.add_argument('--upgrade', action='store_true', help='also build/start a second native version and test the real helper')
     args = parser.parse_args()
     executable = args.app.resolve()
@@ -115,7 +115,7 @@ def main():
         directory = Path(temporary)
         startup_executable = executable
         if args.upgrade:
-            copied_app = directory/'NaviFyne.app'
+            copied_app = directory/'SuperLink.app'
             shutil.copytree(executable.parents[2], copied_app)
             startup_executable = copied_app/'Contents/MacOS/navi-fyne'
         root = directory/'workspace'

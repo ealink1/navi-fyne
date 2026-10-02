@@ -48,6 +48,7 @@ type Window struct {
 	status                      *widget.Label
 	selected                    string
 	dark                        bool
+	appearance                  *appearanceState
 	shuttingDown                bool
 	onClose                     func() error
 	ready                       chan struct{}
@@ -57,6 +58,7 @@ type Window struct {
 	docStrip                    *fyne.Container
 	docButtons                  map[*container.TabItem]*documentTab
 	docTooltip                  *documentTooltip
+	switcher                    *workspaceSwitcher
 	tables                      map[*container.TabItem]*tableWorkspace
 	imports                     map[*container.TabItem]*importWorkbench
 	designers                   map[*container.TabItem]*tableDesigner
@@ -64,12 +66,13 @@ type Window struct {
 }
 
 func New(app fyne.App, deps Dependencies) *Window {
-	w := &Window{App: app, Window: app.NewWindow("Navi Fyne"), Profiles: deps.Profiles, Engine: deps.Engine, Store: deps.Profiles.Store, Root: deps.Root, Version: deps.Version, Drivers: deps.Drivers, Releases: deps.Releases, jobs: newTasks(deps.dispatch), workspaces: map[*container.TabItem]*workspace{}, onClose: deps.Close, dispatch: deps.dispatch}
+	w := &Window{App: app, Window: app.NewWindow("SuperLink"), Profiles: deps.Profiles, Engine: deps.Engine, Store: deps.Profiles.Store, Root: deps.Root, Version: deps.Version, Drivers: deps.Drivers, Releases: deps.Releases, jobs: newTasks(deps.dispatch), workspaces: map[*container.TabItem]*workspace{}, onClose: deps.Close, dispatch: deps.dispatch}
 	w.ready = make(chan struct{})
 	w.tables = make(map[*container.TabItem]*tableWorkspace)
 	w.imports = make(map[*container.TabItem]*importWorkbench)
 	w.designers = make(map[*container.TabItem]*tableDesigner)
-	app.Settings().SetTheme(Theme{})
+	w.appearance = &appearanceState{palette: &appearancePalette{}}
+	app.Settings().SetTheme(Theme{palette: w.appearance.palette})
 	w.status = widget.NewLabel("正在载入本地工作区…")
 	w.tabs = &documents{}
 	w.tabs.CreateTab = func() *container.TabItem { w.newSelectedQuery(); return nil }
@@ -78,22 +81,31 @@ func New(app fyne.App, deps Dependencies) *Window {
 	w.search.SetPlaceHolder("搜索连接 / 类型 / 分组")
 	w.search.OnChanged = func(string) { w.filter() }
 	w.list = w.connectionList()
-	welcome := widget.NewRichTextFromMarkdown("# Navi Fyne\n\n独立的原生 Go 数据工作台。\n\n从“新建连接”开始；双击左侧连接展开数据库和对象，双击表打开数据页。选择连接后使用“新建查询”编写 SQL。\n\n支持 36 类固定数据源与自定义 Driver / DSN。可选驱动需要先安装。\n\n表格修改先暂存，提交前确认 SQL；只读连接不会开放写入。")
+	welcome := widget.NewRichTextFromMarkdown("# SuperLink\n\n独立的原生 Go 数据工作台。\n\n从“新建连接”开始；双击左侧连接展开数据库和对象，双击表打开数据页。选择连接后使用“新建查询”编写 SQL。\n\n支持 36 类固定数据源与自定义 Driver / DSN。可选驱动需要先安装。\n\n表格修改先暂存，提交前确认 SQL；只读连接不会开放写入。")
 	item := container.NewTabItem("欢迎", container.NewVScroll(welcome))
 	w.tabs.Append(item)
 	w.buildShell()
 	w.Window.Resize(fyne.NewSize(1320, 860))
 	w.Window.SetMaster()
 	w.Window.SetCloseIntercept(w.shutdown)
+	w.Window.SetOnClosed(func() {
+		w.switcher.stop()
+		if w.switcher.nativeClose != nil {
+			w.switcher.nativeClose()
+		}
+	})
 	quit := fyne.NewMenuItem("退出", w.shutdown)
 	quit.IsQuit = true
-	w.Window.SetMainMenu(fyne.NewMainMenu(fyne.NewMenu("文件", fyne.NewMenuItem("新建连接", func() { w.editProfile(domain.Profile{}) }), fyne.NewMenuItem("草稿", w.draftManager), quit)))
+	w.Window.SetMainMenu(fyne.NewMainMenu(fyne.NewMenu("文件", fyne.NewMenuItem("新建连接", w.newWorkspaceConnection), fyne.NewMenuItem("SQL 草稿", func() { w.switcher.selectMode(0); w.draftManager() }), quit)))
 	w.load()
 	return w
 }
-func (w *Window) Show()                  { w.Window.Show() }
+func (w *Window) Show() {
+	w.Window.Show()
+	fyne.Do(w.switcher.installNative)
+}
 func (w *Window) Ready() <-chan struct{} { return w.ready }
-func (w *Window) load() {
+func (w *Window) loadProfiles() {
 	w.jobs.run(func(ctx context.Context) (any, error) { return w.Profiles.List(ctx) }, func(value any, err error) {
 		if err != nil {
 			w.showError(err)
@@ -279,7 +291,7 @@ func (w *Window) showError(err error) {
 	dialog.ShowError(err, w.Window)
 }
 func (w *Window) about() {
-	dialog.ShowInformation("Navi Fyne", fmt.Sprintf("版本 %s\n独立 Go + Fyne 项目\n本地目录：%s\n数据库权限是最终保护边界。\n记住的密码加密保存在本机，草稿可能包含业务数据。", w.Version, w.Root), w.Window)
+	dialog.ShowInformation("SuperLink", fmt.Sprintf("版本 %s\n独立 Go + Fyne 项目\n本地目录：%s\n数据库权限是最终保护边界。\n记住的密码加密保存在本机，草稿可能包含业务数据。", w.Version, w.Root), w.Window)
 }
 func (w *Window) shutdown() {
 	if w.shuttingDown {
@@ -311,6 +323,7 @@ func (w *Window) shutdown() {
 		return
 	}
 	w.shuttingDown = true
+	w.switcher.stop()
 	w.status.SetText("正在取消操作并保存草稿…")
 	// Snapshot UI state on the UI goroutine before joining background workers.
 	drafts := []domain.Draft{}
@@ -320,11 +333,12 @@ func (w *Window) shutdown() {
 	}
 	w.jobs.closing.Store(true)
 	w.jobs.cancel()
+	dark := w.dark
 	go func() {
 		w.jobs.wg.Wait()
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		defer cancel()
-		var err error
+		err := w.saveAppearance(ctx, dark)
 		for _, draft := range drafts {
 			err = errors.Join(err, w.Store.SaveDraft(ctx, draft))
 		}
@@ -368,7 +382,7 @@ func (w *Window) FlushAfterRun() error {
 	w.jobs.wg.Wait()
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-	var err error
+	err := w.saveAppearance(ctx, w.dark)
 	for _, space := range w.workspaces {
 		err = errors.Join(err, w.Store.SaveDraft(ctx, space.draft()))
 	}

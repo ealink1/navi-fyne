@@ -20,7 +20,19 @@ var fontResource = fyne.NewStaticResource("NaviUI-Regular.otf", cjkFont)
 var boldFontResource = fyne.NewStaticResource("NaviUI-Bold.otf", cjkBoldFont)
 var monoFontResource = fyne.NewStaticResource("NaviMono-Regular.otf", monoFont)
 
-type Theme struct{ Dark bool }
+type Theme struct {
+	Dark    bool
+	palette *appearancePalette
+}
+
+func (t Theme) appearancePalette() *appearancePalette {
+	if t.palette != nil {
+		return t.palette
+	}
+	palette := &appearancePalette{}
+	palette.dark.Store(t.Dark)
+	return palette
+}
 
 func (t Theme) Font(style fyne.TextStyle) fyne.Resource {
 	if style.Monospace {

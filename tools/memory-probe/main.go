@@ -57,7 +57,7 @@ func run() error {
 		Profiles: services.Profiles, Engine: services.Engine, Drivers: services.Drivers,
 		Releases: services.Releases, Root: services.Root, Version: "memory-probe", Close: services.Close,
 	})
-	window.Window.SetTitle("Navi Fyne Memory Probe")
+	window.Window.SetTitle("SuperLink Memory Probe")
 	window.Show()
 	ctx, cancel := context.WithCancel(context.Background())
 	var workers sync.WaitGroup

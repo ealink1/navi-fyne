@@ -1,4 +1,4 @@
-# Navi Fyne
+# SuperLink
 
 独立的 **Go + Fyne 原生数据工作台**，目标仓库是
 [ealink1/navi-fyne](https://github.com/ealink1/navi-fyne)。
@@ -16,6 +16,11 @@
 - [内存问题定位、修复与原生对照数据](docs/memory-analysis-2026-10-02.md)
 - [第二轮内存精简与页面释放复查](docs/memory-refinement-2026-10-02.md)
 - [记住密码与免钥匙串授权自检](docs/remember-password-2026-10-02.md)
+- [SQL / Shell 独立工作区与 iShell Pro 全功能分阶段计划](docs/plans/2026-10-02-sql-shell-workspaces-design.md)
+- [Shell 首阶段功能、操作和自检边界](docs/shell-workspace-2026-10-02.md)
+- [iShell Pro 原生观察、Shell 界面重做与最新产物](docs/shell-ui-ishellpro-2026-10-02.md)
+- [SQL / Shell 共用日夜主题、标题栏切换与原生自检](docs/shared-appearance-2026-10-02.md)
+- [SuperLink 更名、兼容性与原生自检](docs/superlink-rename-2026-10-02.md)
 - [界面对照验收与剩余差距](design-qa.md)
 - [构建、签名与应用内更新](docs/releases.md)
 - [上游来源与改动](UPSTREAM.md)
@@ -36,7 +41,7 @@ python3 tools/build.py
 python3 tools/build.py --all-drivers --package
 
 # macOS 打包应用
-open bin/NaviFyne.app
+open bin/SuperLink.app
 ```
 
 开发程序自动发现 `bin/drivers/bundle.json`。标准 `.app` / Portable 应用包自带
@@ -61,7 +66,7 @@ python3 tools/build.py --driver sqlite --driver duckdb --skip-app
 | 范围 | 当前行为 |
 | --- | --- |
 | 连接管理 | 类型搜索 / 分类、基本 / 网络 / 外观 / 高级表单、URI、环境、分组、库范围过滤、细粒度保护、测试、保存后连接、断开 |
-| 主工作区 | 上游绿色主题和图标、两行工作标签；连接 → 数据库 → schema → 表 / 视图的惰性树；加载失败可重试；双击表打开独立数据页 |
+| 主工作区 | 上游绿色主题和图标、单行工作标签与悬停连接 / 库提示；连接 → 数据库 → schema → 表 / 视图的惰性树；加载失败可重试；双击表打开独立数据页 |
 | SQL | 原生文本编辑和显示层语法高亮、行号、查找、换行、撤销 / 重做、选中执行、Cmd/Ctrl+R、停止；连接 / 库 / schema 选择，日志 / 参数 / 结果页 |
 | 参数 | 命名参数及类型、列表绑定；传入驱动参数而非拼接 SQL；缺参数、非法数值和超限内容在执行前拒绝 |
 | 查询文档 | 自动草稿、命名已存查询、版本冲突检测；重新打开不执行；SQL 文件打开和原子导出；保留标题、库和 schema |
@@ -80,6 +85,10 @@ python3 tools/build.py --driver sqlite --driver duckdb --skip-app
 | 凭据 | “记住密码”在本机加密保存，重启自动读取；可选择仅本次运行保存 |
 | 驱动与更新 | 本机可信包导入、签名 Release 驱动安装、完整应用包更新、启动健康检查和失败回滚 |
 | 界面 | Fyne 原生窗口、中文字体、明暗主题；网络和存储任务在后台执行 |
+| Shell | 独立 iShell 风格工作区，与 SQL 共用日间 / 夜间主题；分组 / 标签 / 搜索 / 网格主机管理、密码 / 私钥、真实本地与 SSH PTY、多标签、基础 SFTP / Linux 监控；高级页面按阶段实施 |
+
+窗口控制按钮右侧、SQL / Shell 左侧的太阳 / 月亮按钮切换整个应用的日夜模式。
+两套工作区的颜色同步，设置随当前工作区保存，重启自动恢复；切换保留查询、弹窗输入和终端会话。
 
 语法高亮由原生显示层实现；元数据补全、SQL 格式化和执行计划尚未完成。
 任意 SQL 查询结果保持只读；独立表数据页支持受保护编辑。结构设计目前只对
@@ -147,6 +156,7 @@ MQTT、RabbitMQ、Qdrant、Chroma、Nacos。其他类型保留接入实现，但
 
 默认目录：`os.UserConfigDir()/NaviFyne`；macOS 通常为
 `~/Library/Application Support/NaviFyne`。可用 `--data-root` 或 `NAVIFYNE_DATA_ROOT` 指定。
+应用更名为 SuperLink 后继续使用原数据目录与应用 ID，保留已有连接、加密凭据、草稿和设置。
 不复用 GoNavi 的数据目录，同一工作区同时只允许一个进程打开。
 
 | 内容 | 保存位置 / 行为 |

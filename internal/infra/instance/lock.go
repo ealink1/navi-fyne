@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 )
 
-var ErrBusy = errors.New("this workspace is already open in another Navi Fyne instance")
+var ErrBusy = errors.New("this workspace is already open in another SuperLink instance")
 
 type Lock struct{ file *os.File }
 

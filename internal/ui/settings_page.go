@@ -21,12 +21,11 @@ func (w *Window) settingsPage() {
 	}
 	body := container.NewStack()
 	themePage := func() fyne.CanvasObject {
-		dark := widget.NewCheck("深色主题", func(value bool) { w.dark = value; w.App.Settings().SetTheme(Theme{Dark: value}) })
-		dark.SetChecked(w.dark)
+		dark := w.appearanceCheck()
 		return container.NewVBox(widget.NewLabelWithStyle("主题与外观", fyne.TextAlignLeading, fyne.TextStyle{Bold: true}), dark, widget.NewLabel("独立 Fyne 工作区 · 原生桌面界面"))
 	}
 	updatePage := func() fyne.CanvasObject {
-		return container.NewVBox(widget.NewLabelWithStyle("GoNavi · Navi Fyne", fyne.TextAlignLeading, fyne.TextStyle{Bold: true}), widget.NewLabel("当前版本 "+w.Version), widget.NewLabel("更新仓库 ealink1/navi-fyne"), widget.NewButton("检查更新", w.checkUpdates), widget.NewButton("驱动管理", w.driverManager))
+		return container.NewVBox(widget.NewLabelWithStyle("SuperLink", fyne.TextAlignLeading, fyne.TextStyle{Bold: true}), widget.NewLabel("当前版本 "+w.Version), widget.NewLabel("更新仓库 ealink1/navi-fyne"), widget.NewButton("检查更新", w.checkUpdates), widget.NewButton("驱动管理", w.driverManager))
 	}
 	connections := func() fyne.CanvasObject {
 		return container.NewVBox(widget.NewLabel("连接与配置"), widget.NewLabel("数据目录："+w.Root), widget.NewButton("新建连接", func() { w.editProfile(domain.Profile{}) }), widget.NewButton("管理连接分组", w.groupManager), widget.NewButton("管理查询草稿", w.draftManager))

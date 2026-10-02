@@ -16,8 +16,8 @@ python3 tools/build.py --all-drivers --package --version 0.1.0
 | --- | --- |
 | `bin/navi-fyne`、`bin/update-helper` | 主程序与更新 Helper；Windows 带 `.exe` |
 | `bin/drivers/` | 所选原生 Agent 和 `bundle.json`，供开发及可信本机离线导入 |
-| `bin/NaviFyne.app/` | macOS 原生应用包，包含离线 SQLite、Helper 和许可文本 |
-| `bin/NaviFyne/` | Linux / Windows Portable 应用目录，包含同样的基础资源 |
+| `bin/SuperLink.app/` | macOS 原生应用包，包含离线 SQLite、Helper 和许可文本 |
+| `bin/SuperLink/` | Linux / Windows Portable 应用目录，包含同样的基础资源 |
 | `dist/navi-fyne_<version>_<os>_<arch>.zip` | 一个完整应用目录的 ZIP |
 | `dist/<driver>-agent_<version>_<os>_<arch>[.exe]` | 单独的可选 Agent |
 | `dist/assets-<os>-<arch>.json` | 本平台资产清单：长度、SHA256、下载 URL 与驱动兼容信息 |

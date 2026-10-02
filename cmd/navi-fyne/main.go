@@ -29,7 +29,7 @@ func main() {
 	}
 	services, err := bootstrap.Open(*root, *bundle, releasePublicKey)
 	if err != nil {
-		fmt.Fprintln(os.Stderr, "Navi Fyne startup:", err)
+		fmt.Fprintln(os.Stderr, "SuperLink startup:", err)
 		os.Exit(1)
 	}
 	defer services.Close()

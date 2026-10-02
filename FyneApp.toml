@@ -1,9 +1,8 @@
 [Details]
-Name = "Navi Fyne"
+Name = "SuperLink"
 ID = "io.github.ealink1.navifyne"
 Version = "0.1.0"
 Build = 1
 
 [Migrations]
 fyneDo = true
-
