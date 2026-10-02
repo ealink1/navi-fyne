@@ -1,0 +1,167 @@
+# 构建、签名与应用内更新
+
+当前版本为 v0.1.0 Alpha。macOS arm64 的原生应用包及本地 Helper 升级已完成自检。
+尚未发布 GitHub Release、注入正式更新公钥、配置平台签名证书或完成 Windows / Linux
+的运行验收。以下是已实现的发布工具和维护者操作流程。
+
+## 1. 产物与平台
+
+在目标平台运行：
+
+```sh
+python3 tools/build.py --all-drivers --package --version 0.1.0
+```
+
+| 位置 | 内容 |
+| --- | --- |
+| `bin/navi-fyne`、`bin/update-helper` | 主程序与更新 Helper；Windows 带 `.exe` |
+| `bin/drivers/` | 所选原生 Agent 和 `bundle.json`，供开发及可信本机离线导入 |
+| `bin/NaviFyne.app/` | macOS 原生应用包，包含离线 SQLite、Helper 和许可文本 |
+| `bin/NaviFyne/` | Linux / Windows Portable 应用目录，包含同样的基础资源 |
+| `dist/navi-fyne_<version>_<os>_<arch>.zip` | 一个完整应用目录的 ZIP |
+| `dist/<driver>-agent_<version>_<os>_<arch>[.exe]` | 单独的可选 Agent |
+| `dist/assets-<os>-<arch>.json` | 本平台资产清单：长度、SHA256、下载 URL 与驱动兼容信息 |
+
+应用包默认只内置 SQLite。22 个可选 Agent 都构建时，其他驱动仍作为独立资产分发，
+避免基础应用包随所有 SDK 一起膨胀。CGO 驱动应在目标系统和架构原生构建并执行握手。
+应用及 Agent 均不使用 JVM 管理连接器，也不要求宿主机 JDK。
+
+`--driver` 可重复指定；每次构建会重写所选驱动的 `bundle.json`。需要完整离线目录时
+使用 `--all-drivers`。打包必须包含 SQLite，不能与 `--skip-app` 一起使用。
+
+## 2. 更新签名密钥
+
+应用内置一个 Base64 编码的 Ed25519 32 字节公钥。签名工具使用对应的 64 字节私钥。
+私钥由维护者保管，不能加入仓库、应用包、Release 或构建日志。
+
+```sh
+# 目录和文件名可按维护者的密钥保管方式调整
+mkdir -p "$HOME/.config/navifyne-release"
+chmod 700 "$HOME/.config/navifyne-release"
+
+go run ./cmd/release-sign \
+  --generate-key-file "$HOME/.config/navifyne-release/ed25519.key"
+```
+
+工具以 `O_EXCL` 创建文件，已有文件时拒绝覆盖，POSIX 文件权限为 0600；Windows
+另行配置该文件的访问 ACL。输出只包含公钥，不显示私钥。
+
+将输出的公钥配置为 `NAVIFYNE_RELEASE_PUBLIC_KEY`，再构建每个平台的应用：
+
+```sh
+export NAVIFYNE_RELEASE_PUBLIC_KEY='替换为生成工具输出的公钥'
+python3 tools/build.py --all-drivers --package --version 0.1.0
+```
+
+构建脚本检查公钥长度并通过 Go `-ldflags` 写入主程序。GitHub 构建流程读取同名
+Repository Variable；不需要将私钥交给普通平台构建任务。未配置公钥的开发包不能
+验收正式在线更新。现有客户端固定信任原公钥，直接换钥会使其拒绝后续清单；自动密钥
+轮换协议尚未实现。
+
+## 3. 平台代码签名
+
+macOS 设置 `NAVIFYNE_MAC_SIGN_IDENTITY` 后，打包脚本先签名 SQLite Agent、Helper
+和主程序，重新计算包内 SQLite 校验值，再签名并严格校验 `.app`，最后生成 ZIP。
+Ed25519 清单签名与操作系统代码签名承担不同职责，两者不能互相替代。
+
+当前脚本没有自动执行 macOS 公证 / stapling，也没有 Windows Authenticode 和系统
+安装器接入。如果后续对最终 ZIP 或 Agent 做代码签名、重新压缩、公证附加或其他会改变
+字节的操作，必须重新生成对应的资产长度和 SHA256，之后再签清单。
+
+本次产物未使用正式签名身份，未完成隔离下载后的 Gatekeeper 验收，不视为正式可分发包。
+Portable 更新要求当前应用目录及其父目录可写；系统包管理器目录的更新暂不支持提权。
+
+## 4. 合并资产与签名清单
+
+收集各平台的最终文件和 `assets-*.json` 到同一个干净的目录。同一个
+`kind / id / os / arch` 不得重复；所有资产版本和最终 Release tag 必须一致。
+
+```sh
+go run ./cmd/release-sign \
+  --assets-dir dist \
+  --version 0.1.0 \
+  --channel stable \
+  --key-file "$HOME/.config/navifyne-release/ed25519.key"
+```
+
+工具逐个读取实际产物并检查长度、SHA256、仓库下载 URL 和版本，生成并验证：
+
+- `manifest.json`：schema 1、版本、渠道、时间与所有平台资产。
+- `manifest.json.sig`：对清单原始字节的 Ed25519 签名，使用 Base64 文本。
+
+签名后不要再格式化、修改换行或编辑 `manifest.json`。资产文件名严格限制为普通文件名，
+应用 ZIP 和单个 Agent 最大 1 GiB。驱动资产还包含上游兼容修订和 `json-lines-v2`
+协议身份，由安装流程再次握手校验。
+
+## 5. GitHub Release 发布内容
+
+稳定发布使用目标仓库 `ealink1/navi-fyne`、tag `v0.1.0`，上传：
+
+1. 各平台完整应用 ZIP。
+2. 各平台可选 Agent。
+3. `manifest.json` 与 `manifest.json.sig`。
+4. 发布说明与对应的许可归属信息。
+
+清单中的 URL 固定为该仓库 `releases/download/v<version>/` 下的最终文件。
+客户端读取 GitHub 的 latest stable Release，拒绝 draft、prerelease、preview 清单，
+并绑定 Release tag 与签名清单版本。签名工具能生成 preview 清单，但本版界面尚未提供
+preview 渠道切换。
+
+`.github/workflows/build.yml` 是手动触发的 Linux / macOS / Windows 原生构建并上传
+Actions Artifact；不会自动创建公开 Release。`.github/workflows/ci.yml` 执行测试、
+架构 / 来源检查和默认应用打包。本次没有推送或触发这些云端流程；两份配置不是平台
+运行验收结果。工作流采用 runner 的本机架构，尚未配置六种系统 / CPU 组合的完整矩阵。
+
+正式分发前核对 [THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md) 的许可缺失记录，
+尤其是专有数据库驱动。本次未获得所有专有驱动的独立再分发条款，也未做公开发布。
+
+## 6. 客户端更新流程
+
+```mermaid
+flowchart TD
+    A[检查稳定 Release] --> B[验证清单签名与版本]
+    B --> C[下载匹配系统与 CPU 的 ZIP]
+    C --> D[验证长度与 SHA256]
+    D --> E[安全解压并验证应用标记]
+    E --> F[保存草稿并结束后台任务]
+    F --> G[外部 Helper 等待旧进程退出]
+    G --> H[锁定工作区并备份 SQLite]
+    H --> I[替换完整应用包]
+    I --> J[启动新版本并确认版本 Token PID]
+    J -->|成功| K[保留备份和更新报告]
+    J -->|失败| L[结束新进程并恢复应用与状态]
+    L --> M[重新启动旧版本]
+```
+
+解压拒绝越界路径、软链接、特殊文件、重名 / 大小写冲突，限制总大小 2 GiB 和文件
+数量 5,000。Stage 与目标 / Backup 是同文件系统的独立同级目录；应用 ID、平台、
+入口和版本须匹配。未经完整验证不会执行新代码。
+
+退出前取消并等待后台任务，保存当前编辑内容、关闭会话和本地服务。保存失败则中止
+本次更新。Helper 的临时副本位于应用目录之外，等待父进程退出后获取同一工作区锁，
+通过 SQLite `VACUUM INTO` 创建含 WAL 数据的完整快照，再替换整个应用包。
+
+新版本只有在 Fyne 事件循环完成窗口恢复后才写入健康确认，确认绑定一次性 Token、
+目标版本和实际新进程 PID。启动失败 / 超时会结束新进程，恢复旧应用及 SQLite 快照，
+处理 WAL / SHM 后重新启动旧版本。系统钥匙串不会在启动迁移中写入或清除。
+
+本地报告位于 `updates/last-update.json`，成功时包含健康确认进程 PID；状态快照在
+`updates/state-<token>.sqlite`，旧应用为目标旁的 `.backup-<token>`。备份含本地业务
+状态，应按工作区权限保管；本版没有自动备份清理或手动回滚界面。
+
+开发裸二进制缺少 package marker，只能下载校验后手动安装；原位升级用于可识别的
+`.app` / Portable 包。离线本机 Agent 导入需要用户确认其来源，SHA256 保证复制完整性，
+不替代来源信任；在线 Agent 安装要求签名 Release 清单。
+
+## 7. 本地验证
+
+```sh
+go test ./cmd/release-sign ./internal/infra/release ./internal/infra/update
+python3 tools/build.py --all-drivers --package
+python3 tools/native-smoke.py --upgrade
+```
+
+最后一项在桌面 macOS 图形会话中使用私有测试目录，启动真实 v0.1.0 `.app`，构建
+v0.1.1 测试版本并运行实际 Helper，检查完整包替换、新进程健康确认、应用 / 数据备份。
+它不替换用户日常应用，也不发布 Release。清单认证由独立测试覆盖；该本地测试不能
+替代线上下载、平台签名、系统权限和实际发行版本的验收。

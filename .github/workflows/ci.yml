@@ -1,0 +1,32 @@
+name: Native checks
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.26.3'
+          cache: true
+      - name: Install Fyne native build dependencies
+        run: sudo apt-get update && sudo apt-get install -y libgl1-mesa-dev xorg-dev
+      - run: python3 tools/check-architecture.py
+      - run: go run ./tools/check-go-size
+      - run: python3 tools/verify-upstream.py
+      - run: python3 tools/verify-ui-assets.py
+      - run: go test ./...
+      - run: go test -tags gonavi_full_drivers ./internal/upstream/db ./cmd/driver-agent
+      - run: go test -race ./internal/application ./internal/infra/... ./internal/domain ./internal/ui ./cmd/release-sign
+      - run: go vet ./...
+      - name: Build offline SQLite application
+        run: python3 tools/build.py --package
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux-native-build
+          path: dist/
+          retention-days: 7

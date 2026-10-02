@@ -1,0 +1,9 @@
+[Details]
+Name = "Navi Fyne"
+ID = "io.github.ealink1.navifyne"
+Version = "0.1.0"
+Build = 1
+
+[Migrations]
+fyneDo = true
+

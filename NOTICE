@@ -1,0 +1,12 @@
+Navi Fyne includes code derived from GoNavi by its upstream contributors.
+Upstream: https://github.com/Syngnat/GoNavi
+Reference commit: 6e20b6ddf56b2ae76f7e5d5c6a3505cef1edc871
+License: Apache License, Version 2.0; see LICENSE and UPSTREAM.md.
+Third-party driver implementations retain their original license notices.
+
+UI icons and database icon assets are derived from the same GoNavi reference
+commit; original paths and content hashes are recorded in
+internal/ui/assets/gonavi/sources.json. See UPSTREAM.md for conversions.
+NaviUI/NaviMono fonts are renamed derivatives of Inter, Noto Sans,
+Noto Sans SC and DejaVu Sans Mono Powerline. Their original license texts are
+retained in third_party/fonts, THIRD_PARTY_NOTICES.md and packaged resources.

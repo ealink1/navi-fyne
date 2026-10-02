@@ -1,0 +1,263 @@
+package ui
+
+import (
+	"encoding/base64"
+	"fmt"
+	"image/color"
+
+	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/canvas"
+	"fyne.io/fyne/v2/theme"
+	"fyne.io/fyne/v2/widget"
+	"github.com/ealink1/navi-fyne/internal/domain"
+)
+
+type gridModel struct {
+	editorDrafts map[widget.TableCellID]gridEditorDraft
+	canEditCell  func(int, int) bool
+	columns      []domain.Column
+	info         domain.TableInfo
+	length       func() int
+	value        func(int, int) any
+	selected     map[int]bool
+	selectRow    func(int, bool)
+	edit         func(int, int, string, bool) error
+	inspect      func(int, int)
+	copyValue    func(string)
+	changed      func(int) string
+	boolColumns  map[int]bool
+	pending      func()
+	current      func() bool
+}
+
+// dataGrid keeps Fyne's virtualization, frozen columns and header resizing.
+type dataGrid struct {
+	*widget.Table
+	model gridModel
+	cells []*gridCell
+}
+
+func newDataGrid(model gridModel) *dataGrid {
+	model.editorDrafts = make(map[widget.TableCellID]gridEditorDraft)
+	g := &dataGrid{model: model}
+	g.Table = widget.NewTable(func() (int, int) { return model.length(), len(model.columns) + 2 }, func() fyne.CanvasObject { return newGridCell(model) }, func(id widget.TableCellID, item fyne.CanvasObject) {
+		cell := item.(*gridCell)
+		if !cell.tracked {
+			cell.tracked = true
+			g.cells = append(g.cells, cell)
+		}
+		cell.bind(id)
+	})
+	g.ExtendBaseWidget(g)
+	g.ShowHeaderRow = true
+	g.StickyColumnCount = 2
+	g.CreateHeader = func() fyne.CanvasObject { return newGridHeader(model, g.Table) }
+	g.UpdateHeader = func(id widget.TableCellID, item fyne.CanvasObject) { item.(*gridHeader).bind(id.Col) }
+	g.SetRowHeight(-1, 40)
+	g.SetColumnWidth(0, 28)
+	g.SetColumnWidth(1, 28)
+	for i := range model.columns {
+		g.SetColumnWidth(i+2, 180)
+	}
+	g.Refresh()
+	return g
+}
+func (g *dataGrid) Refresh() {
+	g.Table.Refresh()
+}
+func (g *dataGrid) Resize(size fyne.Size) {
+	if len(g.model.columns) > 0 {
+		width := size.Width - 56 - float32(len(g.model.columns)-1)*184 - 16
+		g.SetColumnWidth(len(g.model.columns)+1, max(180, width))
+	}
+	g.Table.Resize(size)
+}
+
+type gridCell struct {
+	widget.BaseWidget
+	model        gridModel
+	id           widget.TableCellID
+	text         *canvas.Text
+	check        *widget.Check
+	entry        *gridEditEntry
+	background   *canvas.Rectangle
+	editing      bool
+	fullText     string
+	originalText string
+	tracked      bool
+}
+
+func newGridCell(model gridModel) *gridCell {
+	c := &gridCell{model: model, text: canvas.NewText("", theme.ForegroundColor()), check: widget.NewCheck("", nil), entry: newGridEditEntry(), background: canvas.NewRectangle(color.Transparent)}
+	c.text.TextSize = 14
+	c.text.TextStyle = fyne.TextStyle{Monospace: true}
+	c.entry.TextStyle = fyne.TextStyle{Monospace: true}
+	c.entry.Hide()
+	c.check.Hide()
+	c.ExtendBaseWidget(c)
+	c.entry.OnSubmitted = func(string) { _ = c.commitEditor() }
+	c.entry.onBlur = func() { _ = c.commitEditor() }
+	c.entry.OnChanged = func(string) {
+		if c.editing {
+			c.rememberEditor()
+			if c.model.pending != nil {
+				c.model.pending()
+			}
+		}
+	}
+	return c
+}
+
+func (c *gridCell) bind(id widget.TableCellID) {
+	if c.id != id {
+		_ = c.commitEditor()
+		c.editing = false
+		c.entry.Hide()
+	}
+	c.id = id
+	c.check.Hide()
+	c.text.Show()
+	c.text.Color = theme.ForegroundColor()
+	c.background.FillColor = color.Transparent
+	if id.Col == 0 {
+		c.check.Enable()
+		c.text.Hide()
+		c.check.Show()
+		c.check.OnChanged = nil
+		c.check.SetChecked(c.model.selected[id.Row])
+		c.check.OnChanged = func(value bool) {
+			if c.model.selectRow != nil {
+				c.model.selectRow(c.id.Row, value)
+			}
+		}
+	} else if id.Col == 1 {
+		c.text.Text = fmt.Sprint(id.Row + 1)
+	} else {
+		value := c.model.value(id.Row, id.Col-2)
+		if c.model.boolColumns[id.Col-2] {
+			c.text.Hide()
+			c.check.Show()
+			c.check.OnChanged = nil
+			checked, _ := value.(bool)
+			c.check.SetChecked(checked)
+			if c.model.edit == nil {
+				c.check.Disable()
+			} else {
+				c.check.Enable()
+				c.check.OnChanged = func(v bool) {
+					if err := c.model.edit(c.id.Row, c.id.Col-2, fmt.Sprint(v), false); err != nil {
+						c.bind(c.id)
+					}
+				}
+			}
+		} else {
+			c.check.Enable()
+		}
+		c.text.Text = previewValue(value)
+		if draft, ok := c.model.editorDrafts[id]; ok {
+			c.text.Text = draft.text
+			c.text.Color = theme.ErrorColor()
+		}
+		if value == nil {
+			c.text.Color = theme.DisabledColor()
+		}
+		if c.model.changed != nil {
+			switch c.model.changed(id.Row) {
+			case "insert":
+				c.background.FillColor = color.NRGBA{R: 21, G: 128, B: 61, A: 20}
+			case "update":
+				c.background.FillColor = color.NRGBA{R: 245, G: 158, B: 11, A: 24}
+			case "delete":
+				c.background.FillColor = color.NRGBA{R: 220, G: 38, B: 38, A: 20}
+				c.text.Color = theme.DisabledColor()
+			}
+		}
+	}
+	if c.editing {
+		c.text.Hide()
+	}
+	c.fullText = c.text.Text
+	c.Refresh()
+}
+func (c *gridCell) DoubleTapped(*fyne.PointEvent) {
+	if c.id.Col < 2 || c.model.boolColumns[c.id.Col-2] {
+		return
+	}
+	if c.model.edit == nil || c.model.canEditCell != nil && !c.model.canEditCell(c.id.Row, c.id.Col-2) {
+		if c.model.inspect != nil {
+			c.model.inspect(c.id.Row, c.id.Col-2)
+		}
+		return
+	}
+	if c.editing {
+		fyne.CurrentApp().Driver().CanvasForObject(c).Focus(c.entry)
+		return
+	}
+	c.editing = false
+	value := c.model.value(c.id.Row, c.id.Col-2)
+	text := ""
+	if value != nil {
+		text = displayValue(value)
+		if binary, ok := value.([]byte); ok {
+			text = base64.StdEncoding.EncodeToString(binary)
+		}
+	}
+	c.originalText = text
+	if draft, ok := c.model.editorDrafts[c.id]; ok {
+		c.originalText, text = draft.original, draft.text
+	}
+	c.entry.SetText(text)
+	c.editing = true
+	c.text.Hide()
+	c.entry.Show()
+	fyne.CurrentApp().Driver().CanvasForObject(c).Focus(c.entry)
+}
+func (c *gridCell) TappedSecondary(event *fyne.PointEvent) {
+	if c.id.Col < 2 {
+		return
+	}
+	menu := fyne.NewMenu("单元格", fyne.NewMenuItem("查看完整值", func() {
+		if c.model.inspect != nil {
+			c.model.inspect(c.id.Row, c.id.Col-2)
+		}
+	}), fyne.NewMenuItem("复制", func() {
+		if c.model.copyValue != nil {
+			c.model.copyValue(displayValue(c.model.value(c.id.Row, c.id.Col-2)))
+		}
+	}))
+	if c.model.edit != nil && (c.model.canEditCell == nil || c.model.canEditCell(c.id.Row, c.id.Col-2)) {
+		menu.Items = append(menu.Items, fyne.NewMenuItem("设为 NULL", func() { _ = c.model.edit(c.id.Row, c.id.Col-2, "", true); c.bind(c.id) }))
+	}
+	widget.ShowPopUpMenuAtPosition(menu, fyne.CurrentApp().Driver().CanvasForObject(c), event.AbsolutePosition)
+}
+func (c *gridCell) CreateRenderer() fyne.WidgetRenderer { return &gridCellRenderer{c: c} }
+
+type gridCellRenderer struct{ c *gridCell }
+
+func (r *gridCellRenderer) MinSize() fyne.Size { return fyne.NewSize(32, 28) }
+func (r *gridCellRenderer) Layout(size fyne.Size) {
+	r.c.background.Resize(size)
+	r.c.check.Resize(size)
+	r.c.entry.Resize(size)
+	r.c.text.Move(fyne.NewPos(8, (size.Height-r.c.text.MinSize().Height)/2))
+	// canvas.Text does not clip itself. Reduce the preview to the available width.
+	text := []rune(r.c.fullText)
+	for len(text) > 0 && fyne.MeasureText(string(text), r.c.text.TextSize, r.c.text.TextStyle).Width > size.Width-12 {
+		text = text[:len(text)-1]
+	}
+	if len(text) < len([]rune(r.c.fullText)) && len(text) > 1 {
+		text[len(text)-1] = '…'
+	}
+	r.c.text.Text = string(text)
+	r.c.text.Resize(size)
+}
+func (r *gridCellRenderer) Objects() []fyne.CanvasObject {
+	return []fyne.CanvasObject{r.c.background, r.c.text, r.c.check, r.c.entry}
+}
+func (r *gridCellRenderer) Refresh() {
+	r.Layout(r.c.Size())
+	r.c.background.Refresh()
+	r.c.text.Refresh()
+	r.c.check.Refresh()
+}
+func (r *gridCellRenderer) Destroy() {}

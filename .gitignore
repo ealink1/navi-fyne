@@ -1,0 +1,13 @@
+/bin/
+/dist/
+.cache/
+__pycache__/
+*.py[cod]
+/coverage.out
+*.test
+.DS_Store
+.env
+.env.*
+!*.example
+*.log
+/third_party/highgo-pq/certs/*.key

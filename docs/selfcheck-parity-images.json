@@ -1,0 +1,38 @@
+{
+  "date": "2026-10-02",
+  "nativeDesktopVerified": false,
+  "images": [
+    {
+      "path": ".cache/parity-software/parity-query.png",
+      "renderer": "fyne-test-software",
+      "data": "isolated test fixture",
+      "width": 1470,
+      "height": 923,
+      "sha256": "ef7f3f92f9bc47eb8c21d1377347118f4e095626b97fac61526c3417efef715d"
+    },
+    {
+      "path": ".cache/parity-software/parity-query-dark.png",
+      "renderer": "fyne-test-software",
+      "data": "isolated test fixture",
+      "width": 1470,
+      "height": 923,
+      "sha256": "b73554f6fd453c6f424d3841ffc00a9f8d8a4e9b5949d701066f14cf69019398"
+    },
+    {
+      "path": ".cache/parity-software/parity-table.png",
+      "renderer": "fyne-test-software",
+      "data": "isolated test fixture",
+      "width": 1470,
+      "height": 923,
+      "sha256": "04bf9df4cb7d479d193cc03d42bc540dd333a726268185fa6fb2260e0078d3e0"
+    },
+    {
+      "path": ".cache/parity-software/parity-structure.png",
+      "renderer": "fyne-test-software",
+      "data": "isolated test fixture",
+      "width": 1470,
+      "height": 923,
+      "sha256": "b36d4baa7466febe3d57893293cb048137da8f661b50c490b6bd6f81e4c340d2"
+    }
+  ]
+}

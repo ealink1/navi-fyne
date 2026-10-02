@@ -1,0 +1,82 @@
+[
+  {
+    "image": "mysql:8.4",
+    "id": "sha256:6ea90827b1100f8f2ae306a539f86d2c264a26ed435a2a9f75551dd5c3aeb242",
+    "digests": [
+      "mysql@sha256:6ea90827b1100f8f2ae306a539f86d2c264a26ed435a2a9f75551dd5c3aeb242"
+    ],
+    "platform": "linux/arm64"
+  },
+  {
+    "image": "postgres:17-alpine",
+    "id": "sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24",
+    "digests": [
+      "postgres@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24"
+    ],
+    "platform": "linux/arm64"
+  },
+  {
+    "image": "redis:7-alpine",
+    "id": "sha256:858f009f9709ce576febc734aa78b8f6d624b82571f9ddb6bda4377c833b3499",
+    "digests": [
+      "redis@sha256:858f009f9709ce576febc734aa78b8f6d624b82571f9ddb6bda4377c833b3499"
+    ],
+    "platform": "linux/arm64"
+  },
+  {
+    "image": "eclipse-mosquitto:2",
+    "id": "sha256:38c0da4f2ef84284d47b3b3eeea1cb3bdeabe81ee10caf0cd5c5ff61ee3ea408",
+    "digests": [
+      "eclipse-mosquitto@sha256:38c0da4f2ef84284d47b3b3eeea1cb3bdeabe81ee10caf0cd5c5ff61ee3ea408"
+    ],
+    "platform": "linux/arm64"
+  },
+  {
+    "image": "rabbitmq:4-management-alpine",
+    "id": "sha256:628bd74c1c7e2a820bf417b32e75eed1bd8d517345d9749ee8bd4076ae393abe",
+    "digests": [
+      "rabbitmq@sha256:628bd74c1c7e2a820bf417b32e75eed1bd8d517345d9749ee8bd4076ae393abe"
+    ],
+    "platform": "linux/arm64"
+  },
+  {
+    "image": "mongo:8",
+    "id": "sha256:5d7043a4ffe02b9ed1b6e0bab057546981af5ca0a79107e9c461e49bc44c0a7b",
+    "digests": [
+      "mongo@sha256:5d7043a4ffe02b9ed1b6e0bab057546981af5ca0a79107e9c461e49bc44c0a7b"
+    ],
+    "platform": "linux/arm64"
+  },
+  {
+    "image": "docker.elastic.co/elasticsearch/elasticsearch:8.19.4",
+    "id": "sha256:13bb550524faa2aef6950b13fb6414c73b957e97e6169e5808743c8378614599",
+    "digests": [
+      "docker.elastic.co/elasticsearch/elasticsearch@sha256:13bb550524faa2aef6950b13fb6414c73b957e97e6169e5808743c8378614599"
+    ],
+    "platform": "linux/arm64"
+  },
+  {
+    "image": "qdrant/qdrant:v1.14.1",
+    "id": "sha256:419d72603f5346ee22ffc4606bdb7beb52fcb63077766fab678e6622ba247366",
+    "digests": [
+      "qdrant/qdrant@sha256:419d72603f5346ee22ffc4606bdb7beb52fcb63077766fab678e6622ba247366"
+    ],
+    "platform": "linux/arm64"
+  },
+  {
+    "image": "chromadb/chroma:1.0.20",
+    "id": "sha256:f9cef32d15ba51e15a7d288d0e0086607921c8761ed6717d722e2c055e04798b",
+    "digests": [
+      "chromadb/chroma@sha256:f9cef32d15ba51e15a7d288d0e0086607921c8761ed6717d722e2c055e04798b"
+    ],
+    "platform": "linux/arm64"
+  },
+  {
+    "image": "nacos/nacos-server:v2.5.1",
+    "id": "sha256:8987908cb94ed5f9d30522a64493d35732a6c05f216d667a7addb022f3d92e80",
+    "digests": [
+      "nacos/nacos-server@sha256:8987908cb94ed5f9d30522a64493d35732a6c05f216d667a7addb022f3d92e80"
+    ],
+    "platform": "linux/arm64"
+  }
+]
