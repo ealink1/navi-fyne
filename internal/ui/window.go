@@ -54,6 +54,8 @@ type Window struct {
 	pendingUpdate               *update.Request
 	sidebar                     *navigator
 	docHeader, docBody, docHost *fyne.Container
+	docStrip                    *fyne.Container
+	docButtons                  map[*container.TabItem]*documentTab
 	tables                      map[*container.TabItem]*tableWorkspace
 	imports                     map[*container.TabItem]*importWorkbench
 	designers                   map[*container.TabItem]*tableDesigner

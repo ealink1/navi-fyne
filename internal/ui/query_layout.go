@@ -66,7 +66,7 @@ func (s *workspace) queryContent() fyne.CanvasObject {
 	gutterHost.SetMinSize(fyne.NewSize(52, 0))
 	var code fyne.CanvasObject = container.NewThemeOverride(s.editor, editorTheme{})
 	if s.code != nil {
-		code = container.NewThemeOverride(s.code, codeTheme{entry: s.code})
+		code = container.NewThemeOverride(s.code, codeTheme{state: s.code.colors})
 		s.code.onRun = s.runAdaptive
 		s.code.onScroll = func(position fyne.Position) { gutterHost.Offset.Y = position.Y; gutterHost.Refresh() }
 	}

@@ -1,7 +1,11 @@
 * text=auto eol=lf
 *.ttf binary
+*.otf binary
 *.zip binary
 *.png binary
 *.jpg binary
 *.jpeg binary
 *.ico binary
+
+# 保留固定依赖许可证的原始字节，确保来源哈希可复验。
+third_party/fyne/theme/font/LICENSE.txt -text

@@ -17,6 +17,7 @@ import (
 type codeEntry struct {
 	widget.Entry
 	layer    *syntaxLayer
+	colors   *codeColorState
 	onScroll func(fyne.Position)
 	onRun    func()
 }
@@ -30,7 +31,7 @@ func (e *codeEntry) TypedShortcut(shortcut fyne.Shortcut) {
 }
 
 func newCodeEntry() *codeEntry {
-	e := &codeEntry{Entry: widget.Entry{MultiLine: true, Wrapping: fyne.TextWrapOff, TextStyle: fyne.TextStyle{Monospace: true}}}
+	e := &codeEntry{Entry: widget.Entry{MultiLine: true, Wrapping: fyne.TextWrapOff, TextStyle: fyne.TextStyle{Monospace: true}}, colors: &codeColorState{unwrapped: true}}
 	e.ExtendBaseWidget(e)
 	return e
 }
@@ -62,6 +63,7 @@ type codeRenderer struct {
 }
 
 func (r *codeRenderer) Refresh() {
+	r.entry.colors.unwrapped = r.entry.Wrapping == fyne.TextWrapOff
 	r.WidgetRenderer.Refresh()
 	objects := r.WidgetRenderer.Objects()
 	if len(objects) > 1 {
@@ -78,7 +80,9 @@ func (r *codeRenderer) Refresh() {
 	r.entry.layer.Refresh()
 }
 
-type codeTheme struct{ entry *codeEntry }
+// A cached theme needs only display state, not the editor and its callbacks.
+type codeColorState struct{ unwrapped bool }
+type codeTheme struct{ state *codeColorState }
 
 func (t codeTheme) Font(style fyne.TextStyle) fyne.Resource {
 	return fyne.CurrentApp().Settings().Theme().Font(style)
@@ -93,7 +97,7 @@ func (t codeTheme) Color(name fyne.ThemeColorName, variant fyne.ThemeVariant) co
 	if name == theme.ColorNameInputBackground {
 		return fyne.CurrentApp().Settings().Theme().Color(theme.ColorNameBackground, variant)
 	}
-	if name == theme.ColorNameForeground && t.entry.Wrapping == fyne.TextWrapOff {
+	if name == theme.ColorNameForeground && t.state.unwrapped {
 		return color.Transparent
 	}
 	if name == theme.ColorNamePrimary {

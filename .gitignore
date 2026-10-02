@@ -1,13 +1,57 @@
+# 构建与打包产物
 /bin/
 /dist/
+/navi-fyne
+/navi-fyne.exe
+/update-helper
+/update-helper.exe
+/driver-agent
+/driver-agent.exe
+/release-sign
+/release-sign.exe
+/memory-probe
+/memory-probe.exe
+*.test
+
+# 缓存与 Python 虚拟环境
 .cache/
 __pycache__/
 *.py[cod]
-/coverage.out
-*.test
-.DS_Store
+/.venv/
+
+# 测试覆盖率与性能剖析输出
+/coverage/
+/coverage*.out
+/coverage*.html
+/coverage*.xml
+*.pprof
+*.prof
+*.trace
+
+# 本地应用工作区状态
+state.sqlite
+state.sqlite-*
+.instance.lock
+
+# 环境配置与私钥（示例配置可提交）
 .env
 .env.*
 !*.example
+*.key
+*.p12
+*.pfx
+id_rsa
+id_ed25519
+
+# 系统与编辑器临时文件
+.DS_Store
+._*
+Thumbs.db
+Desktop.ini
 *.log
-/third_party/highgo-pq/certs/*.key
+*.swp
+*.swo
+*~
+/.idea/workspace.xml
+/.idea/tasks.xml
+/.idea/shelf/

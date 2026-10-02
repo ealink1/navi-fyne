@@ -19,12 +19,23 @@ type resultTabs struct {
 	selected int
 	bottom   bool
 	counts   map[*container.TabItem]int
+	buttons  map[*container.TabItem]resultTabButton
 	head     *fyne.Container
 	body     *fyne.Container
 }
 
+type resultTabButton struct {
+	button  *widget.Button
+	content fyne.CanvasObject
+	state   *resultButtonState
+}
+
+// Themes can outlive their rendered children. Keep selection separate from the
+// tabs, whose contents may include a large query result.
+type resultButtonState struct{ selected bool }
+
 func newResultTabs(items ...*container.TabItem) *resultTabs {
-	t := &resultTabs{Items: items, counts: map[*container.TabItem]int{}}
+	t := &resultTabs{Items: items, counts: map[*container.TabItem]int{}, buttons: map[*container.TabItem]resultTabButton{}}
 	t.ExtendBaseWidget(t)
 	return t
 }
@@ -90,13 +101,29 @@ func (t *resultTabs) sync() {
 		return
 	}
 	buttons := make([]fyne.CanvasObject, 0, len(t.Items))
-	for i, item := range t.Items {
+	active := make(map[*container.TabItem]bool, len(t.Items))
+	for _, item := range t.Items {
+		active[item] = true
 		label := item.Text
 		if count, ok := t.counts[item]; ok {
 			label += "  " + strconv.Itoa(count)
 		}
-		button := widget.NewButton(label, func() { t.SelectIndex(i) })
-		buttons = append(buttons, container.NewThemeOverride(button, resultButtonTheme{selected: i == t.selected}))
+		cached, ok := t.buttons[item]
+		if !ok {
+			button := widget.NewButton(label, func() { t.Select(item) })
+			state := &resultButtonState{selected: item == t.Selected()}
+			cached = resultTabButton{button: button, state: state, content: container.NewThemeOverride(button, resultButtonTheme{state: state})}
+			t.buttons[item] = cached
+		}
+		cached.state.selected = item == t.Selected()
+		cached.button.SetText(label)
+		buttons = append(buttons, cached.content)
+	}
+	for item := range t.buttons {
+		if !active[item] {
+			t.buttons[item].button.OnTapped = nil
+			delete(t.buttons, item)
+		}
 	}
 	buttons = append(buttons, layout.NewSpacer())
 	t.head.Objects = buttons
@@ -109,7 +136,9 @@ func (t *resultTabs) sync() {
 	t.body.Refresh()
 }
 
-type resultButtonTheme struct{ selected bool }
+type resultButtonTheme struct {
+	state *resultButtonState
+}
 
 func (t resultButtonTheme) Font(style fyne.TextStyle) fyne.Resource {
 	return fyne.CurrentApp().Settings().Theme().Font(style)
@@ -122,7 +151,7 @@ func (t resultButtonTheme) Size(name fyne.ThemeSizeName) float32 {
 }
 func (t resultButtonTheme) Color(name fyne.ThemeColorName, variant fyne.ThemeVariant) color.Color {
 	current := fyne.CurrentApp().Settings().Theme()
-	if t.selected {
+	if t.state.selected {
 		if name == theme.ColorNameButton {
 			if value, ok := current.(Theme); ok && value.Dark {
 				return color.NRGBA{R: 24, G: 63, B: 44, A: 255}

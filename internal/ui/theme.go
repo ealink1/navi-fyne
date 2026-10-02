@@ -8,17 +8,17 @@ import (
 	"fyne.io/fyne/v2/theme"
 )
 
-//go:embed assets/NaviUI-Regular.ttf
+//go:embed assets/NaviUI-Regular.otf
 var cjkFont []byte
 
-//go:embed assets/NaviUI-Bold.ttf
+//go:embed assets/NaviUI-Bold.otf
 var cjkBoldFont []byte
 
-//go:embed assets/NaviMono-Regular.ttf
+//go:embed assets/NaviMono-Regular.otf
 var monoFont []byte
-var fontResource = fyne.NewStaticResource("NaviUI-Regular.ttf", cjkFont)
-var boldFontResource = fyne.NewStaticResource("NaviUI-Bold.ttf", cjkBoldFont)
-var monoFontResource = fyne.NewStaticResource("NaviMono-Regular.ttf", monoFont)
+var fontResource = fyne.NewStaticResource("NaviUI-Regular.otf", cjkFont)
+var boldFontResource = fyne.NewStaticResource("NaviUI-Bold.otf", cjkBoldFont)
+var monoFontResource = fyne.NewStaticResource("NaviMono-Regular.otf", monoFont)
 
 type Theme struct{ Dark bool }
 

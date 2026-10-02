@@ -13,6 +13,8 @@
 - [完整功能与界面对齐设计（当前范围）](docs/plans/2026-10-01-gonavi-parity-design.md)
 - [GoNavi 实际页面、操作流程与功能对齐清单](docs/gonavi-ui-observation-2026-10-01.md)
 - [最新代码自检与未验证范围](docs/selfcheck-2026-10-02.md)
+- [内存问题定位、修复与原生对照数据](docs/memory-analysis-2026-10-02.md)
+- [第二轮内存精简与页面释放复查](docs/memory-refinement-2026-10-02.md)
 - [界面对照验收与剩余差距](design-qa.md)
 - [构建、签名与应用内更新](docs/releases.md)
 - [上游来源与改动](UPSTREAM.md)

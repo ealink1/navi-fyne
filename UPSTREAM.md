@@ -87,6 +87,31 @@ and NaviMono derivatives. Source fonts and all notices are in `third_party/fonts
 the application package includes their license texts. No macOS system font is
 redistributed; native font rasterization parity remains unverified.
 
+The three complete font resources now use OpenType/CFF outlines. The conversion
+keeps all 30,890 mapped codepoints and 31,036 glyph advances in each face; it does
+not subset Chinese characters. `internal/ui/assets/fonts.json` pins their bytes,
+coverage and reference advances. CFF prevents eager decoding of every TrueType
+outline at startup. Repeated CFF instructions are shared using Adobe's
+[cffsubr 0.4.0](https://github.com/adobe-type-tools/cffsubr), reducing the three
+resources by about 17.5% without changing any glyph. FontTools and go-text each
+verified every pre/post compression outline and horizontal advance. Regeneration
+uses `tools/font-requirements.txt`; these Python tools are build-time only.
+
+Fyne v2.8.1 is preserved in `third_party/fyne` with its BSD-3-Clause license.
+`docs/fyne-source.json` records all 2,145 original file hashes plus the reviewed
+seven reviewed production/test files, and `docs/fyne-memory.patch` is its exact diff. The patch
+shares parsed fonts by content (a 32-entry bounded cache), bounds ephemeral font
+scope maps to 4,096 stores, and loads backup/locale fonts only for missing glyphs.
+Theme scopes share small display state instead of retaining their container.
+Destroying a theme renderer removes its retired child scopes while preserving
+independent nested themes. These changes cover four production files and three
+regression test files; the complete pinned copy contains 2,149 files.
+Fonts and fallback behavior remain available. `tools/verify-fyne.py` validates
+the copy and module replacement; the painter/cache suites and affected container
+tests run in selfcheck/CI. See `docs/memory-analysis-2026-10-02.md` and
+`docs/memory-refinement-2026-10-02.md` for measurements and known upstream
+container snapshot failures on this Mac.
+
 `internal/ui/assets/gonavi/sources.json` records hashes and source paths for 63
 UI icons, 21 database SVGs and 13 database PNGs. JSX icon geometry was extracted
 mechanically; PNG/SVG assets were copied, and ICO pixels converted to PNG.

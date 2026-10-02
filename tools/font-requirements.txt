@@ -1,0 +1,3 @@
+# Build-time font regeneration only; not required by the application or go build.
+fonttools==4.63.0
+cffsubr==0.4.0

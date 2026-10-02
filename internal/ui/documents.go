@@ -1,6 +1,10 @@
 package ui
 
-import "fyne.io/fyne/v2/container"
+import (
+	"slices"
+
+	"fyne.io/fyne/v2/container"
+)
 
 // documents owns tab selection without laying out pages. The custom tab strip
 // and body have a single layout owner; an off-screen DocTabs must not resize them.
@@ -42,7 +46,7 @@ func (d *documents) Remove(item *container.TabItem) {
 		if candidate != item {
 			continue
 		}
-		d.Items = append(d.Items[:i], d.Items[i+1:]...)
+		d.Items = slices.Delete(d.Items, i, i+1)
 		if d.selected == item {
 			d.selected = nil
 			if d.OnUnselected != nil {
