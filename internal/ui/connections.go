@@ -38,12 +38,19 @@ type connectionEditor struct {
 }
 
 func (w *Window) editProfile(p domain.Profile) {
+	w.editProfileWithHint(p, "")
+}
+
+func (w *Window) editProfileWithHint(p domain.Profile, hint string) {
 	if p.ID == "" && p.Config.Type == "" {
 		w.typePicker()
 		return
 	}
 	editor := &connectionEditor{owner: w, original: p}
 	editor.show()
+	if hint != "" {
+		editor.hint.SetText(hint)
+	}
 }
 func (e *connectionEditor) entry(text string, password bool) *widget.Entry {
 	item := widget.NewEntry()
@@ -99,8 +106,8 @@ func (e *connectionEditor) initFields() {
 	e.environment.SetSelected(env)
 	e.readonly = widget.NewCheck("只读保护（服务端也应使用只读账号）", nil)
 	e.readonly.SetChecked(p.ReadOnly)
-	e.persist = widget.NewCheck("将凭据保存在系统钥匙串", nil)
-	e.persist.SetChecked(c.SavePassword)
+	e.persist = widget.NewCheck("记住密码", nil)
+	e.persist.SetChecked(c.SavePassword || p.ID == "")
 }
 func (e *connectionEditor) collect() (domain.Profile, error) {
 	p := e.original

@@ -74,7 +74,7 @@ func Open(root, bundle, key string) (*Services, error) {
 	}
 	s := &Services{Root: root, Store: store, Drivers: &drivers.Manager{Root: filepath.Join(root, "drivers")}, Releases: release.New(key)}
 	s.lock = lock
-	s.Profiles = &application.Profiles{Store: store, Vault: secrets.New()}
+	s.Profiles = &application.Profiles{Store: store, Vault: secrets.NewLocal(root)}
 	s.Engine = application.NewEngine(s.Profiles)
 	db.SetExternalDriverDownloadDirectory(s.Drivers.Root)
 	s.Engine.Factory = func(ctx context.Context, p domain.Profile) (adapter.Client, error) {

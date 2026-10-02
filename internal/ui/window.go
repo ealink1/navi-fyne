@@ -56,6 +56,7 @@ type Window struct {
 	docHeader, docBody, docHost *fyne.Container
 	docStrip                    *fyne.Container
 	docButtons                  map[*container.TabItem]*documentTab
+	docTooltip                  *documentTooltip
 	tables                      map[*container.TabItem]*tableWorkspace
 	imports                     map[*container.TabItem]*importWorkbench
 	designers                   map[*container.TabItem]*tableDesigner
@@ -189,8 +190,13 @@ func (w *Window) editSelected() {
 	}
 	w.jobs.run(func(ctx context.Context) (any, error) { return w.Profiles.Get(ctx, p.ID) }, func(value any, err error) {
 		if err != nil {
-			dialog.ShowInformation("需要重新输入凭据", err.Error(), w.Window)
-			w.editProfile(p)
+			// Credential hydration can fail after metadata has been read. Use the
+			// current revision and show the error inside the editor, so saving or
+			// cancelling cannot reveal a stale information dialog underneath it.
+			if current, ok := value.(domain.Profile); ok && current.ID == p.ID && current.Revision > 0 {
+				p = current
+			}
+			w.editProfileWithHint(p, err.Error())
 			return
 		}
 		w.editProfile(value.(domain.Profile))
@@ -273,7 +279,7 @@ func (w *Window) showError(err error) {
 	dialog.ShowError(err, w.Window)
 }
 func (w *Window) about() {
-	dialog.ShowInformation("Navi Fyne", fmt.Sprintf("版本 %s\n独立 Go + Fyne 项目\n本地目录：%s\n数据库权限是最终保护边界。\n凭据使用系统钥匙串，草稿可能包含业务数据。", w.Version, w.Root), w.Window)
+	dialog.ShowInformation("Navi Fyne", fmt.Sprintf("版本 %s\n独立 Go + Fyne 项目\n本地目录：%s\n数据库权限是最终保护边界。\n记住的密码加密保存在本机，草稿可能包含业务数据。", w.Version, w.Root), w.Window)
 }
 func (w *Window) shutdown() {
 	if w.shuttingDown {

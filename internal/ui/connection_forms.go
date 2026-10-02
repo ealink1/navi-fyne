@@ -90,7 +90,7 @@ func (e *connectionEditor) basicForm() fyne.CanvasObject {
 	}
 	e.hosts = e.entry(joinPatterns(e.original.Config.Hosts), false)
 	e.hosts.SetPlaceHolder("多个 host:port，逗号分隔")
-	e.connectAfterSave = widget.NewCheck("保存后连接并展开", nil)
+	e.connectAfterSave = widget.NewCheck("保存后展开", nil)
 	e.connectAfterSave.SetChecked(e.original.ID == "")
 	address := fyne.CanvasObject(container.NewHBox(container.NewGridWrap(fyne.NewSize(260, 32), e.host), container.NewGridWrap(fyne.NewSize(90, 32), e.port), container.NewGridWrap(fyne.NewSize(150, 32), e.database)))
 	if d.Key == "sqlite" || d.Key == "duckdb" {
@@ -109,7 +109,8 @@ func (e *connectionEditor) basicForm() fyne.CanvasObject {
 		address = container.NewBorder(nil, nil, nil, browse, e.host)
 		uri.Hide()
 	}
-	items := []*widget.FormItem{widget.NewFormItem("名称", container.NewHBox(container.NewGridWrap(fyne.NewSize(310, 32), e.name), e.environment)), widget.NewFormItem("主机", address), widget.NewFormItem("认证", container.NewHBox(container.NewGridWrap(fyne.NewSize(160, 32), e.user), container.NewGridWrap(fyne.NewSize(240, 32), e.password))), widget.NewFormItem("分组", e.group), widget.NewFormItem("数据库显示", e.allow), widget.NewFormItem("通配包含", e.include), widget.NewFormItem("通配排除", e.exclude)}
+	authentication := container.NewHBox(container.NewGridWrap(fyne.NewSize(160, 32), e.user), container.NewGridWrap(fyne.NewSize(240, 32), e.password), e.persist, e.connectAfterSave)
+	items := []*widget.FormItem{widget.NewFormItem("名称", container.NewHBox(container.NewGridWrap(fyne.NewSize(310, 32), e.name), e.environment)), widget.NewFormItem("主机", address), widget.NewFormItem("认证", authentication), widget.NewFormItem("分组", e.group), widget.NewFormItem("数据库显示", e.allow), widget.NewFormItem("通配包含", e.include), widget.NewFormItem("通配排除", e.exclude)}
 	if d.Key == "custom" {
 		items = append(items, widget.NewFormItem("Driver", e.driver), widget.NewFormItem("DSN", e.dsn))
 	}
@@ -127,7 +128,9 @@ func (e *connectionEditor) basicForm() fyne.CanvasObject {
 	if d.Key == "sqlite" || d.Key == "duckdb" {
 		mode.Hide()
 	}
-	return container.NewPadded(container.NewVBox(uri, form, container.NewHBox(e.persist, e.connectAfterSave), mode, widget.NewSeparator(), protection))
+	rememberHint := widget.NewLabel("勾选后加密保存在本机，重启自动读取；取消后仅本次运行有效。")
+	rememberHint.Wrapping = fyne.TextWrapWord
+	return container.NewPadded(container.NewVBox(uri, form, rememberHint, mode, widget.NewSeparator(), protection))
 }
 func (e *connectionEditor) networkPanels() fyne.CanvasObject {
 	panels := container.NewStack()

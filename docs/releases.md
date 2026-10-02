@@ -143,7 +143,9 @@ flowchart TD
 
 新版本只有在 Fyne 事件循环完成窗口恢复后才写入健康确认，确认绑定一次性 Token、
 目标版本和实际新进程 PID。启动失败 / 超时会结束新进程，恢复旧应用及 SQLite 快照，
-处理 WAL / SHM 后重新启动旧版本。系统钥匙串不会在启动迁移中写入或清除。
+处理 WAL / SHM 后重新启动旧版本。本地 `credentials/` 和旧版系统钥匙串都不会在
+启动迁移中写入或清除。状态快照仅包含 SQLite，手动完整工作区备份还必须保留
+`credentials/` 下的密钥和密文；降级到钥匙串版本不能读取新版本地加密凭据。
 
 本地报告位于 `updates/last-update.json`，成功时包含健康确认进程 PID；状态快照在
 `updates/state-<token>.sqlite`，旧应用为目标旁的 `.backup-<token>`。备份含本地业务

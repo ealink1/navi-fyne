@@ -14,6 +14,7 @@ type documentTab struct {
 	title, subtitle     string
 	selected            bool
 	selectTab, closeTab func()
+	tooltip             *documentTooltip
 }
 
 func newDocumentTab(title, subtitle string, selected bool, selectTab, closeTab func()) *documentTab {
@@ -23,11 +24,13 @@ func newDocumentTab(title, subtitle string, selected bool, selectTab, closeTab f
 }
 
 func (t *documentTab) Tapped(*fyne.PointEvent) {
+	t.hideTooltip()
 	if t.selectTab != nil {
 		t.selectTab()
 	}
 }
 func (t *documentTab) close() {
+	t.hideTooltip()
 	if t.closeTab != nil {
 		t.closeTab()
 	}
@@ -44,17 +47,15 @@ func (t *documentTab) CreateRenderer() fyne.WidgetRenderer {
 	title := canvas.NewText(t.title, theme.ForegroundColor())
 	title.TextStyle = fyne.TextStyle{Bold: true}
 	title.TextSize = 13
-	subtitle := canvas.NewText(t.subtitle, theme.ForegroundColor())
-	subtitle.TextSize = 10.5
 	close := widget.NewButtonWithIcon("", theme.CancelIcon(), t.close)
 	close.Importance = widget.LowImportance
-	return &documentTabRenderer{t: t, background: background, top: top, title: title, subtitle: subtitle, close: close}
+	return &documentTabRenderer{t: t, background: background, top: top, title: title, close: close}
 }
 
 type documentTabRenderer struct {
 	t               *documentTab
 	background, top *canvas.Rectangle
-	title, subtitle *canvas.Text
+	title           *canvas.Text
 	close           *widget.Button
 }
 
@@ -62,18 +63,15 @@ func (r *documentTabRenderer) Layout(size fyne.Size) {
 	r.background.Resize(size)
 	r.top.Move(fyne.NewPos(0, 0))
 	r.top.Resize(fyne.NewSize(size.Width, 2))
-	r.title.Move(fyne.NewPos(9, 6))
-	r.title.Resize(fyne.NewSize(size.Width-38, 19))
+	r.title.Move(fyne.NewPos(9, (size.Height-r.title.MinSize().Height)/2))
+	r.title.Resize(fyne.NewSize(size.Width-38, r.title.MinSize().Height))
 	r.title.Text = fitText(r.t.title, size.Width-38, r.title.TextSize, r.title.TextStyle)
-	r.subtitle.Move(fyne.NewPos(9, 27))
-	r.subtitle.Resize(fyne.NewSize(size.Width-18, 14))
-	r.subtitle.Text = fitText(r.t.subtitle, size.Width-18, r.subtitle.TextSize, r.subtitle.TextStyle)
-	r.close.Move(fyne.NewPos(size.Width-30, 8))
+	r.close.Move(fyne.NewPos(size.Width-30, (size.Height-26)/2))
 	r.close.Resize(fyne.NewSize(26, 26))
 }
-func (r *documentTabRenderer) MinSize() fyne.Size { return fyne.NewSize(166, 46) }
+func (r *documentTabRenderer) MinSize() fyne.Size { return fyne.NewSize(132, 32) }
 func (r *documentTabRenderer) Objects() []fyne.CanvasObject {
-	return []fyne.CanvasObject{r.background, r.top, r.title, r.subtitle, r.close}
+	return []fyne.CanvasObject{r.background, r.top, r.title, r.close}
 }
 func (r *documentTabRenderer) Refresh() {
 	r.background.FillColor = theme.BackgroundColor()
@@ -85,14 +83,13 @@ func (r *documentTabRenderer) Refresh() {
 	}
 	r.top.FillColor = theme.PrimaryColor()
 	r.title.Color = theme.ForegroundColor()
-	r.subtitle.Color = theme.ForegroundColor()
 	r.Layout(r.t.Size())
 	for _, object := range r.Objects() {
 		object.Refresh()
 	}
 	canvas.Refresh(r.t)
 }
-func (r *documentTabRenderer) Destroy() {}
+func (r *documentTabRenderer) Destroy() { r.t.hideTooltip() }
 
 func fitText(value string, width, size float32, style fyne.TextStyle) string {
 	if fyne.MeasureText(value, size, style).Width <= width {

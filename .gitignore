@@ -32,6 +32,9 @@ __pycache__/
 state.sqlite
 state.sqlite-*
 .instance.lock
+**/credentials/master.key
+**/credentials/*.cred
+**/credentials/.credential-*
 
 # 环境配置与私钥（示例配置可提交）
 .env
