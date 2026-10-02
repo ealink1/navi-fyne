@@ -1,6 +1,7 @@
 package ui
 
 import (
+	"image/color"
 	"io"
 	"strings"
 
@@ -68,7 +69,7 @@ func (t *terminalSurface) FocusLost()       { t.focused = false; t.Refresh() }
 
 func (t *terminalSurface) CreateRenderer() fyne.WidgetRenderer {
 	background := canvas.NewRectangle(resolveShellColor(terminalBackground))
-	cursor := canvas.NewRectangle(resolveShellColor(shellAccentColor))
+	cursor := canvas.NewRectangle(terminalCursorColor())
 	r := &terminalRenderer{terminal: t, background: background, cursor: cursor, text: &fyne.Container{}}
 	r.Refresh()
 	return r
@@ -129,7 +130,7 @@ func (r *terminalRenderer) Destroy() {}
 func (r *terminalRenderer) Refresh() {
 	r.background.FillColor = resolveShellColor(terminalBackground)
 	r.background.Refresh()
-	r.cursor.FillColor = resolveShellColor(shellAccentColor)
+	r.cursor.FillColor = terminalCursorColor()
 	e := r.terminal.emulator
 	cellSize := r.terminal.cellSize()
 	used := 0
@@ -200,7 +201,7 @@ func (r *terminalRenderer) Refresh() {
 	r.text.Objects = objects
 	position := e.CursorPosition()
 	r.cursor.Move(fyne.NewPos(float32(position.X)*cellSize.Width, float32(position.Y)*cellSize.Height))
-	r.cursor.Resize(fyne.NewSize(2, cellSize.Height))
+	r.cursor.Resize(cellSize)
 	if r.terminal.focused && !r.terminal.closed && r.terminal.visibleCursor && r.terminal.scroll == 0 {
 		r.cursor.Show()
 	} else {
@@ -208,6 +209,12 @@ func (r *terminalRenderer) Refresh() {
 	}
 	r.text.Refresh()
 	r.cursor.Refresh()
+}
+
+func terminalCursorColor() color.Color {
+	shade := color.NRGBAModel.Convert(resolveShellColor(terminalForeground)).(color.NRGBA)
+	shade.A = 128
+	return shade
 }
 
 func (t *terminalSurface) cellAt(x, y int) *uv.Cell {

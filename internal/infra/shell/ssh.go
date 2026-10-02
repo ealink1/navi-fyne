@@ -42,6 +42,10 @@ type Remote struct {
 
 // OpenSSH authenticates with a pinned host key and opens an interactive PTY.
 func OpenSSH(ctx context.Context, h domain.ShellHost) (*Remote, error) {
+	return OpenSSHWithProgress(ctx, h, nil)
+}
+
+func openSSH(ctx context.Context, h domain.ShellHost, report func(ConnectStage, ConnectState)) (*Remote, error) {
 	ctx, cancel := context.WithTimeout(ctx, 20*time.Second)
 	defer cancel()
 	if err := h.Validate(); err != nil {
@@ -56,6 +60,8 @@ func OpenSSH(ctx context.Context, h domain.ShellHost) (*Remote, error) {
 	if err != nil {
 		return nil, fmt.Errorf("连接 SSH：%w", err)
 	}
+	report(ConnectTCP, ConnectCompleted)
+	report(ConnectAuth, ConnectStarted)
 	stop := context.AfterFunc(ctx, func() { connection.Close() })
 	defer stop()
 	if err := connection.SetDeadline(time.Now().Add(15 * time.Second)); err != nil {
@@ -75,18 +81,23 @@ func OpenSSH(ctx context.Context, h domain.ShellHost) (*Remote, error) {
 		return nil, fmt.Errorf("SSH 握手：%w", err)
 	}
 	client := ssh.NewClient(clientConn, channels, requests)
+	report(ConnectAuth, ConnectCompleted)
 	if err := connection.SetDeadline(time.Time{}); err != nil {
 		client.Close()
 		return nil, err
 	}
+	report(ConnectChannel, ConnectStarted)
 	remote, err := openPTY(client)
 	if err != nil {
 		client.Close()
 		return nil, err
 	}
+	report(ConnectChannel, ConnectCompleted)
+	report(ConnectReady, ConnectStarted)
 	if err := ctx.Err(); err != nil {
 		return nil, errors.Join(err, remote.Close())
 	}
+	report(ConnectReady, ConnectCompleted)
 	return remote, nil
 }
 

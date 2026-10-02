@@ -10,7 +10,6 @@ import (
 	"time"
 
 	"fyne.io/fyne/v2"
-	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/dialog"
 	"fyne.io/fyne/v2/widget"
 	transport "github.com/ealink1/navi-fyne/internal/infra/shell"
@@ -21,6 +20,8 @@ type shellFiles struct {
 	remote       *transport.Remote
 	directory    *widget.Entry
 	list         *widget.List
+	search       *widget.Entry
+	shown        []int
 	files        []transport.File
 	selected     int
 	busy         bool
@@ -39,35 +40,13 @@ func (p *shellPane) showFiles() {
 	if p.filePane == nil {
 		p.filePane = newShellFiles(p, remote)
 	}
-	p.aux.Objects = []fyne.CanvasObject{container.NewGridWrap(fyne.NewSize(410, 560), p.filePane.content)}
-	p.aux.Show()
-	p.aux.Refresh()
-	p.workspace.content.Refresh()
+	p.showAuxiliary("files", "文件管理 · SFTP", p.filePane.content)
 }
 func newShellFiles(p *shellPane, remote *transport.Remote) *shellFiles {
 	f := &shellFiles{pane: p, remote: remote, selected: -1, directory: widget.NewEntry(), status: widget.NewLabel("SFTP")}
 	f.status.Wrapping = fyne.TextWrapWord
 	f.directory.SetText(".")
-	f.list = widget.NewList(func() int { return len(f.files) }, func() fyne.CanvasObject { return widget.NewLabel("文件名\n大小 / 权限") }, func(id widget.ListItemID, object fyne.CanvasObject) {
-		file := f.files[id]
-		label := file.Name
-		if file.Directory {
-			label = "▸ " + label
-		}
-		object.(*widget.Label).SetText(fmt.Sprintf("%s\n%d B · %s", label, file.Size, file.Mode))
-	})
-	f.list.OnSelected = func(id widget.ListItemID) { f.selected = id }
-	f.directory.OnSubmitted = func(string) { f.refresh() }
-	actions := shellColumns(6, shellOutlined(shellButton("进入", "", false, f.enter)), shellOutlined(shellButton("上级", "", false, func() { f.directory.SetText(path.Join(f.directory.Text, "..")); f.refresh() })), shellOutlined(shellButton("刷新", "refresh-cw", false, f.refresh)), shellOutlined(shellButton("上传", "", false, f.upload)), shellOutlined(shellButton("下载", "", false, f.download)))
-	f.cancelButton = shellButton("取消传输", "x", false, func() {
-		if f.cancel != nil {
-			f.cancel()
-			f.status.SetText("正在取消…")
-		}
-	})
-	f.cancelButton.Disable()
-	header := shellVBox(shellText("远程文件 · SFTP", 14, true, shellTextColor), shellFixed(shellLine(), 0, 1), shellField("目录", f.directory), shellFixed(actions, 0, 30))
-	f.content = shellInset(shellBorder(header, shellVBox(shellLabel(f.status, 12), shellOutlined(f.cancelButton)), nil, nil, f.list), 12)
+	f.content = newShellFilesView(f)
 	f.refresh()
 	return f
 }
@@ -99,9 +78,7 @@ func (f *shellFiles) refresh() {
 			}
 			return a.Name < b.Name
 		})
-		f.selected = -1
-		f.list.UnselectAll()
-		f.list.Refresh()
+		f.filterFiles()
 		f.status.SetText(fmt.Sprintf("%d 项", len(f.files)))
 	})
 }

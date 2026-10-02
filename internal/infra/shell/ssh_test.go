@@ -30,6 +30,7 @@ type sshFixture struct {
 	files       sftp.Handlers
 	stall       atomic.Bool
 	stalled     chan struct{}
+	rejectPTY   atomic.Bool
 }
 
 func newSSHFixture(t *testing.T) *sshFixture {
@@ -128,7 +129,7 @@ func (f *sshFixture) serve(channel ssh.Channel, requests <-chan *ssh.Request) {
 	for request := range requests {
 		switch request.Type {
 		case "pty-req":
-			request.Reply(true, nil)
+			request.Reply(!f.rejectPTY.Load(), nil)
 		case "window-change":
 			var size struct{ Columns, Rows, Width, Height uint32 }
 			_ = ssh.Unmarshal(request.Payload, &size)
