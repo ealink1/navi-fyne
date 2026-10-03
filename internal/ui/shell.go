@@ -26,8 +26,7 @@ func (w *Window) buildSQLWorkspace() fyne.CanvasObject {
 	query := headerAction("新建查询", w.newSelectedQuery)
 	connection := headerAction("新建连接", func() { w.editProfile(domain.Profile{}) })
 	header := container.NewHBox(query, connection,
-		headerAction("管理连接分组", w.groupManager), action("数据工作流", "", w.workflowMenu), action("SQL 工具", "", w.sqlTools), action("驱动管理", "", w.driverManager), action("关于", "", w.about),
-		layout.NewSpacer(), action("", "insight", w.aiEntry), action("", "settings", w.settingsPage))
+		headerAction("管理连接分组", w.groupManager), action("数据工作流", "", w.workflowMenu), action("SQL 工具", "", w.sqlTools), action("驱动管理", "", w.driverManager), action("关于", "", w.about), layout.NewSpacer())
 	header.Layout = &toolbarLayout{height: 34}
 	main := container.NewHSplit(w.sidebar.content(), w.docHost)
 	main.Offset = 0.18

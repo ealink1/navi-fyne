@@ -82,6 +82,7 @@ func New(app fyne.App, deps Dependencies) *Window {
 	w.search.OnChanged = func(string) { w.filter() }
 	w.list = w.connectionList()
 	welcome := widget.NewRichTextFromMarkdown("# SuperLink\n\n独立的原生 Go 数据工作台。\n\n从“新建连接”开始；双击左侧连接展开数据库和对象，双击表打开数据页。选择连接后使用“新建查询”编写 SQL。\n\n支持 36 类固定数据源与自定义 Driver / DSN。可选驱动需要先安装。\n\n表格修改先暂存，提交前确认 SQL；只读连接不会开放写入。")
+	welcome.Wrapping = fyne.TextWrapWord
 	item := container.NewTabItem("欢迎", container.NewVScroll(welcome))
 	w.tabs.Append(item)
 	w.buildShell()
@@ -325,9 +326,10 @@ func (w *Window) shutdown() {
 		}, w.Window)
 		return
 	}
+	flushNotes := w.noteShutdownSnapshot()
 	w.shuttingDown = true
 	w.switcher.stop()
-	w.status.SetText("正在取消操作并保存草稿…")
+	w.status.SetText("正在取消操作并保存草稿和笔记…")
 	// Snapshot UI state on the UI goroutine before joining background workers.
 	drafts := []domain.Draft{}
 	for _, space := range w.workspaces {
@@ -342,18 +344,21 @@ func (w *Window) shutdown() {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		defer cancel()
 		err := w.saveAppearance(ctx, dark)
+		err = errors.Join(err, flushNotes(ctx))
 		for _, draft := range drafts {
 			err = errors.Join(err, w.Store.SaveDraft(ctx, draft))
 		}
 		if err != nil {
 			fyne.Do(func() {
 				w.jobs = newTasks(w.dispatch)
+				w.restartNoteAutosave()
 				w.shuttingDown = false
+				w.restartAI()
 				for _, space := range w.workspaces {
 					space.finish()
 				}
 				w.pendingUpdate = nil
-				w.showError(fmt.Errorf("草稿尚未保存，关闭已停止：%w", err))
+				w.showError(fmt.Errorf("草稿或笔记尚未保存，关闭已停止：%w", err))
 			})
 			return
 		}
@@ -386,6 +391,7 @@ func (w *Window) FlushAfterRun() error {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	err := w.saveAppearance(ctx, w.dark)
+	err = errors.Join(err, w.noteShutdownSnapshot()(ctx))
 	for _, space := range w.workspaces {
 		err = errors.Join(err, w.Store.SaveDraft(ctx, space.draft()))
 	}

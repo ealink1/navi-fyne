@@ -1,5 +1,6 @@
 [Details]
 Name = "SuperLink"
+Icon = "internal/branding/assets/superlink.png"
 ID = "io.github.ealink1.navifyne"
 Version = "0.1.0"
 Build = 1

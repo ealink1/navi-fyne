@@ -106,15 +106,18 @@ def main():
         shutil.copy2(ROOT/'internal/ui/assets/gonavi/sources.json', resources/'gonavi-ui-assets.json')
         shutil.copy2(ROOT/'internal/ui/assets/shell/sources.json', resources/'shell-ui-assets.json')
         shutil.copy2(ROOT/'internal/ui/assets/shell/LICENSE', license_dir/'Lucide-LICENSE.txt')
+        shutil.copy2(ROOT/'internal/branding/assets/superlink.png', resources/'superlink.png')
         for name in ['highgo-pq','go-irisnative']:
             source=ROOT/'third_party'/name
             for item in source.glob('*LICENSE*'):
                 shutil.copy2(item,license_dir/f'{name}-{item.name}')
         if goos=='darwin':
             import plistlib
+            shutil.copy2(ROOT/'internal/branding/assets/superlink.icns', resources/'SuperLink.icns')
             (package_root/'Contents/Info.plist').write_bytes(plistlib.dumps({
                 'CFBundleName':'SuperLink','CFBundleDisplayName':'SuperLink',
                 'CFBundleIdentifier':'io.github.ealink1.navifyne','CFBundleExecutable':'navi-fyne',
+                'CFBundleIconFile':'SuperLink.icns',
                 'CFBundlePackageType':'APPL','CFBundleShortVersionString':version,
                 'CFBundleVersion':version,'NSHighResolutionCapable':True,
                 'NSHumanReadableCopyright':'Apache-2.0; see included licenses'}))

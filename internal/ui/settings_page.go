@@ -2,7 +2,6 @@ package ui
 
 import (
 	"context"
-	"fmt"
 	"strings"
 
 	"fyne.io/fyne/v2"
@@ -127,7 +126,4 @@ func (w *Window) workflowMenu() {
 		}
 	}), fyne.NewMenuItem("打开查询草稿", w.draftManager))
 	widget.ShowPopUpMenuAtPosition(menu, w.Window.Canvas(), fyne.NewPos(400, 42))
-}
-func (w *Window) aiEntry() {
-	dialog.ShowInformation("AI 助手", fmt.Sprintf("当前版本 %s 尚未实现 AI 服务。该能力保留在功能对齐清单中。", w.Version), w.Window)
 }

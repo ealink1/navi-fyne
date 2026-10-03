@@ -23,8 +23,8 @@ import (
 )
 
 type titlebarCallbacks struct {
-	workspace  func(int)
-	appearance func()
+	workspace func(int)
+	utility   func(int)
 }
 
 //export naviWorkspaceChanged
@@ -33,18 +33,18 @@ func naviWorkspaceChanged(callback C.uintptr_t, mode C.int) {
 	fyne.Do(func() { run(int(mode)) })
 }
 
-//export naviAppearanceChanged
-func naviAppearanceChanged(callback C.uintptr_t) {
-	run := cgo.Handle(callback).Value().(titlebarCallbacks).appearance
-	fyne.Do(run)
+//export naviUtilityChanged
+func naviUtilityChanged(callback C.uintptr_t, action C.int) {
+	run := cgo.Handle(callback).Value().(titlebarCallbacks).utility
+	fyne.Do(func() { run(int(action)) })
 }
 
-func installWorkspaceTitlebar(window fyne.Window, run func(int), toggle func()) (func(int, bool), func(), bool) {
+func installWorkspaceTitlebar(window fyne.Window, run func(int), utility func(int)) (func(int, bool), func(), bool) {
 	native, ok := window.(driver.NativeWindow)
 	if !ok {
 		return nil, nil, false
 	}
-	handle := cgo.NewHandle(titlebarCallbacks{workspace: run, appearance: toggle})
+	handle := cgo.NewHandle(titlebarCallbacks{workspace: run, utility: utility})
 	var pointer C.uintptr_t
 	native.RunNative(func(context any) {
 		if context, ok := context.(driver.MacWindowContext); ok {
@@ -55,6 +55,7 @@ func installWorkspaceTitlebar(window fyne.Window, run func(int), toggle func()) 
 		handle.Delete()
 		return nil, nil, false
 	}
+	applyNativeApplicationIcon()
 	var once sync.Once
 	return func(mode int, dark bool) {
 			darkMode := C.int(0)

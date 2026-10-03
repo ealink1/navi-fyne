@@ -69,7 +69,7 @@ func (w *Window) applyAppearance(dark bool) {
 
 func (w *Window) appearanceCheck() *widget.Check {
 	if w.appearance.check == nil {
-		check := widget.NewCheck("夜间模式（SQL / Shell 同步）", nil)
+		check := widget.NewCheck("夜间模式（SQL / Shell / Note 同步）", nil)
 		check.SetChecked(w.dark)
 		check.OnChanged = w.setDark
 		w.appearance.check = check
@@ -116,6 +116,9 @@ func (s *workspaceSwitcher) refreshAppearance() {
 	s.themeButton.SetIcon(theme.ColorPaletteIcon())
 	if s.nativeSelect != nil {
 		s.nativeSelect(s.mode, s.owner.dark)
+	}
+	if s.note != nil {
+		s.note.content.Refresh()
 	}
 	if s.shell != nil {
 		s.shell.content.Refresh()
