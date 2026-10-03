@@ -19,8 +19,8 @@ import (
 const validBrandIconPNGBase64 = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIHWP4z8DwHwAFgAI/ScL9dgAAAABJRU5ErkJggg=="
 
 // Wails v2 packages build/appicon.png. Keep it aligned with the default
-// 01-ribbon-graphite-air brand instead of allowing Wails to restore its W icon.
-const defaultBrandAppIconSHA256 = "5a75c96f2e3e9046fbca0adf4302404330e26d93dd9d5b82ca748ae2ba5341e9"
+// user-provided SL gear artwork instead of allowing Wails to restore its W icon.
+const defaultBrandAppIconSHA256 = "3f7bd931faf180becd14f1b345ac2c2913f86d7ecdcda3e95b8ecd6e71fbd157"
 
 func TestRuntimeBrandIconMutationIsNotExposed(t *testing.T) {
 	for _, name := range []string{"SetApplicationBrandIcon", "PrepareWindowsBrandIconRestart"} {
