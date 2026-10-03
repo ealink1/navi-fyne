@@ -3,7 +3,7 @@ package db
 import (
 	"database/sql"
 	"database/sql/driver"
-	"github.com/ealink1/navi-fyne/internal/upstream/i18n"
+	"github.com/ealink1/super-link/internal/upstream/i18n"
 	"io"
 	"strings"
 	"sync"

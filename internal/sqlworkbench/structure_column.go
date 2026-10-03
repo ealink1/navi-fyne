@@ -7,7 +7,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/connection"
+	"github.com/ealink1/super-link/internal/upstream/connection"
 )
 
 var columnTypePattern = regexp.MustCompile(`(?i)^[a-z_][a-z0-9_]*(?:\s+(?:varying|precision|with|without|time|zone))*(?:\([0-9]+(?:\s*,\s*[0-9]+)?\))?(?:\s+unsigned)?(?:\[\])?$`)

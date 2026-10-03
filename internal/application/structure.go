@@ -8,9 +8,9 @@ import (
 	"errors"
 	"time"
 
-	"github.com/ealink1/navi-fyne/internal/domain"
-	adapter "github.com/ealink1/navi-fyne/internal/infra/runtime"
-	"github.com/ealink1/navi-fyne/internal/sqlworkbench"
+	"github.com/ealink1/super-link/internal/domain"
+	adapter "github.com/ealink1/super-link/internal/infra/runtime"
+	"github.com/ealink1/super-link/internal/sqlworkbench"
 )
 
 func (e *Engine) ApplyStructure(ctx context.Context, id string, request domain.StructureRequest) (result domain.StructureResult, err error) {

@@ -15,7 +15,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/connection"
+	"github.com/ealink1/super-link/internal/upstream/connection"
 )
 
 type optionalAgentCancelWhenDoneObservedContext struct {
@@ -610,7 +610,7 @@ func TestOptionalDriverAgentCancellationAfterGateAcquisitionDoesNotStartOperatio
 
 func TestOptionalDriverAgentUnresponsiveProcessIsReapedAfterTimeout(t *testing.T) {
 	const helperMarker = "gonavi-optional-agent-hang-helper"
-	if os.Getenv("NAVIFYNE_OPTIONAL_AGENT_HANG_HELPER") == "1" &&
+	if os.Getenv("SUPERLINK_OPTIONAL_AGENT_HANG_HELPER") == "1" &&
 		len(os.Args) > 0 &&
 		os.Args[len(os.Args)-1] == helperMarker {
 		time.Sleep(time.Hour)
@@ -623,7 +623,7 @@ func TestOptionalDriverAgentUnresponsiveProcessIsReapedAfterTimeout(t *testing.T
 		"--",
 		helperMarker,
 	)
-	cmd.Env = append(os.Environ(), "NAVIFYNE_OPTIONAL_AGENT_HANG_HELPER=1")
+	cmd.Env = append(os.Environ(), "SUPERLINK_OPTIONAL_AGENT_HANG_HELPER=1")
 	configureAgentProcess(cmd)
 	stdin, err := cmd.StdinPipe()
 	if err != nil {

@@ -15,7 +15,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/logger"
+	"github.com/ealink1/super-link/internal/upstream/logger"
 )
 
 // 最小 RocketMQ remoting 管理协议客户端，只为只读消费组诊断实现。

@@ -7,9 +7,9 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/ealink1/navi-fyne/internal/domain"
-	"github.com/ealink1/navi-fyne/internal/infra/secrets"
-	"github.com/ealink1/navi-fyne/internal/infra/state"
+	"github.com/ealink1/super-link/internal/domain"
+	"github.com/ealink1/super-link/internal/infra/secrets"
+	"github.com/ealink1/super-link/internal/infra/state"
 	"github.com/google/uuid"
 )
 

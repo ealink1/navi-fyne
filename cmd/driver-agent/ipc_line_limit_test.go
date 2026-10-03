@@ -8,7 +8,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/db"
+	"github.com/ealink1/super-link/internal/upstream/db"
 )
 
 // decodeAgentResponses 把 JSON-lines 输出解析为响应列表。

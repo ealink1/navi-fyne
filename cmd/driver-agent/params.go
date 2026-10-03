@@ -5,7 +5,7 @@ import (
 	"errors"
 	"time"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/db"
+	"github.com/ealink1/super-link/internal/upstream/db"
 )
 
 // agentProtocolSchemaV2 是当前 agent 支持的 IPC 协议版本：connect 响应与

@@ -10,7 +10,7 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/ealink1/navi-fyne/internal/infra/instance"
+	"github.com/ealink1/super-link/internal/infra/instance"
 	"github.com/shirou/gopsutil/v4/process"
 )
 

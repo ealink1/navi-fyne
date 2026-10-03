@@ -1,6 +1,8 @@
 # “记住密码”变更与自检
 
-日期：2026-10-02。项目：独立的 navi-fyne；GoNavi 源仓库未修改。
+> 名称与命令已于 2026-10-03 统一为 SuperLink；历史截图、产物哈希和验收结论仍对应记录当日版本，本次更名验证见 [完整更名记录](superlink-namespace-2026-10-03.md)。
+
+日期：2026-10-02。项目：独立的 superlink；GoNavi 源仓库未修改。
 
 ## 用户行为
 
@@ -48,13 +50,13 @@ macOS/Linux 目录权限 0700、文件 0600；拒绝不安全权限、软链接�
 
 ## 本机产物
 
-已重建 `bin/navi-fyne`、`bin/NaviFyne.app`，保留已验证的全部 Agent；当前默认工作区实例已正常退出并启动修复版。
+已重建 `bin/superlink`、`bin/SuperLink.app`，保留已验证的全部 Agent；当前默认工作区实例已正常退出并启动修复版。
 应用版本仍为开发版 0.1.0。当前原生进程 PID 35507，事件循环健康握手通过。
 
 | 产物 | 校验 |
 | --- | --- |
 | 主程序 SHA256 | `34014af4ef21968bb478442992e9e4e0e8035f58535318996fa01a3a43fa8cab` |
-| `dist/navi-fyne_0.1.0_darwin_arm64.zip` | 83.04 MiB |
+| `dist/superlink_0.1.0_darwin_arm64.zip` | 83.04 MiB |
 | ZIP SHA256 | `26c10e5d6ac7cda66cadc719c0d5d3118584e5e5c5105b1d066b8052481e3376` |
 
 上述自动测试只使用假密码和隔离工作区，不调用用户钥匙串或生产数据库。

@@ -12,7 +12,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/appdata"
+	"github.com/ealink1/super-link/internal/upstream/appdata"
 )
 
 func TestMain(m *testing.M) {

@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/connection"
+	"github.com/ealink1/super-link/internal/upstream/connection"
 )
 
 // GenerateChangePreview 将 ChangeSet 转为可读 SQL 语句（不执行）。

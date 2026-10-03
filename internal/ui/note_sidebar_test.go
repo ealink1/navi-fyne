@@ -87,7 +87,7 @@ func TestNoteSidebarGroupsSearchCollapseAndNewNote(t *testing.T) {
 }
 
 func TestNoteSidebarSoftwareFixtures(t *testing.T) {
-	if os.Getenv("NAVIFYNE_UI_CAPTURE_DIR") == "" {
+	if os.Getenv("SUPERLINK_UI_CAPTURE_DIR") == "" {
 		t.Skip("optional software render capture")
 	}
 	w, n := noteTestWindow(t)

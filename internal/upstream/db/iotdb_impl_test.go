@@ -13,7 +13,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/connection"
+	"github.com/ealink1/super-link/internal/upstream/connection"
 
 	iotdbclient "github.com/apache/iotdb-client-go/client"
 )
@@ -295,13 +295,13 @@ func TestIoTDBConnectExplainsRPCHandshakeEOF(t *testing.T) {
 }
 
 func TestIoTDBLiveSmoke(t *testing.T) {
-	addr := strings.TrimSpace(os.Getenv("NAVIFYNE_IOTDB_TEST_ADDR"))
+	addr := strings.TrimSpace(os.Getenv("SUPERLINK_IOTDB_TEST_ADDR"))
 	if addr == "" {
-		t.Skip("set NAVIFYNE_IOTDB_TEST_ADDR=host:port to run live IoTDB smoke test")
+		t.Skip("set SUPERLINK_IOTDB_TEST_ADDR=host:port to run live IoTDB smoke test")
 	}
 	host, portText, ok := strings.Cut(addr, ":")
 	if !ok || strings.TrimSpace(host) == "" || strings.TrimSpace(portText) == "" {
-		t.Fatalf("invalid NAVIFYNE_IOTDB_TEST_ADDR: %q", addr)
+		t.Fatalf("invalid SUPERLINK_IOTDB_TEST_ADDR: %q", addr)
 	}
 	port, err := strconv.Atoi(strings.TrimSpace(portText))
 	if err != nil {
@@ -321,21 +321,21 @@ func TestIoTDBLiveSmoke(t *testing.T) {
 	}
 	defer client.Close()
 
-	_, _ = client.ExecContext(context.Background(), "DELETE DATABASE root.navi-fyne_smoke")
-	_, _ = client.ExecContext(context.Background(), "DROP DATABASE root.navi-fyne_smoke")
+	_, _ = client.ExecContext(context.Background(), "DELETE DATABASE root.superlink_smoke")
+	_, _ = client.ExecContext(context.Background(), "DROP DATABASE root.superlink_smoke")
 
-	if _, err := client.Exec("CREATE DATABASE root.navi-fyne_smoke"); err != nil {
+	if _, err := client.Exec("CREATE DATABASE root.superlink_smoke"); err != nil {
 		t.Fatalf("create database: %v", err)
 	}
 	defer func() {
-		_, _ = client.Exec("DELETE DATABASE root.navi-fyne_smoke")
-		_, _ = client.Exec("DROP DATABASE root.navi-fyne_smoke")
+		_, _ = client.Exec("DELETE DATABASE root.superlink_smoke")
+		_, _ = client.Exec("DROP DATABASE root.superlink_smoke")
 	}()
 
 	statements := []string{
-		"CREATE TIMESERIES root.navi-fyne_smoke.d1.temperature WITH DATATYPE=DOUBLE, ENCODING=GORILLA, COMPRESSION=SNAPPY",
-		"CREATE TIMESERIES root.navi-fyne_smoke.d1.status WITH DATATYPE=TEXT, ENCODING=PLAIN, COMPRESSION=SNAPPY",
-		"INSERT INTO root.navi-fyne_smoke.d1(timestamp, temperature, status) VALUES(1700000000000, 21.5, 'ok')",
+		"CREATE TIMESERIES root.superlink_smoke.d1.temperature WITH DATATYPE=DOUBLE, ENCODING=GORILLA, COMPRESSION=SNAPPY",
+		"CREATE TIMESERIES root.superlink_smoke.d1.status WITH DATATYPE=TEXT, ENCODING=PLAIN, COMPRESSION=SNAPPY",
+		"INSERT INTO root.superlink_smoke.d1(timestamp, temperature, status) VALUES(1700000000000, 21.5, 'ok')",
 	}
 	for _, stmt := range statements {
 		if _, err := client.Exec(stmt); err != nil {
@@ -343,14 +343,14 @@ func TestIoTDBLiveSmoke(t *testing.T) {
 		}
 	}
 
-	rows, columns, err := client.Query("SELECT temperature, status FROM root.navi-fyne_smoke.d1 LIMIT 10")
+	rows, columns, err := client.Query("SELECT temperature, status FROM root.superlink_smoke.d1 LIMIT 10")
 	if err != nil {
 		t.Fatalf("query smoke data: %v", err)
 	}
 	if len(rows) != 1 {
 		t.Fatalf("expected one row, got rows=%#v columns=%#v", rows, columns)
 	}
-	if got := rows[0]["root.navi-fyne_smoke.d1.status"]; got != "ok" {
+	if got := rows[0]["root.superlink_smoke.d1.status"]; got != "ok" {
 		t.Fatalf("unexpected status value: %#v rows=%#v columns=%#v", got, rows, columns)
 	}
 }

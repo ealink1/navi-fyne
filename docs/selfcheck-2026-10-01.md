@@ -1,7 +1,9 @@
-# Navi Fyne v0.1.0 Alpha 自检报告
+# SuperLink v0.1.0 Alpha 自检报告
 
-日期：2026-10-01。实施目录：`/Users/bre/workspace/self/navi-fyne`。
-目标 remote：`git@github.com:ealink1/navi-fyne.git`。
+> 名称与命令已于 2026-10-03 统一为 SuperLink；历史截图、产物哈希和验收结论仍对应记录当日版本，本次更名验证见 [完整更名记录](superlink-namespace-2026-10-03.md)。
+
+日期：2026-10-01。实施目录：`.`。
+目标 remote：`git@github.com:ealink1/super-link.git`。
 
 已实现独立 Go 模块和 Fyne 原生应用，选择性复用固定 GoNavi 基线的数据库 / 协议代码。
 目录包含 36 类固定数据源与自定义 Driver / DSN，共 37 个入口；已构建 22 个可选
@@ -20,7 +22,7 @@
 | Go / Fyne | Go 1.26.3 / Fyne 2.8.1 |
 | 编译工具 | 本机 clang / CGO，Python 3.11 |
 | 上游基线 | `6e20b6ddf56b2ae76f7e5d5c6a3505cef1edc871` |
-| 集成服务 | 独立 Colima profile `navifyne-selfcheck`，Docker context `colima-navifyne-selfcheck` |
+| 集成服务 | 独立 Colima profile `superlink-selfcheck`，Docker context `colima-superlink-selfcheck` |
 | 隔离 | 不挂载宿主目录，服务端口仅绑定 127.0.0.1 临时端口，容器结束后清理 |
 | UI 检查 | Fyne 无显示驱动测试 / 渲染检查，以及真实原生应用进程启动和升级 |
 
@@ -55,14 +57,14 @@ LICENSE、NOTICE、上游来源、第三方许可与字体许可。
 命令：
 
 ```sh
-NAVIFYNE_TEST_DRIVERS="$PWD/bin/drivers" \
+SUPERLINK_TEST_DRIVERS="$PWD/bin/drivers" \
   go test -tags integration -count=1 -v ./internal/infra/runtime -run TestLocalFileAgents
 
-python3 tools/integration.py --docker-context colima-navifyne-selfcheck --group core
-python3 tools/integration.py --docker-context colima-navifyne-selfcheck --group messages
-python3 tools/integration.py --docker-context colima-navifyne-selfcheck --group documents
-python3 tools/integration.py --docker-context colima-navifyne-selfcheck --group vectors
-python3 tools/integration.py --docker-context colima-navifyne-selfcheck --group configuration
+python3 tools/integration.py --docker-context colima-superlink-selfcheck --group core
+python3 tools/integration.py --docker-context colima-superlink-selfcheck --group messages
+python3 tools/integration.py --docker-context colima-superlink-selfcheck --group documents
+python3 tools/integration.py --docker-context colima-superlink-selfcheck --group vectors
+python3 tools/integration.py --docker-context colima-superlink-selfcheck --group configuration
 ```
 
 | 数据源 | 环境 | 实际通过的操作 |
@@ -172,7 +174,7 @@ python3 tools/native-smoke.py --upgrade
 ## 7. 后续验收与功能缺口
 
 当前可用功能见 [README](../README.md)，完整高级功能清单保留在
-[实施计划第 13–15 节](plans/2026-10-01-navi-fyne-implementation-plan.md)。
+[实施计划第 13–15 节](plans/2026-10-01-superlink-implementation-plan.md)。
 SQL 高亮 / 元数据补全、可编辑结果与 ChangeSet、事务控制、结构设计、导入、全量
 流式导出、备份恢复、迁移同步、完整分页、AI / 云备份仍属于后续工作。
 
@@ -180,7 +182,7 @@ SQL 高亮 / 元数据补全、可编辑结果与 ChangeSet、事务控制、结
 取消、断网和资源清理。专有驱动缺少服务或再分发条款时保留“待验证”，不以构建或
 mock 通过代替。CI 配置已经提供，但本次尚未运行云端 CI；六种平台组合尚未全部构建。
 
-本次 Alpha 可以从本机 `bin/NaviFyne.app` 启动，正式更新签名 / 发布步骤见
+本次 Alpha 可以从本机 `bin/SuperLink.app` 启动，正式更新签名 / 发布步骤见
 [releases.md](releases.md)。本机生成产物和缓存未纳入 Git。
 
 ## 8. 连接打开交互补充修复

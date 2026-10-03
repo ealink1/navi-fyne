@@ -1,6 +1,6 @@
 # Upstream provenance
 
-Navi Fyne is an independent Go module, desktop application and repository.
+SuperLink is an independent Go module, desktop application and repository.
 The Fyne UI, application services, credential store, metadata storage, driver
 installer and signed whole-application updater are implemented in this project.
 The reviewed driver/protocol dependency closure derives from
@@ -34,12 +34,18 @@ python3 tools/verify-upstream.py --refresh /path/to/pinned/GoNavi
 
 ## Intentional adaptations
 
+- On 2026-10-03 the project namespace became SuperLink: module imports use
+  `github.com/ealink1/super-link`, environment variables use `SUPERLINK_`, and
+  app-owned temporary paths and log names use `superlink`. The import rewrite,
+  retained source/tests, provenance hashes and adaptation patch were refreshed
+  together against the same pinned upstream commit. Original GoNavi attribution,
+  driver build tags and protocol revisions remain unchanged.
 - JVM management is excluded by user request. No JVM connector, Java helper,
   JDK requirement, JVM DTO or JVM capability registry entry is retained. Unused
   translation keys in the full upstream catalogs and Java wire-protocol names
   of database services do not create a Java runtime dependency.
-- Module imports target `github.com/ealink1/navi-fyne/internal/upstream`.
-  App-specific environment variables use `NAVIFYNE_`; storage/log/agent names
+- Module imports target `github.com/ealink1/super-link/internal/upstream`.
+  App-specific environment variables use `SUPERLINK_`; storage/log/agent names
   are isolated from GoNavi. Existing `gonavi_*_driver` build tags and `src-*`
   compatibility revisions now carry the `fyne-values1-` prefix; agents from the
   original baseline must be rebuilt/reinstalled for the adapted value transport.

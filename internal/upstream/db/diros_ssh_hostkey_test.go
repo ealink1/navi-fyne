@@ -6,8 +6,8 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/connection"
-	"github.com/ealink1/navi-fyne/internal/upstream/ssh"
+	"github.com/ealink1/super-link/internal/upstream/connection"
+	"github.com/ealink1/super-link/internal/upstream/ssh"
 )
 
 func TestDirosConnectPreservesSSHHostKeyTrustError(t *testing.T) {

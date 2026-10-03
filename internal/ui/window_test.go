@@ -13,14 +13,14 @@ import (
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/test"
 	"fyne.io/fyne/v2/widget"
-	"github.com/ealink1/navi-fyne/internal/application"
-	"github.com/ealink1/navi-fyne/internal/domain"
-	"github.com/ealink1/navi-fyne/internal/infra/drivers"
-	"github.com/ealink1/navi-fyne/internal/infra/release"
-	adapter "github.com/ealink1/navi-fyne/internal/infra/runtime"
-	"github.com/ealink1/navi-fyne/internal/infra/secrets"
-	"github.com/ealink1/navi-fyne/internal/infra/state"
-	"github.com/ealink1/navi-fyne/internal/upstream/connection"
+	"github.com/ealink1/super-link/internal/application"
+	"github.com/ealink1/super-link/internal/domain"
+	"github.com/ealink1/super-link/internal/infra/drivers"
+	"github.com/ealink1/super-link/internal/infra/release"
+	adapter "github.com/ealink1/super-link/internal/infra/runtime"
+	"github.com/ealink1/super-link/internal/infra/secrets"
+	"github.com/ealink1/super-link/internal/infra/state"
+	"github.com/ealink1/super-link/internal/upstream/connection"
 )
 
 type uiFixtureClient struct{}
@@ -89,7 +89,7 @@ func TestNativeWorkbenchReadOnlyResultsAndDraftLifecycle(t *testing.T) {
 	if len(space.lastResults) != 1 || space.busy || space.status.Text == "" {
 		t.Fatal("native query completion missing")
 	}
-	if directory := os.Getenv("NAVIFYNE_UI_CAPTURE_DIR"); directory != "" {
+	if directory := os.Getenv("SUPERLINK_UI_CAPTURE_DIR"); directory != "" {
 		assertRenderGeometry(t, w.Window.Content(), "")
 		if err = os.MkdirAll(directory, 0700); err != nil {
 			t.Fatal(err)

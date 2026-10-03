@@ -18,7 +18,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/connection"
+	"github.com/ealink1/super-link/internal/upstream/connection"
 
 	pahomqtt "github.com/eclipse/paho.mqtt.golang"
 	"github.com/gorilla/websocket"

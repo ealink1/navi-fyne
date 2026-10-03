@@ -8,7 +8,7 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"github.com/ealink1/navi-fyne/internal/domain"
+	"github.com/ealink1/super-link/internal/domain"
 )
 
 func validateSavedQuery(q domain.SavedQuery) error {

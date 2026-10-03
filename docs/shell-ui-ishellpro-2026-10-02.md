@@ -1,6 +1,8 @@
 # Shell 界面：iShell Pro 原生观察与复刻记录
 
-日期：2026-10-02。目标项目：`/Users/bre/workspace/self/navi-fyne`。
+> 名称与命令已于 2026-10-03 统一为 SuperLink；历史截图、产物哈希和验收结论仍对应记录当日版本，本次更名验证见 [完整更名记录](superlink-namespace-2026-10-03.md)。
+
+日期：2026-10-02。目标项目：`.`。
 
 **后续更新：** 用户随后要求 SQL / Shell 主题统一。本记录保留首轮独立紫色深色设计；当前应用已使用共用日夜主题和标题栏太阳 / 月亮按钮。桌面已恢复，收紧后表单、中文 / ANSI 终端、模式切换和重启恢复均已补做原生验证。当前产物和实际验证范围以[共用主题自检](shared-appearance-2026-10-02.md)为准。
 
@@ -76,7 +78,7 @@
 - 主机卡片全部显示，单张末行不拉伸。
 - 中文主机搜索“文档”仅显示匹配主机。
 - 新建主机弹窗可打开 / 取消，密码和密钥模式切换正常；未保存额外主机。
-- 从空状态启动真实本地 PTY，输入 `echo Navi-Fyne-Shell-UI-OK` 并实际显示输出。
+- 从空状态启动真实本地 PTY，输入 `echo SuperLink-Shell-UI-OK` 并实际显示输出。
 
 最后一条 ANSI / 中文命令已通过原生粘贴进入终端，但回车后的工具图像输出被截断，重新读取时又遇到锁屏，**未把该次彩色 / 中文执行结果标为通过**。原版本地终端彩色输出已观察；新版 ANSI / 中文仍有自动化与软件渲染证据。
 
@@ -104,7 +106,7 @@ python3 tools/verify-fyne.py
 软件截图生成：
 
 ```sh
-NAVIFYNE_UI_CAPTURE_DIR="$PWD/.cache/shell-redesign/software" \
+SUPERLINK_UI_CAPTURE_DIR="$PWD/.cache/shell-redesign/software" \
   go test ./internal/ui -run TestShellSoftwareRenderFixtures -count=1
 ```
 
@@ -125,13 +127,13 @@ NAVIFYNE_UI_CAPTURE_DIR="$PWD/.cache/shell-redesign/software" \
 
 ## 6. 本轮历史产物（已被共用主题版本替换）
 
-主程序使用 `go build -trimpath -ldflags '-s -w -X main.version=0.1.0' -o bin/navi-fyne ./cmd/navi-fyne` 构建，并更新既有应用包。22 个数据库 Agent 本轮未重新编译，原清单与二进制逐项 SHA256 / 长度复核通过；清单仍为 23 项。
+主程序使用 `go build -trimpath -ldflags '-s -w -X main.version=0.1.0' -o bin/superlink ./cmd/superlink` 构建，并更新既有应用包。22 个数据库 Agent 本轮未重新编译，原清单与二进制逐项 SHA256 / 长度复核通过；清单仍为 23 项。
 
 | 产物 | 校验 |
 | --- | --- |
-| 原生应用 | `bin/NaviFyne.app`，v0.1.0 |
+| 原生应用 | `bin/SuperLink.app`，v0.1.0 |
 | 主程序 SHA256 | `37b6302cdd898c7d391394f02cc31f528dcedfda19493c3151837f280870a5aa` |
-| ZIP | `dist/navi-fyne_0.1.0_darwin_arm64.zip`，87,556,875 字节 |
+| ZIP | `dist/superlink_0.1.0_darwin_arm64.zip`，87,556,875 字节 |
 | ZIP SHA256 | `8dc0ea3a705b892ea0a04f9b1353df7f8d93fab89fc668d381ce9c0764dee756` |
 | 包内一致性 | 主程序 / Helper 与 `bin/` 一致；SQLite 哈希、Shell 许可 / 来源清单一致；ZIP CRC / 路径检查通过 |
 

@@ -6,8 +6,8 @@ import (
 	"math"
 	"testing"
 
-	"github.com/ealink1/navi-fyne/internal/domain"
-	"github.com/ealink1/navi-fyne/internal/upstream/db"
+	"github.com/ealink1/super-link/internal/domain"
+	"github.com/ealink1/super-link/internal/upstream/db"
 )
 
 func TestSQLiteBoundExecutionPreservesIntegerBinaryAndHostileText(t *testing.T) {

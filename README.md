@@ -1,7 +1,7 @@
 # SuperLink
 
 独立的 **Go + Fyne 原生数据工作台**，目标仓库是
-[ealink1/navi-fyne](https://github.com/ealink1/navi-fyne)。
+[ealink1/super-link](https://github.com/ealink1/super-link)。
 选择性复用 GoNavi 的 Go 驱动与协议实现，重新实现应用服务和桌面界面。
 
 当前版本：**v0.1.0 Alpha，正在按 GoNavi 的完整功能与界面重新对齐**。
@@ -9,7 +9,7 @@
 **不包含 JVM 管理连接器，
 应用构建与运行不需要 Java / JDK，也没有 Wails、React 或 WebView 运行依赖。**
 
-- [实施计划及高级功能路线](docs/plans/2026-10-01-navi-fyne-implementation-plan.md)
+- [实施计划及高级功能路线](docs/plans/2026-10-01-superlink-implementation-plan.md)
 - [完整功能与界面对齐设计（当前范围）](docs/plans/2026-10-01-gonavi-parity-design.md)
 - [GoNavi 实际页面、操作流程与功能对齐清单](docs/gonavi-ui-observation-2026-10-01.md)
 - [最新代码自检与未验证范围](docs/selfcheck-2026-10-02.md)
@@ -20,7 +20,7 @@
 - [Shell 首阶段功能、操作和自检边界](docs/shell-workspace-2026-10-02.md)
 - [iShell Pro 原生观察、Shell 界面重做与最新产物](docs/shell-ui-ishellpro-2026-10-02.md)
 - [SQL / Shell 共用日夜主题、标题栏切换与原生自检](docs/shared-appearance-2026-10-02.md)
-- [SuperLink 更名、兼容性与原生自检](docs/superlink-rename-2026-10-02.md)
+- [SuperLink 完整命名与自检](docs/superlink-namespace-2026-10-03.md)
 - [连接状态圆点与原生自检](docs/connection-status-2026-10-02.md)
 - [AI 右侧普通问答、配置方法与自检](docs/ai-chat-2026-10-03.md)
 - [界面对照验收与剩余差距](design-qa.md)
@@ -37,7 +37,7 @@ Windows 使用 GCC。其他平台的完整应用尚未在本次机器上运行�
 ```sh
 # 默认构建主程序、更新 Helper 和离线 SQLite Agent
 python3 tools/build.py
-./bin/navi-fyne
+./bin/superlink
 
 # 构建全部 22 个可选原生 Agent，并打包应用
 python3 tools/build.py --all-drivers --package
@@ -53,7 +53,7 @@ SQLite，其他 Agent 作为独立产物放在 `dist/`。应用中打开 **驱�
 
 ```sh
 # 也可显式指定驱动目录和独立工作区
-./bin/navi-fyne --drivers ./bin/drivers --data-root /absolute/path/to/workspace
+./bin/superlink --drivers ./bin/drivers --data-root /absolute/path/to/workspace
 
 # 单独构建某个驱动
 python3 tools/build.py --driver sqlite --driver duckdb --skip-app
@@ -159,9 +159,10 @@ MQTT、RabbitMQ、Qdrant、Chroma、Nacos。其他类型保留接入实现，但
 
 ## 工作区与凭据
 
-默认目录：`os.UserConfigDir()/NaviFyne`；macOS 通常为
-`~/Library/Application Support/NaviFyne`。可用 `--data-root` 或 `NAVIFYNE_DATA_ROOT` 指定。
-应用更名为 SuperLink 后继续使用原数据目录与应用 ID，保留已有连接、加密凭据、草稿和设置。
+默认目录：`os.UserConfigDir()/SuperLink`；macOS 通常为
+`~/Library/Application Support/SuperLink`。可用 `--data-root` 或 `SUPERLINK_DATA_ROOT` 指定。
+应用 ID 为 `io.github.ealink1.superlink`；目录优先级为 `--data-root`、`SUPERLINK_DATA_ROOT`、默认目录。
+不自动读取、迁移或修改旧版工作区，不识别旧环境变量。
 不复用 GoNavi 的数据目录，同一工作区同时只允许一个进程打开。
 
 | 内容 | 保存位置 / 行为 |
@@ -208,7 +209,7 @@ go vet ./...
 python3 tools/build.py --all-drivers --package
 
 # 真实本地文件数据库；需先构建对应 Agent
-NAVIFYNE_TEST_DRIVERS="$PWD/bin/drivers" go test -tags integration -count=1 -v ./internal/infra/runtime -run 'TestLocalFileAgents|TestLocalAgentsBoundValuesAndOptimisticChanges|TestSQLiteAgentSessionMetadataDoesNotWaitForItsOwnPool'
+SUPERLINK_TEST_DRIVERS="$PWD/bin/drivers" go test -tags integration -count=1 -v ./internal/infra/runtime -run 'TestLocalFileAgents|TestLocalAgentsBoundValuesAndOptimisticChanges|TestSQLiteAgentSessionMetadataDoesNotWaitForItsOwnPool'
 
 # 隔离 Docker 服务，只发布到 127.0.0.1 临时端口并在结束时清理
 python3 tools/integration.py --docker-context YOUR_TEST_CONTEXT --group all

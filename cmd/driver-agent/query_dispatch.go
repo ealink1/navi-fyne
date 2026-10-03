@@ -6,8 +6,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/connection"
-	"github.com/ealink1/navi-fyne/internal/upstream/db"
+	"github.com/ealink1/super-link/internal/upstream/connection"
+	"github.com/ealink1/super-link/internal/upstream/db"
 )
 
 // 本文件承载 agent 侧的查询/写入/流式执行分发：按驱动实现的可选接口选择执行路径，

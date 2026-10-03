@@ -17,10 +17,10 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/connection"
-	"github.com/ealink1/navi-fyne/internal/upstream/logger"
-	proxytunnel "github.com/ealink1/navi-fyne/internal/upstream/proxy"
-	"github.com/ealink1/navi-fyne/internal/upstream/ssh"
+	"github.com/ealink1/super-link/internal/upstream/connection"
+	"github.com/ealink1/super-link/internal/upstream/logger"
+	proxytunnel "github.com/ealink1/super-link/internal/upstream/proxy"
+	"github.com/ealink1/super-link/internal/upstream/ssh"
 
 	pahomqtt "github.com/eclipse/paho.mqtt.golang"
 	"github.com/gorilla/websocket"

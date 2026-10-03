@@ -13,8 +13,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/connection"
-	"github.com/ealink1/navi-fyne/internal/upstream/logger"
+	"github.com/ealink1/super-link/internal/upstream/connection"
+	"github.com/ealink1/super-link/internal/upstream/logger"
 
 	rocketmq "github.com/apache/rocketmq-client-go/v2"
 	rocketmqadmin "github.com/apache/rocketmq-client-go/v2/admin"

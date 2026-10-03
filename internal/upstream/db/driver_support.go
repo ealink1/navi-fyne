@@ -8,7 +8,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/appdata"
+	"github.com/ealink1/super-link/internal/upstream/appdata"
 )
 
 // coreBuiltinDrivers 是始终内置可用的核心驱动，无需额外安装即可使用。
@@ -257,7 +257,7 @@ func currentExternalDriverDownloadDirectory() string {
 }
 
 // SetExternalDriverDownloadDirectory 设置可选驱动的下载存储目录。
-// 如果路径解析失败，会回退到默认目录（~/.navi-fyne/drivers）。
+// 如果路径解析失败，会回退到默认目录（~/.superlink/drivers）。
 func SetExternalDriverDownloadDirectory(downloadDir string) {
 	root, err := resolveExternalDriverRoot(downloadDir)
 	if err != nil {

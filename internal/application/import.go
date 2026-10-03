@@ -6,10 +6,10 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/ealink1/navi-fyne/internal/domain"
-	adapter "github.com/ealink1/navi-fyne/internal/infra/runtime"
-	"github.com/ealink1/navi-fyne/internal/sqlworkbench"
-	"github.com/ealink1/navi-fyne/internal/upstream/connection"
+	"github.com/ealink1/super-link/internal/domain"
+	adapter "github.com/ealink1/super-link/internal/infra/runtime"
+	"github.com/ealink1/super-link/internal/sqlworkbench"
+	"github.com/ealink1/super-link/internal/upstream/connection"
 )
 
 // ImportRows confirms the entire mapping and content, then commits bounded batches.

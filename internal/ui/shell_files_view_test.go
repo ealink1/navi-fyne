@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"fyne.io/fyne/v2/widget"
-	transport "github.com/ealink1/navi-fyne/internal/infra/shell"
+	transport "github.com/ealink1/super-link/internal/infra/shell"
 )
 
 func TestShellFileSearchKeepsSelectionMappedToRemoteEntry(t *testing.T) {

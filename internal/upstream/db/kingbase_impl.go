@@ -14,10 +14,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/connection"
-	"github.com/ealink1/navi-fyne/internal/upstream/logger"
-	"github.com/ealink1/navi-fyne/internal/upstream/ssh"
-	"github.com/ealink1/navi-fyne/internal/upstream/utils"
+	"github.com/ealink1/super-link/internal/upstream/connection"
+	"github.com/ealink1/super-link/internal/upstream/logger"
+	"github.com/ealink1/super-link/internal/upstream/ssh"
+	"github.com/ealink1/super-link/internal/upstream/utils"
 
 	gokb "gitea.com/kingbase/gokb" // Registers "kingbase" driver
 )

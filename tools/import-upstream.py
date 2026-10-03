@@ -13,18 +13,18 @@ import shutil
 import subprocess
 
 COMMIT = "6e20b6ddf56b2ae76f7e5d5c6a3505cef1edc871"
-MODULE = "github.com/ealink1/navi-fyne"
+MODULE = "github.com/ealink1/super-link"
 ROOTS = ["internal/db", "internal/nacos", "tools/gen-i18n-catalog-zip"]
 
 
 def rewrite(text):
     text = text.replace('"GoNavi-Wails/internal/', f'"{MODULE}/internal/upstream/')
     text = text.replace('"GoNavi-Wails/shared/i18n"', f'"{MODULE}/internal/upstream/i18n"')
-    text = text.replace("GONAVI_", "NAVIFYNE_")
-    text = text.replace(".gonavi", ".navi-fyne")
-    text = text.replace(".GoNavi", ".NaviFyne")
-    text = text.replace("gonavi-driver-agent-", "navifyne-driver-agent-")
-    text = text.replace('"gonavi.log"', '"navi-fyne.log"')
+    text = text.replace("GONAVI_", "SUPERLINK_")
+    text = text.replace(".gonavi", ".superlink")
+    text = text.replace(".GoNavi", ".SuperLink")
+    text = text.replace("gonavi-driver-agent-", "superlink-driver-agent-")
+    text = text.replace('"gonavi.log"', '"superlink.log"')
     return text
 
 

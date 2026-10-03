@@ -6,7 +6,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/connection"
+	"github.com/ealink1/super-link/internal/upstream/connection"
 )
 
 func TestAgentBinaryMetadataPreservesPrintableBinaryAndDoesNotReinterpretText(t *testing.T) {

@@ -11,8 +11,8 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"github.com/ealink1/navi-fyne/internal/domain"
-	"github.com/ealink1/navi-fyne/internal/upstream/connection"
+	"github.com/ealink1/super-link/internal/domain"
+	"github.com/ealink1/super-link/internal/upstream/connection"
 )
 
 const MaxRows = 10000

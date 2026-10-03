@@ -6,10 +6,10 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/ealink1/navi-fyne/internal/domain"
-	"github.com/ealink1/navi-fyne/internal/upstream/connection"
-	"github.com/ealink1/navi-fyne/internal/upstream/db"
-	"github.com/ealink1/navi-fyne/internal/upstream/esconsole"
+	"github.com/ealink1/super-link/internal/domain"
+	"github.com/ealink1/super-link/internal/upstream/connection"
+	"github.com/ealink1/super-link/internal/upstream/db"
+	"github.com/ealink1/super-link/internal/upstream/esconsole"
 )
 
 type databaseClient struct {

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/logger"
+	"github.com/ealink1/super-link/internal/upstream/logger"
 )
 
 // identity 元数据能力探测。

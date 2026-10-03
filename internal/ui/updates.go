@@ -10,8 +10,8 @@ import (
 	"time"
 
 	"fyne.io/fyne/v2/dialog"
-	"github.com/ealink1/navi-fyne/internal/infra/release"
-	"github.com/ealink1/navi-fyne/internal/infra/update"
+	"github.com/ealink1/super-link/internal/infra/release"
+	"github.com/ealink1/super-link/internal/infra/update"
 )
 
 func (w *Window) checkUpdates() {
@@ -35,7 +35,7 @@ func (w *Window) checkUpdates() {
 			dialog.ShowInformation("检查更新", "当前已是最新稳定版本。", w.Window)
 			return
 		}
-		artifact, err := manifest.Artifact("app", "navi-fyne", runtime.GOOS, runtime.GOARCH)
+		artifact, err := manifest.Artifact("app", "superlink", runtime.GOOS, runtime.GOARCH)
 		if err != nil {
 			w.showError(err)
 			return

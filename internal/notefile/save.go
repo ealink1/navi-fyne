@@ -10,7 +10,7 @@ import (
 	"strings"
 	"unicode/utf8"
 
-	"github.com/ealink1/navi-fyne/internal/domain"
+	"github.com/ealink1/super-link/internal/domain"
 )
 
 // Save never truncates a previous document before the replacement is complete.

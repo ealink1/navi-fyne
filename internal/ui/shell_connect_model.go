@@ -3,7 +3,7 @@ package ui
 import (
 	"sync"
 
-	transport "github.com/ealink1/navi-fyne/internal/infra/shell"
+	transport "github.com/ealink1/super-link/internal/infra/shell"
 )
 
 const shellConnectLogLimit = 64

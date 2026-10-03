@@ -5,7 +5,7 @@ import (
 	"database/sql"
 	"errors"
 
-	"github.com/ealink1/navi-fyne/internal/domain"
+	"github.com/ealink1/super-link/internal/domain"
 )
 
 // NotebookRef describes only the encrypted snapshot, never document metadata.

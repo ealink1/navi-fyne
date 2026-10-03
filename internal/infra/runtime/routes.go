@@ -12,9 +12,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ealink1/navi-fyne/internal/domain"
-	"github.com/ealink1/navi-fyne/internal/upstream/connection"
-	"github.com/ealink1/navi-fyne/internal/upstream/proxy"
+	"github.com/ealink1/super-link/internal/domain"
+	"github.com/ealink1/super-link/internal/upstream/connection"
+	"github.com/ealink1/super-link/internal/upstream/proxy"
 )
 
 // routedClient owns every ephemeral listener created for this connection.

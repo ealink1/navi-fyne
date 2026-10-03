@@ -26,7 +26,7 @@ func writeDSNTLSFixture(t *testing.T) (string, string) {
 	now := time.Now()
 	template := &x509.Certificate{
 		SerialNumber:          big.NewInt(1),
-		Subject:               pkix.Name{CommonName: "Navi Fyne TLS test"},
+		Subject:               pkix.Name{CommonName: "SuperLink TLS test"},
 		NotBefore:             now.Add(-time.Hour),
 		NotAfter:              now.Add(time.Hour),
 		KeyUsage:              x509.KeyUsageDigitalSignature | x509.KeyUsageCertSign,

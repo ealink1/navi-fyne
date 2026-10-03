@@ -8,7 +8,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ealink1/navi-fyne/internal/domain"
+	"github.com/ealink1/super-link/internal/domain"
 )
 
 func TestSavePreservesExistingMarkdownOnFailure(t *testing.T) {

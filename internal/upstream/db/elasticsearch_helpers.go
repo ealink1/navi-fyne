@@ -17,10 +17,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/connection"
-	"github.com/ealink1/navi-fyne/internal/upstream/esconsole"
-	"github.com/ealink1/navi-fyne/internal/upstream/logger"
-	proxytunnel "github.com/ealink1/navi-fyne/internal/upstream/proxy"
+	"github.com/ealink1/super-link/internal/upstream/connection"
+	"github.com/ealink1/super-link/internal/upstream/esconsole"
+	"github.com/ealink1/super-link/internal/upstream/logger"
+	proxytunnel "github.com/ealink1/super-link/internal/upstream/proxy"
 
 	"github.com/elastic/go-elasticsearch/v8"
 	"github.com/elastic/go-elasticsearch/v8/esapi"

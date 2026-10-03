@@ -9,8 +9,8 @@ import (
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
-	"github.com/ealink1/navi-fyne/internal/domain"
-	"github.com/ealink1/navi-fyne/internal/infra/secrets"
+	"github.com/ealink1/super-link/internal/domain"
+	"github.com/ealink1/super-link/internal/infra/secrets"
 )
 
 type shellHostEditor struct {

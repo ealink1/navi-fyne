@@ -13,7 +13,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ealink1/navi-fyne/internal/domain"
+	"github.com/ealink1/super-link/internal/domain"
 	_ "modernc.org/sqlite"
 )
 

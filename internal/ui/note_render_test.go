@@ -10,7 +10,7 @@ import (
 // Software captures complement native AppKit observations and make small-window
 // clipping visible without touching a daily workspace or opening a browser.
 func TestNoteSoftwareRenderFixtures(t *testing.T) {
-	if os.Getenv("NAVIFYNE_UI_CAPTURE_DIR") == "" {
+	if os.Getenv("SUPERLINK_UI_CAPTURE_DIR") == "" {
 		t.Skip("optional software render capture")
 	}
 	w, n := noteTestWindow(t)

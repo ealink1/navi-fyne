@@ -9,7 +9,7 @@ import (
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
-	transport "github.com/ealink1/navi-fyne/internal/infra/shell"
+	transport "github.com/ealink1/super-link/internal/infra/shell"
 )
 
 var (

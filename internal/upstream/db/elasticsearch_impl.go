@@ -18,10 +18,10 @@ import (
 	"unicode"
 	"unicode/utf8"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/connection"
-	"github.com/ealink1/navi-fyne/internal/upstream/esconsole"
-	"github.com/ealink1/navi-fyne/internal/upstream/logger"
-	"github.com/ealink1/navi-fyne/internal/upstream/ssh"
+	"github.com/ealink1/super-link/internal/upstream/connection"
+	"github.com/ealink1/super-link/internal/upstream/esconsole"
+	"github.com/ealink1/super-link/internal/upstream/logger"
+	"github.com/ealink1/super-link/internal/upstream/ssh"
 
 	"github.com/elastic/go-elasticsearch/v8"
 	"github.com/elastic/go-elasticsearch/v8/esapi"

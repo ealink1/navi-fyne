@@ -5,7 +5,7 @@ import (
 	"runtime/debug"
 	"sync/atomic"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/logger"
+	"github.com/ealink1/super-link/internal/upstream/logger"
 )
 
 // 本文件实现 driver-agent 进程的 GOMEMLIMIT 自适应策略。

@@ -46,12 +46,12 @@ def verify_upgrade(directory, root, old_process, executable):
         raise RuntimeError('upgrade smoke check currently requires a macOS .app')
     token = str(uuid.uuid4())
     target = source
-    stage = directory/('.navi-fyne-stage-'+token)
+    stage = directory/('.superlink-stage-'+token)
     shutil.copytree(source, stage)
     next_version = '0.1.1'
     subprocess.run(['go','build','-trimpath','-ldflags',f'-s -w -X main.version={next_version}',
-                    '-o',str(stage/'Contents/MacOS/navi-fyne'),'./cmd/navi-fyne'],cwd=ROOT,check=True)
-    marker_path = stage/'Contents/Resources/navi-fyne.package.json'
+                    '-o',str(stage/'Contents/MacOS/superlink'),'./cmd/superlink'],cwd=ROOT,check=True)
+    marker_path = stage/'Contents/Resources/superlink.package.json'
     marker = json.loads(marker_path.read_text());marker['version'] = next_version
     marker_path.write_text(json.dumps(marker))
     info_path = stage/'Contents/Info.plist'
@@ -83,7 +83,7 @@ def verify_upgrade(directory, root, old_process, executable):
             if receipt.get('version') != next_version or not child_pid:
                 raise RuntimeError('new native application health handshake mismatch')
             os.kill(child_pid,0)
-            installed_version = subprocess.check_output([str(target/'Contents/MacOS/navi-fyne'),'--version'],text=True).strip()
+            installed_version = subprocess.check_output([str(target/'Contents/MacOS/superlink'),'--version'],text=True).strip()
             if installed_version != next_version:
                 raise RuntimeError('installed executable does not match the new version')
             if not Path(backup).is_dir() or not Path(request['stateBackup']).is_file():
@@ -104,7 +104,7 @@ def verify_upgrade(directory, root, old_process, executable):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--app', type=Path, default=ROOT/'bin/SuperLink.app/Contents/MacOS/navi-fyne')
+    parser.add_argument('--app', type=Path, default=ROOT/'bin/SuperLink.app/Contents/MacOS/superlink')
     parser.add_argument('--upgrade', action='store_true', help='also build/start a second native version and test the real helper')
     args = parser.parse_args()
     executable = args.app.resolve()
@@ -117,7 +117,7 @@ def main():
         if args.upgrade:
             copied_app = directory/'SuperLink.app'
             shutil.copytree(executable.parents[2], copied_app)
-            startup_executable = copied_app/'Contents/MacOS/navi-fyne'
+            startup_executable = copied_app/'Contents/MacOS/superlink'
         root = directory/'workspace'
         health = directory/'health.json'
         token = str(uuid.uuid4())

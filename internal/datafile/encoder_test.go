@@ -100,7 +100,7 @@ func TestAtomicExportNeverReplacesExistingFileOnFailure(t *testing.T) {
 	if string(raw) != "original" {
 		t.Fatal("original replaced by partial file")
 	}
-	matches, _ := filepath.Glob(filepath.Join(filepath.Dir(path), ".navifyne-export-*"))
+	matches, _ := filepath.Glob(filepath.Join(filepath.Dir(path), ".superlink-export-*"))
 	if len(matches) != 0 {
 		t.Fatal("temporary export leaked")
 	}

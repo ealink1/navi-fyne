@@ -35,7 +35,7 @@ func TestSetActiveRootUsesCreateBootstrapDirectorySentinel(t *testing.T) {
 	t.Setenv("HOME", homeDir)
 	t.Setenv("USERPROFILE", homeDir)
 
-	defaultRoot := filepath.Join(homeDir, ".navi-fyne")
+	defaultRoot := filepath.Join(homeDir, ".superlink")
 	if err := os.WriteFile(defaultRoot, []byte("blocked"), 0o644); err != nil {
 		t.Fatalf("write blocking default root: %v", err)
 	}

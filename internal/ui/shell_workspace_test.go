@@ -12,11 +12,11 @@ import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/driver/desktop"
 	"fyne.io/fyne/v2/test"
-	"github.com/ealink1/navi-fyne/internal/application"
-	"github.com/ealink1/navi-fyne/internal/infra/drivers"
-	"github.com/ealink1/navi-fyne/internal/infra/release"
-	"github.com/ealink1/navi-fyne/internal/infra/secrets"
-	"github.com/ealink1/navi-fyne/internal/infra/state"
+	"github.com/ealink1/super-link/internal/application"
+	"github.com/ealink1/super-link/internal/infra/drivers"
+	"github.com/ealink1/super-link/internal/infra/release"
+	"github.com/ealink1/super-link/internal/infra/secrets"
+	"github.com/ealink1/super-link/internal/infra/state"
 )
 
 func shellTestWindow(t *testing.T) *Window {

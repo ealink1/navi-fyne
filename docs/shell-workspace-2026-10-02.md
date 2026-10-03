@@ -1,5 +1,7 @@
 # SQL / Shell 工作区：首阶段实现与验收
 
+> 名称与命令已于 2026-10-03 统一为 SuperLink；历史截图、产物哈希和验收结论仍对应记录当日版本，本次更名验证见 [完整更名记录](superlink-namespace-2026-10-03.md)。
+
 用户确认：**所有 iShell Pro 功能都纳入，按阶段持续实现**。完整路线见[设计与计划](plans/2026-10-02-sql-shell-workspaces-design.md)。这是首阶段报告，不能将其理解为 iShell Pro 全功能或界面一比一已完成。
 
 随后已用电脑控制取得完整原生参考截图，重新实现 Shell 深色界面及主机分组 / 标签 / 卡片等能力。**最新视觉状态、原生验证和更新后的包摘要以[后续界面记录](shell-ui-ishellpro-2026-10-02.md)为准**；下文保留首阶段时的原生限制和产物作为历史记录。
@@ -61,7 +63,7 @@
 可复现软件截图：
 
 ```sh
-NAVIFYNE_UI_CAPTURE_DIR="$PWD/.cache/shell-qa/screenshots" \
+SUPERLINK_UI_CAPTURE_DIR="$PWD/.cache/shell-qa/screenshots" \
   go test ./internal/ui -run TestShellSoftwareRenderFixtures -count=1
 ```
 
@@ -81,8 +83,8 @@ Windows 本地 PTY 当前明确返回不支持，不能用普通管道冒充 Con
 
 | 产物 | 校验 |
 | --- | --- |
-| 原生应用 | `bin/NaviFyne.app`，v0.1.0，主程序 SHA256 `e3d48aacf609e38e1bf790e921a343d0bbfc351028a98fe81b5662e0026691a5` |
-| ZIP | `dist/navi-fyne_0.1.0_darwin_arm64.zip`，87,482,937 字节 |
+| 原生应用 | `bin/SuperLink.app`，v0.1.0，主程序 SHA256 `e3d48aacf609e38e1bf790e921a343d0bbfc351028a98fe81b5662e0026691a5` |
+| ZIP | `dist/superlink_0.1.0_darwin_arm64.zip`，87,482,937 字节 |
 | ZIP SHA256 | `e86a20d2c96d072882319c86d2a82208d1d0eae2dcf167fbc1a9e0c4b6551c5d` |
 | 清单 | `dist/assets-darwin-arm64.json`，23 项（22 Agent + 应用），逐项大小 / SHA256 校验及 ZIP CRC 通过 |
 

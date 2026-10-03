@@ -10,11 +10,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ealink1/navi-fyne/internal/domain"
-	"github.com/ealink1/navi-fyne/internal/upstream/connection"
-	"github.com/ealink1/navi-fyne/internal/upstream/proxy"
-	"github.com/ealink1/navi-fyne/internal/upstream/ssh"
-	"github.com/ealink1/navi-fyne/internal/upstream/tlsconfig"
+	"github.com/ealink1/super-link/internal/domain"
+	"github.com/ealink1/super-link/internal/upstream/connection"
+	"github.com/ealink1/super-link/internal/upstream/proxy"
+	"github.com/ealink1/super-link/internal/upstream/ssh"
+	"github.com/ealink1/super-link/internal/upstream/tlsconfig"
 	"github.com/google/shlex"
 	"github.com/redis/go-redis/v9"
 )

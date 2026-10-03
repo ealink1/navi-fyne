@@ -13,7 +13,7 @@ import (
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/driver/desktop"
-	"github.com/ealink1/navi-fyne/internal/infra/chat"
+	"github.com/ealink1/super-link/internal/infra/chat"
 )
 
 func aiTestPanel(t *testing.T, w *Window) *aiPanel {

@@ -6,7 +6,7 @@ import (
 	"database/sql"
 	"testing"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/connection"
+	"github.com/ealink1/super-link/internal/upstream/connection"
 )
 
 // TestApplySQLiteAutoIncrement 锁住 AUTOINCREMENT 的识别规则：

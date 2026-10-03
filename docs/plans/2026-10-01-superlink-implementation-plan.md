@@ -1,15 +1,15 @@
-# Navi Fyne 整体设计与实施计划
+# SuperLink 整体设计与实施计划
 
 > 状态：已获批准；v0.1.0 原生 Alpha 已实现并完成本次自检。日期：2026-10-01。
 > **范围已更新**：用户随后要求完整功能和界面一比一复刻，以[完整对齐设计](2026-10-01-gonavi-parity-design.md)为当前验收范围；本文件中的首版边界保留作历史设计，不作为缩减交付范围的依据。
 > 实际功能、验证范围和未完成项以 [README](../../README.md) 与 [自检报告](../selfcheck-2026-10-01.md) 为准。下文保留完整实施目标，不将计划中的全部功能标记为已交付。
 > 已补充[本机 GoNavi 页面与操作对照](../gonavi-ui-observation-2026-10-01.md)，日常库表工作流的后续补齐按该文档逐项验收；入口数量不作为功能对齐的判据。
 >
-> 目标仓库：[ealink1/navi-fyne](https://github.com/ealink1/navi-fyne)，Git 地址：`git@github.com:ealink1/navi-fyne.git`。
+> 目标仓库：[ealink1/super-link](https://github.com/ealink1/super-link)，Git 地址：`git@github.com:ealink1/super-link.git`。
 >
 > 用户已确定：首版尽量覆盖 GoNavi 全部数据库类型，再逐步补高级功能；不包含 JVM 管理连接器。
 >
-> 实施目录：`/Users/bre/workspace/self/navi-fyne`。独立 Go 模块、Fyne 界面和基础工作台已建立；实际完成情况以 README 和自检报告为准。暂未提交或推送。
+> 实施目录：`.`。独立 Go 模块、Fyne 界面和基础工作台已建立；实际完成情况以 README 和自检报告为准。暂未提交或推送。
 >
 > GoNavi 参考基线：`6e20b6ddf56b2ae76f7e5d5c6a3505cef1edc871`。后续若更换基线，先重新核对驱动和协议差异。
 
@@ -41,7 +41,7 @@
 
 ### 2.2 逐类型基础能力
 
-下表是首版目标，不是现有 Navi Fyne 已实现的功能。类型键来自 [GoNavi 能力契约][g-capability]；`custom` 来自 [数据库工厂][g-factory]。
+下表是首版目标，不是现有 SuperLink 已实现的功能。类型键来自 [GoNavi 能力契约][g-capability]；`custom` 来自 [数据库工厂][g-factory]。
 
 | 序号 | 数据源 / 类型键 | 首版基础工作台与验收重点 |
 | --- | --- | --- |
@@ -108,7 +108,7 @@
 1. 固定上游 commit；建立 `UPSTREAM.md`，记录文件来源、原路径、修改和同步日期。
 2. 保留适用的许可、版权声明和上游 NOTICE；将修改说明写进迁移记录。GoNavi 当前使用 Apache-2.0，按其再分发条款处理。[上游许可][g-license]、[Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0)
 3. 先迁驱动、类型、SSH / TLS / 代理及必要工具，再按依赖迁应用业务。保留 `third_party` 中必要的本地替换实现。
-4. 更新模块名为 `github.com/ealink1/navi-fyne`，避免继续使用 `GoNavi-Wails`。
+4. 更新模块名为 `github.com/ealink1/super-link`，避免继续使用 `GoNavi-Wails`。
 5. 不直接把 `internal/app` 的巨大 `App` 实例作为新 UI 后端。将所需业务拆入应用服务，桌面操作通过接口提供。
 6. 复用测试中真实表达协议行为、类型转换和保护边界的部分，调整路径与契约；不为了表面覆盖率搬入全部旧 UI 测试。
 7. 搜索直接及间接 Wails 依赖。已发现 AI 的数据目录选择仍调用 Wails 文件对话框，不能把整个 AI 目录当作完全无 UI 耦合的库。[耦合实例][g-ai-host]
@@ -164,9 +164,9 @@ flowchart TB
 以下是实施时的目标结构，目前尚未创建这些生产文件：
 
 ```text
-navi-fyne/
+superlink/
 ├── cmd/
-│   ├── navi-fyne/             # Fyne 主程序
+│   ├── superlink/             # Fyne 主程序
 │   ├── driver-agent/          # 通过构建标签选择具体可选驱动
 │   └── navi-updater/          # 必要平台的安装 / 退出等待 Helper
 ├── internal/
@@ -403,7 +403,7 @@ Fyne Table 按需更新 Cell 模板，适合作为结果表格基础；矩形选
 
 ### 11.1 状态数据
 
-默认使用新应用自己的配置、缓存、日志与数据目录，通过平台目录 API 解析，并用稳定 AppID 区分，例如 `io.github.ealink1.navifyne`。与 GoNavi 的原目录隔离，避免互相覆盖。
+默认使用新应用自己的配置、缓存、日志与数据目录，通过平台目录 API 解析，并用稳定 AppID 区分，例如 `io.github.ealink1.superlink`。与 GoNavi 的原目录隔离，避免互相覆盖。
 
 | 数据 | 建议存储 | 规则 |
 | --- | --- | --- |
@@ -452,7 +452,7 @@ Fyne Table 按需更新 Cell 模板，适合作为结果表格基础；矩形选
 sequenceDiagram
     participant CI as GitHub Actions
     participant GH as 本仓库 GitHub Release
-    participant APP as Navi Fyne
+    participant APP as SuperLink
     participant UP as 更新 Helper
     CI->>CI: 构建应用与驱动，执行验收，生成哈希与签名
     CI->>GH: 完整上传，再发布 Release
@@ -467,7 +467,7 @@ sequenceDiagram
     APP->>UP: 启动完成标记
 ```
 
-静态清单入口规划为 `https://github.com/ealink1/navi-fyne/releases/latest/download/latest.json`。当前还没有 Release，这个地址是待实现的发布约定。
+静态清单入口规划为 `https://github.com/ealink1/super-link/releases/latest/download/latest.json`。当前还没有 Release，这个地址是待实现的发布约定。
 
 客户端启动后延迟检查、按可配置间隔检查、提供手动检查；后台检查做节流、缓存和失败退避。离线时继续使用现有应用，缓存只能表示最近已知发布信息，不能把旧缓存描述为最新联网结果。
 
@@ -613,7 +613,7 @@ Fyne 的打包命令能够生成应用包，但安装器、签名、公证、更
 
 Fyne 官方支持不显示实际窗口的组件测试。[测试文档](https://docs.fyne.io/started/testing/) 根据用户要求，写完代码后默认不调用浏览器测试；只有用户明确要求时才加入浏览器测试。本计划也未进行浏览器 UI 测试。
 
-对需要专有数据库的契约测试，提供 `NAVIFYNE_TEST_DB_ENDPOINT` 等测试配置约定和结果报告格式，密钥通过环境或 CI Secrets 注入，不提交样本密码。缺环境时报告 skipped / 待验证及原因，禁止把 skipped 算通过。
+对需要专有数据库的契约测试，提供 `SUPERLINK_TEST_DB_ENDPOINT` 等测试配置约定和结果报告格式，密钥通过环境或 CI Secrets 注入，不提交样本密码。缺环境时报告 skipped / 待验证及原因，禁止把 skipped 算通过。
 
 ### 15.2 CI 分组
 
@@ -707,7 +707,7 @@ README 的功能列表从验收记录生成或人工核对，区分基础功能�
 ### ADR-006：SQLite 元数据与独立凭据命名空间
 
 - 背景：连接、历史、标签、驱动记录需要可迁移和可恢复的状态；新旧应用要能共存。
-- 决策：SQLite 存元数据和草稿，系统密钥库存凭据，使用 Navi Fyne 独立目录与 key。
+- 决策：SQLite 存元数据和草稿，系统密钥库存凭据，使用 SuperLink 独立目录与 key。
 - 收益：状态结构清楚、避免明文凭据和覆盖旧应用。
 - 代价：需实现迁移、备份、密钥库不可用与旧配置导入。
 - 替代：完全复用旧 JSON 与 key，或把密码直接写入新 SQLite。
@@ -739,7 +739,7 @@ README 的功能列表从验收记录生成或人工核对，区分基础功能�
 
 | 事项 | 暂定默认 | 改变时的影响 |
 | --- | --- | --- |
-| 产品名 / AppID | Navi Fyne / `io.github.ealink1.navifyne` | 在配置、密钥、更新与签名前确定，避免后续迁移 |
+| 产品名 / AppID | SuperLink / `io.github.ealink1.superlink` | 在配置、密钥、更新与签名前确定，避免后续迁移 |
 | 正式平台 | Windows amd64；macOS amd64 / arm64；Linux amd64 / arm64 | 平台越多，Agent 和安装验证组合越多 |
 | 首版编辑器 | 基础原生编辑能力；高级彩色编辑后置 | 若要求首版达到 Monaco 体验，需重新评估 P0 和排期 |
 | 发行包 | 标准包 + 对应平台全驱动离线包 | 全离线包更大，需完整验证原生依赖与许可 |
@@ -756,7 +756,7 @@ README 的功能列表从验收记录生成或人工核对，区分基础功能�
 
 本轮检查：
 
-- 通过 Git SSH 成功检出目标仓库，远程当前无已有分支和提交；公开仓库页面也显示为空。[目标仓库](https://github.com/ealink1/navi-fyne)
+- 通过 Git SSH 成功检出目标仓库，远程当前无已有分支和提交；公开仓库页面也显示为空。[目标仓库](https://github.com/ealink1/super-link)
 - 核对迁入能力契约中的 36 个数据源类型键、custom 工厂、13 / 22 驱动分类、Agent 协议、Context 可选接口、凭据与 Wails 耦合、更新流程和发布脚本。
 - 阅读 Fyne v2.8.1 发布资料，以及输入、表格、线程、测试、打包、跨平台编译、扩展与自更新的官方资料。
 - 本节记录的是计划编写阶段的检查，不代表后续实施验证结果；实施后的原生运行、真实服务和回滚测试记录见自检报告。计划里的性能、工期和完整支持矩阵仍是目标。

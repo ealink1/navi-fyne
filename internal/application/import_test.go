@@ -6,9 +6,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ealink1/navi-fyne/internal/domain"
-	adapter "github.com/ealink1/navi-fyne/internal/infra/runtime"
-	"github.com/ealink1/navi-fyne/internal/upstream/connection"
+	"github.com/ealink1/super-link/internal/domain"
+	adapter "github.com/ealink1/super-link/internal/infra/runtime"
+	"github.com/ealink1/super-link/internal/upstream/connection"
 )
 
 type importFixture struct {

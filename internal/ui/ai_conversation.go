@@ -8,7 +8,7 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"github.com/ealink1/navi-fyne/internal/infra/chat"
+	"github.com/ealink1/super-link/internal/infra/chat"
 )
 
 func (p *aiPanel) send() {

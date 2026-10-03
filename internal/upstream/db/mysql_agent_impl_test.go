@@ -15,11 +15,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/connection"
+	"github.com/ealink1/super-link/internal/upstream/connection"
 )
 
 func TestMain(m *testing.M) {
-	if os.Getenv("NAVIFYNE_MYSQL_AGENT_TEST_HELPER") == "1" {
+	if os.Getenv("SUPERLINK_MYSQL_AGENT_TEST_HELPER") == "1" {
 		runMySQLAgentTestHelper()
 		os.Exit(0)
 	}
@@ -38,7 +38,7 @@ func runMySQLAgentTestHelper() {
 		if err := json.Unmarshal(scanner.Bytes(), &request); err != nil {
 			continue
 		}
-		if request.Method == mysqlAgentMethodQuery && os.Getenv("NAVIFYNE_MYSQL_AGENT_TEST_HELPER_HANG_QUERY") == "1" {
+		if request.Method == mysqlAgentMethodQuery && os.Getenv("SUPERLINK_MYSQL_AGENT_TEST_HELPER_HANG_QUERY") == "1" {
 			time.Sleep(time.Hour)
 			return
 		}
@@ -364,8 +364,8 @@ func TestMySQLAgentConnectRebuildsTransportAfterCancellation(t *testing.T) {
 		t.Fatalf("write test agent executable: %v", err)
 	}
 
-	t.Setenv("NAVIFYNE_MYSQL_AGENT_TEST_HELPER", "1")
-	t.Setenv("NAVIFYNE_MYSQL_AGENT_TEST_HELPER_HANG_QUERY", "1")
+	t.Setenv("SUPERLINK_MYSQL_AGENT_TEST_HELPER", "1")
+	t.Setenv("SUPERLINK_MYSQL_AGENT_TEST_HELPER_HANG_QUERY", "1")
 	dbInst := &MySQLAgentDB{}
 	config := connection.ConnectionConfig{Type: "mysql", Host: "127.0.0.1", Port: 3306}
 	if err := dbInst.Connect(config); err != nil {
@@ -389,7 +389,7 @@ func TestMySQLAgentConnectRebuildsTransportAfterCancellation(t *testing.T) {
 		t.Fatal("cancelled query remained blocked")
 	}
 
-	t.Setenv("NAVIFYNE_MYSQL_AGENT_TEST_HELPER_HANG_QUERY", "")
+	t.Setenv("SUPERLINK_MYSQL_AGENT_TEST_HELPER_HANG_QUERY", "")
 	if err := dbInst.Connect(config); err != nil {
 		t.Fatalf("reconnect after cancellation: %v", err)
 	}
@@ -565,13 +565,13 @@ func TestMySQLAgentCancellationAfterGateAcquisitionDoesNotDispatch(t *testing.T)
 
 func TestMySQLAgentUnresponsiveProcessIsReapedAfterTimeout(t *testing.T) {
 	const helperMarker = "gonavi-mysql-agent-hang-helper"
-	if os.Getenv("NAVIFYNE_MYSQL_AGENT_HANG_HELPER") == "1" && len(os.Args) > 0 && os.Args[len(os.Args)-1] == helperMarker {
+	if os.Getenv("SUPERLINK_MYSQL_AGENT_HANG_HELPER") == "1" && len(os.Args) > 0 && os.Args[len(os.Args)-1] == helperMarker {
 		time.Sleep(time.Hour)
 		return
 	}
 
 	cmd := exec.Command(os.Args[0], "-test.run=^TestMySQLAgentUnresponsiveProcessIsReapedAfterTimeout$", "--", helperMarker)
-	cmd.Env = append(os.Environ(), "NAVIFYNE_MYSQL_AGENT_HANG_HELPER=1")
+	cmd.Env = append(os.Environ(), "SUPERLINK_MYSQL_AGENT_HANG_HELPER=1")
 	configureAgentProcess(cmd)
 	stdin, err := cmd.StdinPipe()
 	if err != nil {

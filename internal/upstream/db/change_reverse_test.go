@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/connection"
+	"github.com/ealink1/super-link/internal/upstream/connection"
 )
 
 // mysqlQuote 定义在 change_preview_test.go，同一包内复用。

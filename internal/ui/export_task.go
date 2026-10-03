@@ -8,7 +8,7 @@ import (
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/dialog"
 	"fyne.io/fyne/v2/widget"
-	"github.com/ealink1/navi-fyne/internal/datafile"
+	"github.com/ealink1/super-link/internal/datafile"
 )
 
 func (w *Window) startExport(source exportSource, options datafile.Options, path string, overwrite, full bool) {

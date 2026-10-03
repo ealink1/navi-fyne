@@ -13,8 +13,8 @@ import (
 // This build-time comparison uses pre-compression fonts kept outside Git.
 // Regular CI independently pins every deployed font's bytes and coverage.
 func TestCompressedFontsMatchEveryReferenceOutlineAndAdvance(t *testing.T) {
-	reference := os.Getenv("NAVIFYNE_FONT_REFERENCE_DIR")
-	target := os.Getenv("NAVIFYNE_FONT_CANDIDATE_DIR")
+	reference := os.Getenv("SUPERLINK_FONT_REFERENCE_DIR")
+	target := os.Getenv("SUPERLINK_FONT_CANDIDATE_DIR")
 	if reference == "" {
 		t.Skip("pre-compression reference directory is required for a font regeneration audit")
 	}

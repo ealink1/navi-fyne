@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/db"
+	"github.com/ealink1/super-link/internal/upstream/db"
 )
 
 type fakeAgentParamsDB struct {

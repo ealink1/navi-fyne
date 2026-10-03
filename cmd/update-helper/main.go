@@ -10,7 +10,7 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/ealink1/navi-fyne/internal/infra/update"
+	"github.com/ealink1/super-link/internal/infra/update"
 )
 
 func main() {

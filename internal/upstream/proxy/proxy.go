@@ -16,8 +16,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/connection"
-	"github.com/ealink1/navi-fyne/internal/upstream/logger"
+	"github.com/ealink1/super-link/internal/upstream/connection"
+	"github.com/ealink1/super-link/internal/upstream/logger"
 
 	xproxy "golang.org/x/net/proxy"
 )

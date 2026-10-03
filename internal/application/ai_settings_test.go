@@ -8,8 +8,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ealink1/navi-fyne/internal/infra/chat"
-	"github.com/ealink1/navi-fyne/internal/infra/secrets"
+	"github.com/ealink1/super-link/internal/infra/chat"
+	"github.com/ealink1/super-link/internal/infra/secrets"
 )
 
 func TestAISettingsEncryptedRestartAndReplacement(t *testing.T) {

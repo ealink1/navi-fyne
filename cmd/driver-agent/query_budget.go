@@ -7,8 +7,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/db"
-	sshbridge "github.com/ealink1/navi-fyne/internal/upstream/ssh"
+	"github.com/ealink1/super-link/internal/upstream/db"
+	sshbridge "github.com/ealink1/super-link/internal/upstream/ssh"
 )
 
 func fail(response agentResponse, errorText string) agentResponse {

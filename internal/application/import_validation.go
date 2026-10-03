@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/ealink1/navi-fyne/internal/domain"
+	"github.com/ealink1/super-link/internal/domain"
 )
 
 func (e *Engine) authorizeImport(p domain.Profile, request domain.ImportRequest) error {

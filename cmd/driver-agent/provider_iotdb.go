@@ -2,7 +2,7 @@
 
 package main
 
-import "github.com/ealink1/navi-fyne/internal/upstream/db"
+import "github.com/ealink1/super-link/internal/upstream/db"
 
 func init() {
 	agentDriverType = "iotdb"

@@ -9,7 +9,7 @@ import (
 	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
-	transport "github.com/ealink1/navi-fyne/internal/infra/shell"
+	transport "github.com/ealink1/super-link/internal/infra/shell"
 )
 
 func newShellFilesView(f *shellFiles) *fyne.Container {

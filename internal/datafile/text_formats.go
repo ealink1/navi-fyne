@@ -14,7 +14,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ealink1/navi-fyne/internal/sqlworkbench"
+	"github.com/ealink1/super-link/internal/sqlworkbench"
 )
 
 func Text(value any) string {

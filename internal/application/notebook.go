@@ -6,9 +6,9 @@ import (
 	"errors"
 	"sync"
 
-	"github.com/ealink1/navi-fyne/internal/domain"
-	"github.com/ealink1/navi-fyne/internal/infra/secrets"
-	"github.com/ealink1/navi-fyne/internal/infra/state"
+	"github.com/ealink1/super-link/internal/domain"
+	"github.com/ealink1/super-link/internal/infra/secrets"
+	"github.com/ealink1/super-link/internal/infra/state"
 )
 
 // Notebook owns encrypted persistence and serializes saves for one editor.

@@ -1,6 +1,8 @@
 # SQL / Shell 共用日夜主题自检
 
-日期：2026-10-02。项目：独立的 `ealink1/navi-fyne`。
+> 名称与命令已于 2026-10-03 统一为 SuperLink；历史截图、产物哈希和验收结论仍对应记录当日版本，本次更名验证见 [完整更名记录](superlink-namespace-2026-10-03.md)。
+
+日期：2026-10-02。项目：独立的 `ealink1/super-link`。
 
 后续应用已更名为 SuperLink，当前应用包名称及产物摘要见[更名自检](superlink-rename-2026-10-02.md)。本报告的主题验证和更名前摘要保留为历史证据。
 
@@ -28,7 +30,7 @@
 | 打开新建主机表单 | 日间与夜间弹窗均可读；输入 `Theme QA` 后切换主题，文字保留；取消未保存额外主机 |
 | 本地终端 | 真正启动 zsh PTY，执行 `printf` 输出绿色 ANSI 文本与“你好”；主题往返后输出和会话保留，默认文字 / 背景改变 |
 | 正常退出并重启 | 夜间选择落库；重新打开后 SQL 仍为夜间，Shell 继承该模式 |
-| 最新应用包启动 | 正常退出隔离检查应用后，打开 `bin/NaviFyne.app`；标题栏开关可见，日常连接和查询草稿恢复，未触发查询执行 |
+| 最新应用包启动 | 正常退出隔离检查应用后，打开 `bin/SuperLink.app`；标题栏开关可见，日常连接和查询草稿恢复，未触发查询执行 |
 
 截图留在忽略缓存 `.cache/shared-appearance/native/`：`sql-light.png`、`sql-night.png`、`hosts-light.png`、`hosts-night.png`、`form-light.png`、`form-night.png`、`terminal-light.png`、`terminal-night.png`、`restart-night.png`。本地终端含本机壳启动上下文，截图不加入公开仓库。
 
@@ -56,9 +58,9 @@ git diff --check
 
 | 产物 | 校验 |
 | --- | --- |
-| 原生应用 | `bin/NaviFyne.app`，v0.1.0 |
+| 原生应用 | `bin/SuperLink.app`，v0.1.0 |
 | 主程序 SHA256 | `54f8e08e621f9e64da9fbd43bac0c5d0894f0958e21242838173e2675e81fc7b` |
-| ZIP | `dist/navi-fyne_0.1.0_darwin_arm64.zip`，87,555,244 字节 |
+| ZIP | `dist/superlink_0.1.0_darwin_arm64.zip`，87,555,244 字节 |
 | ZIP SHA256 | `1d5f967071e303e85abc04e45317d68871d0b920f34e3253d36943feb86d4ee0` |
 | 分发清单 | `dist/assets-darwin-arm64.json`，23 项，22 个 Agent 加应用 |
 

@@ -17,14 +17,14 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ealink1/navi-fyne/internal/infra/release"
+	"github.com/ealink1/super-link/internal/infra/release"
 )
 
 func main() {
 	assets := flag.String("assets-dir", "dist", "directory containing platform assets-*.json and binaries")
 	version := flag.String("version", "", "release version")
 	channel := flag.String("channel", "stable", "stable or preview")
-	keyPath := flag.String("key-file", "", "base64 Ed25519 private key file; otherwise NAVIFYNE_RELEASE_PRIVATE_KEY")
+	keyPath := flag.String("key-file", "", "base64 Ed25519 private key file; otherwise SUPERLINK_RELEASE_PRIVATE_KEY")
 	generate := flag.String("generate-key-file", "", "create a new 0600 private key file without overwriting an existing key")
 	flag.Parse()
 	if *generate != "" {
@@ -58,7 +58,7 @@ func generateKey(path string) error {
 	return nil
 }
 func sign(directory, version, channel, keyPath string) error {
-	text := os.Getenv("NAVIFYNE_RELEASE_PRIVATE_KEY")
+	text := os.Getenv("SUPERLINK_RELEASE_PRIVATE_KEY")
 	if keyPath != "" {
 		raw, err := os.ReadFile(keyPath)
 		if err != nil {

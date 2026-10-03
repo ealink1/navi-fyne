@@ -22,7 +22,7 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/connection"
+	"github.com/ealink1/super-link/internal/upstream/connection"
 
 	"github.com/apache/pulsar-client-go/pulsar"
 	pulsarlog "github.com/apache/pulsar-client-go/pulsar/log"

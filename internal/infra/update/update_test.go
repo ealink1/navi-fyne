@@ -11,8 +11,8 @@ import (
 	"runtime"
 	"testing"
 
-	"github.com/ealink1/navi-fyne/internal/infra/instance"
-	"github.com/ealink1/navi-fyne/internal/infra/state"
+	"github.com/ealink1/super-link/internal/infra/instance"
+	"github.com/ealink1/super-link/internal/infra/state"
 )
 
 func writeZip(t *testing.T, names []string, modes []os.FileMode) string {
@@ -109,7 +109,7 @@ func requestFixture(t *testing.T) Request {
 	}
 	updates := filepath.Join(dataRoot, "updates")
 	os.MkdirAll(updates, 0700)
-	r := Request{Target: filepath.Join(root, "App"), Stage: filepath.Join(root, ".navi-fyne-stage-test"), Token: "test", Version: "0.2.0", ParentPID: os.Getpid(), DataRoot: dataRoot, HealthFile: filepath.Join(updates, "health-test.json"), Report: filepath.Join(updates, "report.json"), StateBackup: filepath.Join(updates, "state-test.sqlite")}
+	r := Request{Target: filepath.Join(root, "App"), Stage: filepath.Join(root, ".superlink-stage-test"), Token: "test", Version: "0.2.0", ParentPID: os.Getpid(), DataRoot: dataRoot, HealthFile: filepath.Join(updates, "health-test.json"), Report: filepath.Join(updates, "report.json"), StateBackup: filepath.Join(updates, "state-test.sqlite")}
 	r.Backup = r.Target + ".backup-" + r.Token
 	packageFixture(t, r.Target, "0.1.0")
 	packageFixture(t, r.Stage, "0.2.0")

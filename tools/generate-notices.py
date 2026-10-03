@@ -6,7 +6,7 @@ import subprocess
 ROOT = Path(__file__).resolve().parent.parent
 template = '{{if .Module}}{{.Module.Path}}\t{{.Module.Version}}\t{{if .Module.Replace}}{{.Module.Replace.Dir}}{{else}}{{.Module.Dir}}{{end}}{{end}}'
 output = subprocess.check_output(['go', 'list', '-deps', '-tags', 'gonavi_full_drivers',
-                                  '-f', template, './cmd/navi-fyne', './cmd/update-helper',
+                                  '-f', template, './cmd/superlink', './cmd/update-helper',
                                   './cmd/driver-agent'], cwd=ROOT, text=True)
 modules = sorted(set(line for line in output.splitlines() if line.strip()))
 parts = ['# Third-party notices\n\nGenerated from the native app, update helper and all-driver agent dependency graphs.\n'
@@ -15,7 +15,7 @@ parts = ['# Third-party notices\n\nGenerated from the native app, update helper 
 missing = []
 for entry in modules:
     name, version, directory = entry.split('\t')
-    if name == 'github.com/ealink1/navi-fyne':
+    if name == 'github.com/ealink1/super-link':
         continue
     folder = Path(directory)
     licenses = sorted(set(path for pattern in ['LICENSE*', 'LICENCE*', 'COPYING*', 'NOTICE*', 'COPYRIGHT*']

@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/esconsole"
+	"github.com/ealink1/super-link/internal/upstream/esconsole"
 )
 
 func TestParseSourceParsesDevToolsBatch(t *testing.T) {

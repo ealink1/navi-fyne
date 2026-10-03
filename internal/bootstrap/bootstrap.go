@@ -8,19 +8,19 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/ealink1/navi-fyne/internal/application"
-	"github.com/ealink1/navi-fyne/internal/domain"
-	"github.com/ealink1/navi-fyne/internal/infra/drivers"
-	"github.com/ealink1/navi-fyne/internal/infra/instance"
-	"github.com/ealink1/navi-fyne/internal/infra/release"
-	adapter "github.com/ealink1/navi-fyne/internal/infra/runtime"
-	"github.com/ealink1/navi-fyne/internal/infra/secrets"
-	"github.com/ealink1/navi-fyne/internal/infra/state"
-	"github.com/ealink1/navi-fyne/internal/upstream/appdata"
-	"github.com/ealink1/navi-fyne/internal/upstream/db"
-	"github.com/ealink1/navi-fyne/internal/upstream/logger"
-	"github.com/ealink1/navi-fyne/internal/upstream/proxy"
-	"github.com/ealink1/navi-fyne/internal/upstream/ssh"
+	"github.com/ealink1/super-link/internal/application"
+	"github.com/ealink1/super-link/internal/domain"
+	"github.com/ealink1/super-link/internal/infra/drivers"
+	"github.com/ealink1/super-link/internal/infra/instance"
+	"github.com/ealink1/super-link/internal/infra/release"
+	adapter "github.com/ealink1/super-link/internal/infra/runtime"
+	"github.com/ealink1/super-link/internal/infra/secrets"
+	"github.com/ealink1/super-link/internal/infra/state"
+	"github.com/ealink1/super-link/internal/upstream/appdata"
+	"github.com/ealink1/super-link/internal/upstream/db"
+	"github.com/ealink1/super-link/internal/upstream/logger"
+	"github.com/ealink1/super-link/internal/upstream/proxy"
+	"github.com/ealink1/super-link/internal/upstream/ssh"
 )
 
 type Services struct {
@@ -35,14 +35,14 @@ type Services struct {
 
 func Open(root, bundle, key string) (*Services, error) {
 	if root == "" {
-		root = os.Getenv("NAVIFYNE_DATA_ROOT")
+		root = os.Getenv("SUPERLINK_DATA_ROOT")
 	}
 	if root == "" {
 		directory, err := os.UserConfigDir()
 		if err != nil {
 			return nil, err
 		}
-		root = filepath.Join(directory, "NaviFyne")
+		root = filepath.Join(directory, "SuperLink")
 	}
 	root, err := filepath.Abs(root)
 	if err != nil {

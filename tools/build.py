@@ -41,10 +41,10 @@ def main():
     version = args.version.removeprefix('v')
     if not re.fullmatch(r'[0-9]+\.[0-9]+\.[0-9]+(?:-[A-Za-z0-9.-]+)?(?:\+[A-Za-z0-9.-]+)?',version):
         raise SystemExit('invalid package version')
-    public_key = os.environ.get('NAVIFYNE_RELEASE_PUBLIC_KEY','').strip()
+    public_key = os.environ.get('SUPERLINK_RELEASE_PUBLIC_KEY','').strip()
     if public_key and len(base64.b64decode(public_key,validate=True)) != 32:
         raise SystemExit('release public key must be a base64 Ed25519 32-byte key')
-    release_url = f'https://github.com/ealink1/navi-fyne/releases/download/v{version}/'
+    release_url = f'https://github.com/ealink1/super-link/releases/download/v{version}/'
     dist = ROOT / 'dist'
     dist.mkdir(exist_ok=True)
     for driver in chosen:
@@ -73,7 +73,7 @@ def main():
         flags = f'-s -w -X main.version={version}'
         if public_key:
             flags += f' -X main.releasePublicKey={public_key}'
-        run(['go','build','-trimpath','-ldflags',flags,'-o',str(binary/f'navi-fyne{suffix}'),'./cmd/navi-fyne'])
+        run(['go','build','-trimpath','-ldflags',flags,'-o',str(binary/f'superlink{suffix}'),'./cmd/superlink'])
         run(['go','build','-trimpath','-ldflags','-s -w','-o',str(binary/f'update-helper{suffix}'),'./cmd/update-helper'])
     if args.package:
         if args.skip_app:
@@ -85,7 +85,7 @@ def main():
         resources = package_root / 'Contents/Resources' if goos=='darwin' else package_root
         executable_dir.mkdir(parents=True, exist_ok=True)
         resources.mkdir(parents=True, exist_ok=True)
-        for name in [f'navi-fyne{suffix}',f'update-helper{suffix}']:
+        for name in [f'superlink{suffix}',f'update-helper{suffix}']:
             shutil.copy2(binary/name,executable_dir/name)
         # SQLite is offline in every application package; optional agents remain
         # separate release assets so the base app does not grow with all SDKs.
@@ -116,20 +116,20 @@ def main():
             shutil.copy2(ROOT/'internal/branding/assets/superlink.icns', resources/'SuperLink.icns')
             (package_root/'Contents/Info.plist').write_bytes(plistlib.dumps({
                 'CFBundleName':'SuperLink','CFBundleDisplayName':'SuperLink',
-                'CFBundleIdentifier':'io.github.ealink1.navifyne','CFBundleExecutable':'navi-fyne',
+                'CFBundleIdentifier':'io.github.ealink1.superlink','CFBundleExecutable':'superlink',
                 'CFBundleIconFile':'SuperLink.icns',
                 'CFBundlePackageType':'APPL','CFBundleShortVersionString':version,
                 'CFBundleVersion':version,'NSHighResolutionCapable':True,
                 'NSHumanReadableCopyright':'Apache-2.0; see included licenses'}))
         prefix='Contents/MacOS/' if goos=='darwin' else ''
-        marker={'id':'io.github.ealink1.navifyne','version':version,'os':goos,'arch':arch,
-                'executable':prefix+f'navi-fyne{suffix}','helper':prefix+f'update-helper{suffix}'}
-        (resources/'navi-fyne.package.json').write_text(json.dumps(marker,indent=2)+'\n')
+        marker={'id':'io.github.ealink1.superlink','version':version,'os':goos,'arch':arch,
+                'executable':prefix+f'superlink{suffix}','helper':prefix+f'update-helper{suffix}'}
+        (resources/'superlink.package.json').write_text(json.dumps(marker,indent=2)+'\n')
         # Distribution signing/notarization happens before zip creation in the
         # release workflow when its platform signing credentials are available.
-        if goos=='darwin' and os.environ.get('NAVIFYNE_MAC_SIGN_IDENTITY'):
-            identity=os.environ['NAVIFYNE_MAC_SIGN_IDENTITY']
-            for target in [destination/'sqlite-driver-agent',executable_dir/'update-helper',executable_dir/'navi-fyne']:
+        if goos=='darwin' and os.environ.get('SUPERLINK_MAC_SIGN_IDENTITY'):
+            identity=os.environ['SUPERLINK_MAC_SIGN_IDENTITY']
+            for target in [destination/'sqlite-driver-agent',executable_dir/'update-helper',executable_dir/'superlink']:
                 run(['codesign','--force','--options','runtime','--timestamp','--sign',identity,str(target)])
             # Signing changes executable bytes. The package's trusted bundle
             # checksum must describe the signed copy before sealing the bundle.
@@ -138,13 +138,13 @@ def main():
             (destination/'bundle.json').write_text(json.dumps({'schema':1,'os':goos,'arch':arch,'drivers':bundled},indent=2)+'\n')
             run(['codesign','--force','--options','runtime','--timestamp','--sign',identity,str(package_root)])
             run(['codesign','--verify','--deep','--strict',str(package_root)])
-        filename=f'navi-fyne_{version}_{goos}_{arch}.zip'
+        filename=f'superlink_{version}_{goos}_{arch}.zip'
         output=dist/filename
         with zipfile.ZipFile(output,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=6) as archive:
             for item in sorted(package_root.rglob('*')):
                 if item.is_file():
                     archive.write(item,item.relative_to(binary).as_posix())
-        artifacts.append({'id':'navi-fyne','kind':'app','os':goos,'arch':arch,'filename':filename,
+        artifacts.append({'id':'superlink','kind':'app','os':goos,'arch':arch,'filename':filename,
                           'url':release_url+filename,'size':output.stat().st_size,
                           'sha256':hashlib.sha256(output.read_bytes()).hexdigest()})
     (dist/f'assets-{goos}-{arch}.json').write_text(json.dumps(artifacts,indent=2)+'\n')

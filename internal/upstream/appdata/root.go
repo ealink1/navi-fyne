@@ -12,13 +12,13 @@ import (
 const (
 	bootstrapFileName              = "storage_root.json"
 	bootstrapLockFileName          = bootstrapFileName + ".lock"
-	sharedStorageLockFileName      = ".navi-fyne-storage-write.lock"
-	configuredLogFileName          = "navi-fyne.log"
+	sharedStorageLockFileName      = ".superlink-storage-write.lock"
+	configuredLogFileName          = "superlink.log"
 	savedQueryDirectoryName        = "saved_queries"
-	savedQueryDirectoryProbePrefix = ".navi-fyne-saved-query-"
-	agentDataDirectoryProbePrefix  = ".navi-fyne-agent-data-"
+	savedQueryDirectoryProbePrefix = ".superlink-saved-query-"
+	agentDataDirectoryProbePrefix  = ".superlink-agent-data-"
 )
-const dataRootEnvName = "NAVIFYNE_DATA_ROOT"
+const dataRootEnvName = "SUPERLINK_DATA_ROOT"
 
 var (
 	ErrSetActiveRootCreateDataDirectory      = errors.New("create data directory failed")
@@ -207,7 +207,7 @@ func DefaultRoot() string {
 	if err != nil || strings.TrimSpace(homeDir) == "" {
 		return "."
 	}
-	return filepath.Join(homeDir, ".navi-fyne")
+	return filepath.Join(homeDir, ".superlink")
 }
 
 func BootstrapPath() string {

@@ -5,7 +5,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/connection"
+	"github.com/ealink1/super-link/internal/upstream/connection"
 )
 
 func parseConnectionURI(raw string, allowedSchemes ...string) (*url.URL, bool) {

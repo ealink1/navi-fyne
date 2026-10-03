@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/ealink1/navi-fyne/internal/domain"
-	"github.com/ealink1/navi-fyne/internal/sqlworkbench"
-	"github.com/ealink1/navi-fyne/internal/upstream/db"
+	"github.com/ealink1/super-link/internal/domain"
+	"github.com/ealink1/super-link/internal/sqlworkbench"
+	"github.com/ealink1/super-link/internal/upstream/db"
 )
 
 // sqlObjects distinguishes views and schema components without encoding SQL in the UI.

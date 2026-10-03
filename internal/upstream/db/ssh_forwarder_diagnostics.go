@@ -5,7 +5,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/ssh"
+	"github.com/ealink1/super-link/internal/upstream/ssh"
 )
 
 // wrapDatabaseConnectionVerifyErrorWithForwarder preserves the normal

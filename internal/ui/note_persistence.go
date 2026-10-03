@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/ealink1/navi-fyne/internal/application"
+	"github.com/ealink1/super-link/internal/application"
 )
 
 // A single timer and a single notification coalesce typing bursts. Both workers

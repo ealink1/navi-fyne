@@ -9,8 +9,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/connection"
-	sshbridge "github.com/ealink1/navi-fyne/internal/upstream/ssh"
+	"github.com/ealink1/super-link/internal/upstream/connection"
+	sshbridge "github.com/ealink1/super-link/internal/upstream/ssh"
 )
 
 func TestReadOptionalDriverAgentJSONLineEnforcesFrameLimit(t *testing.T) {

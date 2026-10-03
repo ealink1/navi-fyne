@@ -11,7 +11,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/connection"
+	"github.com/ealink1/super-link/internal/upstream/connection"
 )
 
 // TestMQTTLiveConfiguredSubscriptionCapturesMessageBeforeQuery is an opt-in
@@ -20,13 +20,13 @@ import (
 // the data preview. A configured MQTT subscription must stay active for the
 // connection lifetime so that the message is still available to the query.
 func TestMQTTLiveConfiguredSubscriptionCapturesMessageBeforeQuery(t *testing.T) {
-	addr := strings.TrimSpace(os.Getenv("NAVIFYNE_MQTT_TEST_ADDR"))
+	addr := strings.TrimSpace(os.Getenv("SUPERLINK_MQTT_TEST_ADDR"))
 	if addr == "" {
-		t.Skip("set NAVIFYNE_MQTT_TEST_ADDR to run the live MQTT subscription smoke test")
+		t.Skip("set SUPERLINK_MQTT_TEST_ADDR to run the live MQTT subscription smoke test")
 	}
 	host, portText, err := net.SplitHostPort(addr)
 	if err != nil {
-		t.Fatalf("parse NAVIFYNE_MQTT_TEST_ADDR: %v", err)
+		t.Fatalf("parse SUPERLINK_MQTT_TEST_ADDR: %v", err)
 	}
 	port, err := strconv.Atoi(portText)
 	if err != nil {
@@ -39,8 +39,8 @@ func TestMQTTLiveConfiguredSubscriptionCapturesMessageBeforeQuery(t *testing.T) 
 		Type:             "mqtt",
 		Host:             host,
 		Port:             port,
-		User:             strings.TrimSpace(os.Getenv("NAVIFYNE_MQTT_TEST_USER")),
-		Password:         os.Getenv("NAVIFYNE_MQTT_TEST_PASSWORD"),
+		User:             strings.TrimSpace(os.Getenv("SUPERLINK_MQTT_TEST_USER")),
+		Password:         os.Getenv("SUPERLINK_MQTT_TEST_PASSWORD"),
 		Database:         topic,
 		ConnectionParams: "qos=1&fetchWaitMs=1200",
 		Timeout:          3,

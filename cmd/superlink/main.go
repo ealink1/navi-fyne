@@ -6,10 +6,10 @@ import (
 	"os"
 
 	"fyne.io/fyne/v2/app"
-	"github.com/ealink1/navi-fyne/internal/bootstrap"
-	"github.com/ealink1/navi-fyne/internal/branding"
-	"github.com/ealink1/navi-fyne/internal/infra/update"
-	"github.com/ealink1/navi-fyne/internal/ui"
+	"github.com/ealink1/super-link/internal/bootstrap"
+	"github.com/ealink1/super-link/internal/branding"
+	"github.com/ealink1/super-link/internal/infra/update"
+	"github.com/ealink1/super-link/internal/ui"
 )
 
 var version = "0.1.0"
@@ -34,7 +34,7 @@ func main() {
 		os.Exit(1)
 	}
 	defer services.Close()
-	application := app.NewWithID("io.github.ealink1.navifyne")
+	application := app.NewWithID("io.github.ealink1.superlink")
 	application.SetIcon(branding.Icon())
 	window := ui.New(application, ui.Dependencies{Profiles: services.Profiles, Engine: services.Engine, Drivers: services.Drivers, Releases: services.Releases, Root: services.Root, Version: version, Close: services.Close})
 	window.Show()

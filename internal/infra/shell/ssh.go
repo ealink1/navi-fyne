@@ -12,7 +12,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ealink1/navi-fyne/internal/domain"
+	"github.com/ealink1/super-link/internal/domain"
 	"golang.org/x/crypto/ssh"
 )
 

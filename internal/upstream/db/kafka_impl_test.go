@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/connection"
+	"github.com/ealink1/super-link/internal/upstream/connection"
 
 	kafka "github.com/segmentio/kafka-go"
 	kafkasasl "github.com/segmentio/kafka-go/sasl"

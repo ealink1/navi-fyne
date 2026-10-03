@@ -8,8 +8,8 @@ import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
-	"github.com/ealink1/navi-fyne/internal/domain"
-	transport "github.com/ealink1/navi-fyne/internal/infra/shell"
+	"github.com/ealink1/super-link/internal/domain"
+	transport "github.com/ealink1/super-link/internal/infra/shell"
 )
 
 type shellPane struct {

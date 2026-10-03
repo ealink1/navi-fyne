@@ -7,24 +7,24 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/connection"
+	"github.com/ealink1/super-link/internal/upstream/connection"
 )
 
 func TestOceanBaseOracleLive(t *testing.T) {
-	port, err := strconv.Atoi(os.Getenv("NAVIFYNE_OB_PORT"))
+	port, err := strconv.Atoi(os.Getenv("SUPERLINK_OB_PORT"))
 	if err != nil {
-		t.Fatalf("invalid NAVIFYNE_OB_PORT: %v", err)
+		t.Fatalf("invalid SUPERLINK_OB_PORT: %v", err)
 	}
 
 	ob := &OceanBaseDB{}
 	cfg := connection.ConnectionConfig{
 		Type:              "oceanbase",
-		Host:              os.Getenv("NAVIFYNE_OB_HOST"),
+		Host:              os.Getenv("SUPERLINK_OB_HOST"),
 		Port:              port,
-		User:              os.Getenv("NAVIFYNE_OB_USER"),
-		Password:          os.Getenv("NAVIFYNE_OB_PASSWORD"),
-		Database:          os.Getenv("NAVIFYNE_OB_DATABASE"),
-		ConnectionParams:  os.Getenv("NAVIFYNE_OB_PARAMS"),
+		User:              os.Getenv("SUPERLINK_OB_USER"),
+		Password:          os.Getenv("SUPERLINK_OB_PASSWORD"),
+		Database:          os.Getenv("SUPERLINK_OB_DATABASE"),
+		ConnectionParams:  os.Getenv("SUPERLINK_OB_PARAMS"),
 		OceanBaseProtocol: "oracle",
 		Timeout:           10,
 	}

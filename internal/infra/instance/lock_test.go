@@ -8,7 +8,7 @@ import (
 )
 
 func TestWorkspaceIsExclusiveAcrossProcesses(t *testing.T) {
-	if root := os.Getenv("NAVIFYNE_LOCK_TEST_CHILD"); root != "" {
+	if root := os.Getenv("SUPERLINK_LOCK_TEST_CHILD"); root != "" {
 		lock, err := Acquire(root)
 		if !errors.Is(err, ErrBusy) {
 			if lock != nil {
@@ -25,7 +25,7 @@ func TestWorkspaceIsExclusiveAcrossProcesses(t *testing.T) {
 	}
 	defer lock.Close()
 	command := exec.Command(os.Args[0], "-test.run=^TestWorkspaceIsExclusiveAcrossProcesses$")
-	command.Env = append(os.Environ(), "NAVIFYNE_LOCK_TEST_CHILD="+root)
+	command.Env = append(os.Environ(), "SUPERLINK_LOCK_TEST_CHILD="+root)
 	if output, err := command.CombinedOutput(); err != nil {
 		t.Fatalf("child lock check: %s %v", output, err)
 	}

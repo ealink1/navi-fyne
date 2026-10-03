@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"strings"
 
-	transport "github.com/ealink1/navi-fyne/internal/infra/shell"
+	transport "github.com/ealink1/super-link/internal/infra/shell"
 )
 
 func shellMetricDisplay(metrics transport.Metrics) (values, details [4]string, memory, disk float64) {

@@ -14,8 +14,8 @@ import (
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
-	"github.com/ealink1/navi-fyne/internal/bootstrap"
-	"github.com/ealink1/navi-fyne/internal/ui"
+	"github.com/ealink1/super-link/internal/bootstrap"
+	"github.com/ealink1/super-link/internal/ui"
 )
 
 func main() {
@@ -52,7 +52,7 @@ func run() error {
 			return err
 		}
 	}
-	application := app.NewWithID("io.github.ealink1.navifyne.memoryprobe")
+	application := app.NewWithID("io.github.ealink1.superlink.memoryprobe")
 	window := ui.New(application, ui.Dependencies{
 		Profiles: services.Profiles, Engine: services.Engine, Drivers: services.Drivers,
 		Releases: services.Releases, Root: services.Root, Version: "memory-probe", Close: services.Close,

@@ -12,9 +12,9 @@ import (
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
-	"github.com/ealink1/navi-fyne/internal/application"
-	"github.com/ealink1/navi-fyne/internal/domain"
-	adapter "github.com/ealink1/navi-fyne/internal/infra/runtime"
+	"github.com/ealink1/super-link/internal/application"
+	"github.com/ealink1/super-link/internal/domain"
+	adapter "github.com/ealink1/super-link/internal/infra/runtime"
 )
 
 func waitConnectionStatus(t *testing.T, w *Window, id string, want application.ConnectionStatus) {
@@ -123,7 +123,7 @@ func TestConnectionIndicatorRowReuseAndThemeLayout(t *testing.T) {
 
 func captureConnectionIndicators(t *testing.T, window fyne.Window, name string) {
 	t.Helper()
-	directory := os.Getenv("NAVIFYNE_UI_CAPTURE_DIR")
+	directory := os.Getenv("SUPERLINK_UI_CAPTURE_DIR")
 	if directory == "" {
 		return
 	}

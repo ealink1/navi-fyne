@@ -1,4 +1,6 @@
-# Navi Fyne 第二轮内存精简
+# SuperLink 第二轮内存精简
+
+> 名称与命令已于 2026-10-03 统一为 SuperLink；历史截图、产物哈希和验收结论仍对应记录当日版本，本次更名验证见 [完整更名记录](superlink-namespace-2026-10-03.md)。
 
 日期：2026-10-02。环境：macOS arm64、Go 1.26.3、Fyne 2.8.1、Retina。
 本页记录第一轮约 279.3 MB 截图之后的进一步优化；第一轮的历史数据见
@@ -90,9 +92,9 @@ SQLite Agent 与来源说明。原有两个连接和三份草稿记录保留。�
 | 产物 | 本轮结果 |
 | --- | --- |
 | 应用 / QA 主程序 SHA256 | `b4db2d6508b1c87da00eeae7760051636c3dde8c6b7a97b640c9c2f94547fce9` |
-| 原生应用 | `bin/NaviFyne.app`，macOS arm64，v0.1.0 |
+| 原生应用 | `bin/SuperLink.app`，macOS arm64，v0.1.0 |
 | 全部驱动 | 22 个独立 Agent；无 JVM 管理连接器 |
-| ZIP | `dist/navi-fyne_0.1.0_darwin_arm64.zip`，83.10 MiB |
+| ZIP | `dist/superlink_0.1.0_darwin_arm64.zip`，83.10 MiB |
 | ZIP SHA256 | `39f3e711dfdc5aaa136ba16a68be5fc977d8d4938b0e8f39eff8125aa287a2e5` |
 | 清单 | `dist/assets-darwin-arm64.json`，23 项，摘要、大小、名称无重复通过 |
 
@@ -125,7 +127,7 @@ go -C third_party/fyne test -race -tags=test ./container \
 
 字体重新生成使用 `tools/font-requirements.txt` 的固定依赖和
 `tools/build_fonts.py --fyne-fonts third_party/fyne/theme/font --output <新目录>`。
-逐字 Go 引擎对照可设置 `NAVIFYNE_FONT_REFERENCE_DIR` 与
-`NAVIFYNE_FONT_CANDIDATE_DIR`，运行
+逐字 Go 引擎对照可设置 `SUPERLINK_FONT_REFERENCE_DIR` 与
+`SUPERLINK_FONT_CANDIDATE_DIR`，运行
 `TestCompressedFontsMatchEveryReferenceOutlineAndAdvance`；参考目录未提供时，
 常规 CI 会明确跳过这项需要旧字体的额外审核，仍执行全部已部署字体的固定摘要和覆盖测试。

@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/i18n"
+	"github.com/ealink1/super-link/internal/upstream/i18n"
 )
 
 func driverSupportFunctionSource(t *testing.T, source string, signature string) string {

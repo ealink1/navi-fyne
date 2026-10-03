@@ -55,7 +55,7 @@ func TestNoteGroupsDialogSeparateInputsAndSelection(t *testing.T) {
 }
 
 func TestNoteGroupsDialogSoftwareFixtures(t *testing.T) {
-	if os.Getenv("NAVIFYNE_UI_CAPTURE_DIR") == "" {
+	if os.Getenv("SUPERLINK_UI_CAPTURE_DIR") == "" {
 		t.Skip("optional software render capture")
 	}
 	w, n := noteTestWindow(t)

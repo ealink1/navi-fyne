@@ -11,12 +11,12 @@ import (
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/dialog"
 	"fyne.io/fyne/v2/widget"
-	"github.com/ealink1/navi-fyne/internal/application"
-	"github.com/ealink1/navi-fyne/internal/domain"
-	"github.com/ealink1/navi-fyne/internal/infra/drivers"
-	"github.com/ealink1/navi-fyne/internal/infra/release"
-	"github.com/ealink1/navi-fyne/internal/infra/state"
-	"github.com/ealink1/navi-fyne/internal/infra/update"
+	"github.com/ealink1/super-link/internal/application"
+	"github.com/ealink1/super-link/internal/domain"
+	"github.com/ealink1/super-link/internal/infra/drivers"
+	"github.com/ealink1/super-link/internal/infra/release"
+	"github.com/ealink1/super-link/internal/infra/state"
+	"github.com/ealink1/super-link/internal/infra/update"
 )
 
 type Dependencies struct {

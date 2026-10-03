@@ -3,7 +3,7 @@ package application
 import (
 	"errors"
 
-	"github.com/ealink1/navi-fyne/internal/domain"
+	"github.com/ealink1/super-link/internal/domain"
 )
 
 func discardFailedWriteSession(s *session, err error) {

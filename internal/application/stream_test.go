@@ -5,8 +5,8 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/ealink1/navi-fyne/internal/domain"
-	adapter "github.com/ealink1/navi-fyne/internal/infra/runtime"
+	"github.com/ealink1/super-link/internal/domain"
+	adapter "github.com/ealink1/super-link/internal/infra/runtime"
 )
 
 type streamFixture struct {

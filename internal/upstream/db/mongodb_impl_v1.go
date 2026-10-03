@@ -14,10 +14,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/connection"
-	"github.com/ealink1/navi-fyne/internal/upstream/logger"
-	proxytunnel "github.com/ealink1/navi-fyne/internal/upstream/proxy"
-	"github.com/ealink1/navi-fyne/internal/upstream/ssh"
+	"github.com/ealink1/super-link/internal/upstream/connection"
+	"github.com/ealink1/super-link/internal/upstream/logger"
+	proxytunnel "github.com/ealink1/super-link/internal/upstream/proxy"
+	"github.com/ealink1/super-link/internal/upstream/ssh"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"

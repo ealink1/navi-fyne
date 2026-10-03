@@ -9,8 +9,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/connection"
-	"github.com/ealink1/navi-fyne/internal/upstream/ssh"
+	"github.com/ealink1/super-link/internal/upstream/connection"
+	"github.com/ealink1/super-link/internal/upstream/ssh"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
 	cryptossh "golang.org/x/crypto/ssh"

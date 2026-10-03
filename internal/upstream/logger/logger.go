@@ -13,15 +13,15 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/appdata"
+	"github.com/ealink1/super-link/internal/upstream/appdata"
 )
 
 const (
-	envLogDir     = "NAVIFYNE_LOG_DIR"
-	appHiddenDir  = ".NaviFyne"
+	envLogDir     = "SUPERLINK_LOG_DIR"
+	appHiddenDir  = ".SuperLink"
 	appLogDirName = "Logs"
 
-	logFileName         = "navi-fyne.log"
+	logFileName         = "superlink.log"
 	logRotateMaxBytes   = 10 * 1024 * 1024 // 10MB
 	logRotateMaxBackups = 10
 	logSyncInterval     = 500 * time.Millisecond

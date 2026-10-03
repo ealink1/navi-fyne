@@ -4,8 +4,8 @@ package db
 
 import (
 	"context"
-	"github.com/ealink1/navi-fyne/internal/upstream/connection"
-	"github.com/ealink1/navi-fyne/internal/upstream/i18n"
+	"github.com/ealink1/super-link/internal/upstream/connection"
+	"github.com/ealink1/super-link/internal/upstream/i18n"
 	"strings"
 	"testing"
 )

@@ -11,7 +11,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/ealink1/navi-fyne/internal/infra/release"
+	"github.com/ealink1/super-link/internal/infra/release"
 )
 
 func TestSigningChecksActualAssetsAndProducesVerifiableManifest(t *testing.T) {
@@ -19,11 +19,11 @@ func TestSigningChecksActualAssetsAndProducesVerifiableManifest(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	t.Setenv("NAVIFYNE_RELEASE_PRIVATE_KEY", base64.StdEncoding.EncodeToString(private))
+	t.Setenv("SUPERLINK_RELEASE_PRIVATE_KEY", base64.StdEncoding.EncodeToString(private))
 	directory := t.TempDir()
 	contents := []byte("application fixture")
 	sum := sha256.Sum256(contents)
-	asset := release.Artifact{ID: "navi-fyne", Kind: "app", OS: "darwin", Arch: "arm64", Filename: "app.zip", URL: "https://github.com/ealink1/navi-fyne/releases/download/v0.2.0/app.zip", Size: int64(len(contents)), SHA256: hex.EncodeToString(sum[:])}
+	asset := release.Artifact{ID: "superlink", Kind: "app", OS: "darwin", Arch: "arm64", Filename: "app.zip", URL: "https://github.com/ealink1/super-link/releases/download/v0.2.0/app.zip", Size: int64(len(contents)), SHA256: hex.EncodeToString(sum[:])}
 	raw, _ := json.Marshal([]release.Artifact{asset})
 	if err = os.WriteFile(filepath.Join(directory, "assets-darwin-arm64.json"), raw, 0600); err != nil {
 		t.Fatal(err)

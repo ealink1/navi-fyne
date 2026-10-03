@@ -7,12 +7,12 @@ import (
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/widget"
-	"github.com/ealink1/navi-fyne/internal/domain"
-	transport "github.com/ealink1/navi-fyne/internal/infra/shell"
+	"github.com/ealink1/super-link/internal/domain"
+	transport "github.com/ealink1/super-link/internal/infra/shell"
 )
 
 func TestShellSSHSessionSoftwareFixtures(t *testing.T) {
-	if os.Getenv("NAVIFYNE_UI_CAPTURE_DIR") == "" {
+	if os.Getenv("SUPERLINK_UI_CAPTURE_DIR") == "" {
 		t.Skip("optional software render capture")
 	}
 	w := shellTestWindow(t)

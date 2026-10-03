@@ -1,4 +1,6 @@
-# Navi Fyne 内存问题定位与修复
+# SuperLink 内存问题定位与修复
+
+> 名称与命令已于 2026-10-03 统一为 SuperLink；历史截图、产物哈希和验收结论仍对应记录当日版本，本次更名验证见 [完整更名记录](superlink-namespace-2026-10-03.md)。
 
 日期：2026-10-02。环境：macOS arm64、Go 1.26.3、Fyne 2.8.1、Retina 显示。
 
@@ -56,7 +58,7 @@ Fyne 副本有 2,145 个原始文件，实际补丁集中在三个字体相关�
 
 电脑控制确认中文界面、语法高亮、结果标签和网格能正常显示。本次原生检查不替代完整界面复刻、中文 IME 或大结果集验收。正在运行的 QA 已是修复版，完整字体、窗口分辨率与用户工作区均保留。
 
-`python3 tools/build.py --all-drivers --package` 和原生启动烟测通过，22 个 Agent 已生成。ZIP CRC、文件路径及包内外文件一致性检查通过；构建后的主程序 SHA256 为 `8a7ae50c23fba6c5ec2f7a04c947feb33760929acdd6ab010a03c099f6ab921b`。包 `dist/navi-fyne_0.1.0_darwin_arm64.zip` 为 83.75 MiB，SHA256 `0aaf237dfd667f0bbe0168b0cffdfc09ae99ba77d32b3f6483fc30d1aff9d772`。CFF 资源增加了包体积，以较少的运行时轮廓解析对象换取较低内存；尚未正式发布。
+`python3 tools/build.py --all-drivers --package` 和原生启动烟测通过，22 个 Agent 已生成。ZIP CRC、文件路径及包内外文件一致性检查通过；构建后的主程序 SHA256 为 `8a7ae50c23fba6c5ec2f7a04c947feb33760929acdd6ab010a03c099f6ab921b`。包 `dist/superlink_0.1.0_darwin_arm64.zip` 为 83.75 MiB，SHA256 `0aaf237dfd667f0bbe0168b0cffdfc09ae99ba77d32b3f6483fc30d1aff9d772`。CFF 资源增加了包体积，以较少的运行时轮廓解析对象换取较低内存；尚未正式发布。
 
 ## 自检与限制
 
@@ -75,9 +77,9 @@ Fyne 副本有 2,145 个原始文件，实际补丁集中在三个字体相关�
 ```sh
 mkdir -p .cache/memory-qa
 go run ./tools/memory-probe --output .cache/memory-qa/new-welcome \
-  --drivers bin/NaviFyne.app/Contents/Resources/drivers --duration 45s
+  --drivers bin/SuperLink.app/Contents/Resources/drivers --duration 45s
 go run ./tools/memory-probe --fixture --output .cache/memory-qa/new-queries \
-  --drivers bin/NaviFyne.app/Contents/Resources/drivers --duration 75s
+  --drivers bin/SuperLink.app/Contents/Resources/drivers --duration 75s
 go tool pprof -top .cache/memory-qa/new-welcome/heap.pprof
 ```
 

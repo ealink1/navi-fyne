@@ -1,4 +1,4 @@
-module github.com/ealink1/navi-fyne
+module github.com/ealink1/super-link
 
 go 1.25.0
 

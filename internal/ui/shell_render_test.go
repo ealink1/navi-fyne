@@ -9,13 +9,13 @@ import (
 
 	"fyne.io/fyne/v2"
 
-	"github.com/ealink1/navi-fyne/internal/domain"
+	"github.com/ealink1/super-link/internal/domain"
 )
 
 // These captures use Fyne's software test driver. They do not validate AppKit
 // titlebar geometry, native keyboard events or installed iShell Pro fidelity.
 func TestShellSoftwareRenderFixtures(t *testing.T) {
-	if os.Getenv("NAVIFYNE_UI_CAPTURE_DIR") == "" {
+	if os.Getenv("SUPERLINK_UI_CAPTURE_DIR") == "" {
 		t.Skip("optional software render capture")
 	}
 	w := shellTestWindow(t)
@@ -56,7 +56,7 @@ func captureShellFixture(t *testing.T, w *Window, name string) {
 func captureShellFixtureSize(t *testing.T, w *Window, name string, size fyne.Size) {
 	t.Helper()
 	w.Window.Resize(size)
-	dir := os.Getenv("NAVIFYNE_UI_CAPTURE_DIR")
+	dir := os.Getenv("SUPERLINK_UI_CAPTURE_DIR")
 	if err := os.MkdirAll(dir, 0700); err != nil {
 		t.Fatal(err)
 	}

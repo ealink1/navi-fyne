@@ -4,7 +4,7 @@ import (
 	"strings"
 	"unicode"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/sqlaudit"
+	"github.com/ealink1/super-link/internal/upstream/sqlaudit"
 )
 
 // MetadataObjectFailure records a per-object metadata read failure while a

@@ -26,8 +26,8 @@ def main():
         return subprocess.check_output(prefix+arguments,text=True,**kwargs).strip()
 
     def start(kind,image,port,env=None,command=None):
-        name='navifyne-test-'+kind+'-'+uuid.uuid4().hex[:8]
-        call=['run','--detach','--rm','--name',name,'--label','io.github.ealink1.navifyne.selfcheck=true','--publish',f'127.0.0.1::{port}']
+        name='superlink-test-'+kind+'-'+uuid.uuid4().hex[:8]
+        call=['run','--detach','--rm','--name',name,'--label','io.github.ealink1.superlink.selfcheck=true','--publish',f'127.0.0.1::{port}']
         for key,value in (env or {}).items():call+=['--env',f'{key}={value}']
         call+=[image]+(command or [])
         print(f'Starting isolated {kind}',flush=True)
@@ -39,14 +39,14 @@ def main():
     def run_group(group):
         configs=[]
         if group=='core':
-            mysql=start('mysql','mysql:8.4',3306,{'MYSQL_ROOT_PASSWORD':password,'MYSQL_DATABASE':'navifyne_test','MYSQL_ROOT_HOST':'%'})
-            mysql.update(user='root',password=password,database='navifyne_test');configs.append(mysql)
-            postgres=start('postgres','postgres:17-alpine',5432,{'POSTGRES_PASSWORD':password,'POSTGRES_DB':'navifyne_test'})
-            postgres.update(user='postgres',password=password,database='navifyne_test');configs.append(postgres)
+            mysql=start('mysql','mysql:8.4',3306,{'MYSQL_ROOT_PASSWORD':password,'MYSQL_DATABASE':'superlink_test','MYSQL_ROOT_HOST':'%'})
+            mysql.update(user='root',password=password,database='superlink_test');configs.append(mysql)
+            postgres=start('postgres','postgres:17-alpine',5432,{'POSTGRES_PASSWORD':password,'POSTGRES_DB':'superlink_test'})
+            postgres.update(user='postgres',password=password,database='superlink_test');configs.append(postgres)
             configs.append(start('redis','redis:7-alpine',6379))
         if group=='messages':
-            configs.append(start('mqtt','eclipse-mosquitto:2',1883,command=['sh','-c','printf "listener 1883 0.0.0.0\\nallow_anonymous true\\n" > /tmp/navifyne.conf; exec mosquitto -c /tmp/navifyne.conf']))
-            rabbit=start('rabbitmq','rabbitmq:4-management-alpine',15672,{'RABBITMQ_DEFAULT_USER':'navifyne','RABBITMQ_DEFAULT_PASS':password});rabbit.update(user='navifyne',password=password,database='/');configs.append(rabbit)
+            configs.append(start('mqtt','eclipse-mosquitto:2',1883,command=['sh','-c','printf "listener 1883 0.0.0.0\\nallow_anonymous true\\n" > /tmp/superlink.conf; exec mosquitto -c /tmp/superlink.conf']))
+            rabbit=start('rabbitmq','rabbitmq:4-management-alpine',15672,{'RABBITMQ_DEFAULT_USER':'superlink','RABBITMQ_DEFAULT_PASS':password});rabbit.update(user='superlink',password=password,database='/');configs.append(rabbit)
         if group=='documents':
             configs.append(start('mongodb','mongo:8',27017))
             elastic=start('elasticsearch','docker.elastic.co/elasticsearch/elasticsearch:8.19.4',9200,{'discovery.type':'single-node','xpack.security.enabled':'false','ES_JAVA_OPTS':'-Xms512m -Xmx512m'});configs.append(elastic)
@@ -58,7 +58,7 @@ def main():
         config_file.unlink(missing_ok=True)
         with os.fdopen(os.open(config_file,os.O_WRONLY|os.O_CREAT|os.O_EXCL,0o600),'w') as output:
             json.dump(configs,output)
-        env=os.environ.copy();env['NAVIFYNE_LIVE_CONFIG']=str(config_file);env['NAVIFYNE_TEST_DRIVERS']=str(ROOT/'bin/drivers')
+        env=os.environ.copy();env['SUPERLINK_LIVE_CONFIG']=str(config_file);env['SUPERLINK_TEST_DRIVERS']=str(ROOT/'bin/drivers')
         subprocess.run(['go','test','-tags','integration','-count=1','-v','./internal/infra/runtime','-run','TestLive'],cwd=ROOT,env=env,check=True)
 
     try:

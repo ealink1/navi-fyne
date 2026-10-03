@@ -1,5 +1,7 @@
 # SuperLink SSH 会话界面调整
 
+> 名称与命令已于 2026-10-03 统一为 SuperLink；历史截图、产物哈希和验收结论仍对应记录当日版本，本次更名验证见 [完整更名记录](superlink-namespace-2026-10-03.md)。
+
 日期：2026-10-02。项目：独立 Go / Fyne 的 SuperLink。参考：本机安装的 iShell Pro 原生 SSH 终端、监控与 SFTP，以及用户提供的连接进度截图。
 
 ## 已实现
@@ -30,4 +32,4 @@
 
 ## 本地使用
 
-已更新本地 `bin/SuperLink.app` 与 `bin/navi-fyne`。运行中的日常应用继续使用旧进程；关闭后重新打开包即可载入新界面。保持原有应用标识与数据目录，不需要重新保存业务连接。没有提交、推送或发布 GitHub Release。
+已更新本地 `bin/SuperLink.app` 与 `bin/superlink`。运行中的日常应用继续使用旧进程；关闭后重新打开包即可载入新界面。保持原有应用标识与数据目录，不需要重新保存业务连接。没有提交、推送或发布 GitHub Release。

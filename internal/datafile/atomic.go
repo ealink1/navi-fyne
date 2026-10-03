@@ -26,7 +26,7 @@ func SaveAtomic(ctx context.Context, path string, overwrite bool, options Option
 			return 0, err
 		}
 	}
-	file, err := os.CreateTemp(filepath.Dir(path), ".navifyne-export-*")
+	file, err := os.CreateTemp(filepath.Dir(path), ".superlink-export-*")
 	if err != nil {
 		return 0, err
 	}

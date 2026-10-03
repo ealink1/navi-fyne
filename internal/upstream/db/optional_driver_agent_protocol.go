@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/connection"
+	"github.com/ealink1/super-link/internal/upstream/connection"
 )
 
 // 本文件承载驱动代理客户端的协议探测与能力归类：metadata 探测、connect

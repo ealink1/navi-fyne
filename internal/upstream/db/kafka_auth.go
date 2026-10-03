@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/connection"
+	"github.com/ealink1/super-link/internal/upstream/connection"
 
 	kafkasasl "github.com/segmentio/kafka-go/sasl"
 	kafkaplain "github.com/segmentio/kafka-go/sasl/plain"

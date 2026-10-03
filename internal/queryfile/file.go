@@ -59,7 +59,7 @@ func Save(ctx context.Context, path, text string, overwrite bool) error {
 	if !filepath.IsAbs(path) {
 		return errors.New("SQL file path must be absolute")
 	}
-	file, err := os.CreateTemp(filepath.Dir(path), ".navifyne-sql-*")
+	file, err := os.CreateTemp(filepath.Dir(path), ".superlink-sql-*")
 	if err != nil {
 		return err
 	}

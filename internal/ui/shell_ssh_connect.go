@@ -6,8 +6,8 @@ import (
 	"fmt"
 
 	"fyne.io/fyne/v2/dialog"
-	"github.com/ealink1/navi-fyne/internal/domain"
-	transport "github.com/ealink1/navi-fyne/internal/infra/shell"
+	"github.com/ealink1/super-link/internal/domain"
+	transport "github.com/ealink1/super-link/internal/infra/shell"
 )
 
 type shellConnection struct {

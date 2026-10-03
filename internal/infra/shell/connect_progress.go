@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 
-	"github.com/ealink1/navi-fyne/internal/domain"
+	"github.com/ealink1/super-link/internal/domain"
 )
 
 // ConnectStage identifies an actual SSH setup operation.

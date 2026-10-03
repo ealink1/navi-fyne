@@ -27,7 +27,7 @@ func signedFixture(t *testing.T) (Manifest, []byte, []byte, string, ed25519.Priv
 		t.Fatal(err)
 	}
 	sum := sha256.Sum256([]byte("package"))
-	m := Manifest{Schema: 1, Version: "0.2.0", Channel: "stable", PublishedAt: time.Now().UTC(), Artifacts: []Artifact{{ID: "navi-fyne", Kind: "app", OS: "darwin", Arch: "arm64", Filename: "app.zip", URL: "https://github.com/ealink1/navi-fyne/releases/download/v0.2.0/app.zip", Size: 7, SHA256: hex.EncodeToString(sum[:])}}}
+	m := Manifest{Schema: 1, Version: "0.2.0", Channel: "stable", PublishedAt: time.Now().UTC(), Artifacts: []Artifact{{ID: "superlink", Kind: "app", OS: "darwin", Arch: "arm64", Filename: "app.zip", URL: "https://github.com/ealink1/super-link/releases/download/v0.2.0/app.zip", Size: 7, SHA256: hex.EncodeToString(sum[:])}}}
 	raw, _ := json.Marshal(m)
 	sig := []byte(base64.StdEncoding.EncodeToString(ed25519.Sign(private, raw)))
 	return m, raw, sig, base64.StdEncoding.EncodeToString(public), private
@@ -54,7 +54,7 @@ func TestManifestAuthenticityAndStrictDecoding(t *testing.T) {
 	if err := m.Validate(); err == nil {
 		t.Fatal("accepted duplicate platform asset")
 	}
-	for _, address := range []string{"http://github.com/ealink1/navi-fyne/releases/download/v1/a", "https://evil.test/a", "https://user:password@github.com/ealink1/navi-fyne/releases/download/v1/a", "https://github.com/other/repo/releases/download/v1/a", "https://github.com:444/ealink1/navi-fyne/releases/download/v1/a"} {
+	for _, address := range []string{"http://github.com/ealink1/super-link/releases/download/v1/a", "https://evil.test/a", "https://user:password@github.com/ealink1/super-link/releases/download/v1/a", "https://github.com/other/repo/releases/download/v1/a", "https://github.com:444/ealink1/super-link/releases/download/v1/a"} {
 		if _, err := TrustedURL(address); err == nil {
 			t.Fatal("trusted unsafe URL", address)
 		}
@@ -68,7 +68,7 @@ func TestLatestReleaseBindsTagToSignedManifest(t *testing.T) {
 		body := raw
 		switch {
 		case strings.HasSuffix(r.URL.Path, "/latest"):
-			body, _ = json.Marshal(map[string]any{"tag_name": tag, "assets": []map[string]string{{"name": "manifest.json", "browser_download_url": "https://github.com/ealink1/navi-fyne/releases/download/v0.2.0/manifest.json"}, {"name": "manifest.json.sig", "browser_download_url": "https://github.com/ealink1/navi-fyne/releases/download/v0.2.0/manifest.json.sig"}}})
+			body, _ = json.Marshal(map[string]any{"tag_name": tag, "assets": []map[string]string{{"name": "manifest.json", "browser_download_url": "https://github.com/ealink1/super-link/releases/download/v0.2.0/manifest.json"}, {"name": "manifest.json.sig", "browser_download_url": "https://github.com/ealink1/super-link/releases/download/v0.2.0/manifest.json.sig"}}})
 		case strings.HasSuffix(r.URL.Path, ".sig"):
 			body = sig
 		}

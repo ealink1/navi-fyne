@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/connection"
+	"github.com/ealink1/super-link/internal/upstream/connection"
 )
 
 // TestSSHNetworkNameIsDeterministicPerTarget 覆盖 go-sql-driver 自定义 network 名的确定性。

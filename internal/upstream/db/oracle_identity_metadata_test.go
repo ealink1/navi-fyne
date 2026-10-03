@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/connection"
+	"github.com/ealink1/super-link/internal/upstream/connection"
 )
 
 // TestApplyOracleIdentityColumns 锁住 identity 列的 auto_increment 标记回填。

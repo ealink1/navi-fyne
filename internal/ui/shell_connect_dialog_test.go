@@ -9,8 +9,8 @@ import (
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/test"
-	"github.com/ealink1/navi-fyne/internal/application"
-	transport "github.com/ealink1/navi-fyne/internal/infra/shell"
+	"github.com/ealink1/super-link/internal/application"
+	transport "github.com/ealink1/super-link/internal/infra/shell"
 )
 
 func TestShellConnectModelBoundsNotificationsAndCloses(t *testing.T) {

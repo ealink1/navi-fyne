@@ -4,7 +4,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/connection"
+	"github.com/ealink1/super-link/internal/upstream/connection"
 )
 
 // 反向语句（undo）生成。

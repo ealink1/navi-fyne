@@ -13,8 +13,8 @@ import (
 	"fyne.io/fyne/v2/dialog"
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
-	"github.com/ealink1/navi-fyne/internal/datafile"
-	"github.com/ealink1/navi-fyne/internal/domain"
+	"github.com/ealink1/super-link/internal/datafile"
+	"github.com/ealink1/super-link/internal/domain"
 )
 
 type importWorkbench struct {

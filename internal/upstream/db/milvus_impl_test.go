@@ -10,7 +10,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/connection"
+	"github.com/ealink1/super-link/internal/upstream/connection"
 )
 
 func newMockMilvusServer(t *testing.T, handler http.HandlerFunc) *httptest.Server {
@@ -541,9 +541,9 @@ func TestMilvusResponseCodeFailureIsReturned(t *testing.T) {
 }
 
 func TestMilvusLiveSmoke(t *testing.T) {
-	serverURL := strings.TrimSpace(os.Getenv("NAVIFYNE_MILVUS_TEST_URL"))
+	serverURL := strings.TrimSpace(os.Getenv("SUPERLINK_MILVUS_TEST_URL"))
 	if serverURL == "" {
-		t.Skip("set NAVIFYNE_MILVUS_TEST_URL to run live Milvus smoke test")
+		t.Skip("set SUPERLINK_MILVUS_TEST_URL to run live Milvus smoke test")
 	}
 
 	db := newTestMilvusDB(t, serverURL)

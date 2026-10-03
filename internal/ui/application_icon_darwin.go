@@ -9,7 +9,7 @@ void superlink_application_icon(const void *bytes, size_t length);
 */
 import "C"
 
-import "github.com/ealink1/navi-fyne/internal/branding"
+import "github.com/ealink1/super-link/internal/branding"
 
 // GLFW does not set macOS Dock icons. Supply the same embedded artwork when
 // running an unpackaged binary, where no bundle icon can be discovered.

@@ -22,7 +22,7 @@ func putFixture(t *testing.T, v *System) string {
 func TestLocalVaultSurvivesNewProcess(t *testing.T) {
 	// Run the same test executable as a separate process to exclude memory cache
 	// from the successful read; only a temporary workspace and fake secret are used.
-	if os.Getenv("NAVIFYNE_VAULT_TEST_CHILD") == "1" {
+	if os.Getenv("SUPERLINK_VAULT_TEST_CHILD") == "1" {
 		args := os.Args
 		v := NewLocal(args[len(args)-2])
 		data, err := v.Get(args[len(args)-1])
@@ -35,7 +35,7 @@ func TestLocalVaultSurvivesNewProcess(t *testing.T) {
 	v := NewLocal(root)
 	ref := putFixture(t, v)
 	command := exec.Command(os.Args[0], "-test.run=^TestLocalVaultSurvivesNewProcess$", "--", root, ref)
-	command.Env = append(os.Environ(), "NAVIFYNE_VAULT_TEST_CHILD=1")
+	command.Env = append(os.Environ(), "SUPERLINK_VAULT_TEST_CHILD=1")
 	if output, err := command.CombinedOutput(); err != nil {
 		t.Fatalf("isolated process failed: %v\n%s", err, output)
 	}

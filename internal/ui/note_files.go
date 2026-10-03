@@ -13,8 +13,8 @@ import (
 	"fyne.io/fyne/v2/dialog"
 	"fyne.io/fyne/v2/storage"
 	"fyne.io/fyne/v2/widget"
-	"github.com/ealink1/navi-fyne/internal/domain"
-	"github.com/ealink1/navi-fyne/internal/notefile"
+	"github.com/ealink1/super-link/internal/domain"
+	"github.com/ealink1/super-link/internal/notefile"
 )
 
 func (n *noteWorkspace) importMarkdown() {

@@ -1,7 +1,9 @@
-# Navi Fyne 功能与界面对齐自检
+# SuperLink 功能与界面对齐自检
+
+> 名称与命令已于 2026-10-03 统一为 SuperLink；历史截图、产物哈希和验收结论仍对应记录当日版本，本次更名验证见 [完整更名记录](superlink-namespace-2026-10-03.md)。
 
 日期：2026-10-02。环境：macOS arm64、Go 1.26.3、Fyne 2.8.1。
-目标目录：`/Users/bre/workspace/self/navi-fyne`。GoNavi 源码目录保持未改动。
+目标目录：`.`。GoNavi 源码目录保持未改动。
 **本报告记录已实施和已验证部分；不代表完整的一比一复刻完成。**
 旧版 Alpha 的真实服务和原生更新测试保留在[2026-10-01 报告](selfcheck-2026-10-01.md)，
 未将这些历史结果重新写成本轮最新 UI 的验收。
@@ -50,7 +52,7 @@ go test ./...
 go test -tags gonavi_full_drivers ./internal/upstream/db ./cmd/driver-agent
 go test -race ./internal/application ./internal/infra/... ./internal/domain ./internal/ui ./cmd/release-sign
 go vet ./...
-NAVIFYNE_TEST_DRIVERS="$PWD/bin/drivers" go test -tags integration -count=1 ./internal/infra/runtime -run 'TestLocalFileAgents|TestLocalAgentsBoundValuesAndOptimisticChanges|TestSQLiteAgentSessionMetadataDoesNotWaitForItsOwnPool'
+SUPERLINK_TEST_DRIVERS="$PWD/bin/drivers" go test -tags integration -count=1 ./internal/infra/runtime -run 'TestLocalFileAgents|TestLocalAgentsBoundValuesAndOptimisticChanges|TestSQLiteAgentSessionMetadataDoesNotWaitForItsOwnPool'
 ```
 
 - 架构检查：独立 Fyne，应用 / 领域层不引入 Fyne 或 Wails，无 JVM 运行依赖。
@@ -68,8 +70,8 @@ SHA256、修订及协议，ZIP CRC / 路径检查通过。包内主程序和 Hel
 
 | 产物 | 本机路径 / 校验 |
 | --- | --- |
-| 最新原生应用 | `bin/NaviFyne.app`，v0.1.0，`io.github.ealink1.navifyne` |
-| ZIP | `dist/navi-fyne_0.1.0_darwin_arm64.zip`，87,482,937 字节，包含第二轮内存修复、记住密码、单行标签及 SQL / Shell 首阶段 |
+| 最新原生应用 | `bin/SuperLink.app`，v0.1.0，`io.github.ealink1.superlink` |
+| ZIP | `dist/superlink_0.1.0_darwin_arm64.zip`，87,482,937 字节，包含第二轮内存修复、记住密码、单行标签及 SQL / Shell 首阶段 |
 | ZIP SHA256 | `e86a20d2c96d072882319c86d2a82208d1d0eae2dcf167fbc1a9e0c4b6551c5d` |
 | 主程序 SHA256 | `e3d48aacf609e38e1bf790e921a343d0bbfc351028a98fe81b5662e0026691a5` |
 | 全部产物清单 | `dist/assets-darwin-arm64.json`，23 项，无重复文件名 |
@@ -120,7 +122,7 @@ SHA256、修订及协议，ZIP CRC / 路径检查通过。包内主程序和 Hel
 
 ## 仍未完成
 
-完整对照见[功能矩阵](gonavi-ui-observation-2026-10-01.md#5-与当前-navi-fyne-的逐项差距2026-10-02-更新)。
+完整对照见[功能矩阵](gonavi-ui-observation-2026-10-01.md#5-与当前-superlink-的逐项差距2026-10-02-更新)。
 尤其包括格式化 / 补全 / 执行计划、完整对象类别与右键动作、列管理 / ER、
 外键 / 触发器编辑、事务工作台、数据库编辑快照 / 诊断、完整文件向导和任务历史、
 比较 / 同步 / 调度 / 持续同步、AI / MCP / Skills、云备份与完整设置中心。

@@ -10,7 +10,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/connection"
+	"github.com/ealink1/super-link/internal/upstream/connection"
 )
 
 func newMockQdrantServer(t *testing.T, handler http.HandlerFunc) *httptest.Server {
@@ -479,9 +479,9 @@ func TestQdrantApplyChangesRejectsDeletesWithoutID(t *testing.T) {
 }
 
 func TestQdrantLiveSmoke(t *testing.T) {
-	serverURL := strings.TrimSpace(os.Getenv("NAVIFYNE_QDRANT_TEST_URL"))
+	serverURL := strings.TrimSpace(os.Getenv("SUPERLINK_QDRANT_TEST_URL"))
 	if serverURL == "" {
-		t.Skip("set NAVIFYNE_QDRANT_TEST_URL to run live Qdrant smoke test")
+		t.Skip("set SUPERLINK_QDRANT_TEST_URL to run live Qdrant smoke test")
 	}
 
 	db := newTestQdrantDB(t, serverURL)

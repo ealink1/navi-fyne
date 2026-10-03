@@ -1,4 +1,6 @@
-# GoNavi 与 Navi Fyne 原生界面对比
+# GoNavi 与 SuperLink 原生界面对比
+
+> 名称与命令已于 2026-10-03 统一为 SuperLink；历史截图、产物哈希和验收结论仍对应记录当日版本，本次更名验证见 [完整更名记录](superlink-namespace-2026-10-03.md)。
 
 日期：2026-10-02。结论：**当前版本没有达到功能、操作路径和界面风格的一比一复刻。**
 本轮已实际打开两个 macOS 应用，以当前原生页面重新核对，不能把此前的软件截图、
@@ -9,7 +11,7 @@
 | 项目 | 本轮状态 |
 | --- | --- |
 | 参考应用 | 已安装 `/Applications/GoNavi.app`，关于页显示 1.0.0 |
-| 实现应用 | `.cache/parity-qa/NaviFyneQA.app`，关于页显示 0.1.0，独立 QA 工作区 |
+| 实现应用 | `.cache/parity-qa/SuperLinkQA.app`，关于页显示 0.1.0，独立 QA 工作区 |
 | 窗口 | 两端均为 2940 × 1724 物理像素，Retina 下约 1470 × 862 逻辑尺寸 |
 | 操作方式 | 电脑控制原生应用；未使用浏览器 |
 | 本轮证据 | 17 张完整窗口 JPEG，另隔离 1 张 Stage Manager 缩略图，不作为验收证据 |
@@ -51,7 +53,7 @@ JVM 管理连接器按用户要求排除，不计入缺失功能。
 
 ### 3.1 欢迎页与主窗口
 
-| GoNavi | Navi Fyne |
+| GoNavi | SuperLink |
 | --- | --- |
 | ![GoNavi 欢迎工作台](../.cache/ui-compare-2026-10-02/02-gonavi-welcome.jpg) | ![Fyne 欢迎页](../.cache/ui-compare-2026-10-02/08-fyne-welcome.jpg) |
 
@@ -65,7 +67,7 @@ Fyne 标签初始宽度也明显小于原版，类型摘要缺少原版的独立
 
 ### 3.2 数据源选择器
 
-| GoNavi | Navi Fyne |
+| GoNavi | SuperLink |
 | --- | --- |
 | ![GoNavi 数据源选择](../.cache/ui-compare-2026-10-02/03-gonavi-datasource.jpg) | ![Fyne 数据源选择](../.cache/ui-compare-2026-10-02/09-fyne-datasource.jpg) |
 
@@ -80,7 +82,7 @@ MySQL 和 MariaDB 的品牌图案在 Fyne 实际截图中为空框。
 
 ### 3.3 MySQL 基本配置
 
-| GoNavi | Navi Fyne |
+| GoNavi | SuperLink |
 | --- | --- |
 | ![GoNavi MySQL 基本配置](../.cache/ui-compare-2026-10-02/04-gonavi-connection-basic.jpg) | ![Fyne MySQL 基本配置](../.cache/ui-compare-2026-10-02/10-fyne-connection-basic.jpg) |
 
@@ -95,7 +97,7 @@ MySQL 和 MariaDB 的品牌图案在 Fyne 实际截图中为空框。
 
 ### 3.4 MySQL 网络与安全
 
-| GoNavi | Navi Fyne |
+| GoNavi | SuperLink |
 | --- | --- |
 | ![GoNavi 网络与安全](../.cache/ui-compare-2026-10-02/05-gonavi-connection-network.jpg) | ![Fyne 网络与安全](../.cache/ui-compare-2026-10-02/11-fyne-connection-network.jpg) |
 
@@ -106,7 +108,7 @@ SSL/TLS 未启用时，原版显示说明；Fyne 仍显示验证模式及证书�
 
 ### 3.5 查询编辑器
 
-| GoNavi | Navi Fyne |
+| GoNavi | SuperLink |
 | --- | --- |
 | ![GoNavi 新建查询](../.cache/ui-compare-2026-10-02/06-gonavi-query-empty.jpg) | ![Fyne 新建查询](../.cache/ui-compare-2026-10-02/14-fyne-query-empty.jpg) |
 
@@ -128,7 +130,7 @@ Fyne 当前显示执行、保存、更多、搜索、换行和设置六个按钮
 
 ### 3.6 设置中心与关于页
 
-| GoNavi | Navi Fyne |
+| GoNavi | SuperLink |
 | --- | --- |
 | ![GoNavi 设置与关于](../.cache/ui-compare-2026-10-02/01-gonavi-settings.jpg) | ![Fyne 设置与关于](../.cache/ui-compare-2026-10-02/13-fyne-settings.jpg) |
 

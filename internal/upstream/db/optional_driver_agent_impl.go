@@ -15,9 +15,9 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/connection"
-	"github.com/ealink1/navi-fyne/internal/upstream/logger"
-	sshbridge "github.com/ealink1/navi-fyne/internal/upstream/ssh"
+	"github.com/ealink1/super-link/internal/upstream/connection"
+	"github.com/ealink1/super-link/internal/upstream/logger"
+	sshbridge "github.com/ealink1/super-link/internal/upstream/ssh"
 )
 
 const (

@@ -1,8 +1,8 @@
 # 构建与打包产物
 /bin/
 /dist/
-/navi-fyne
-/navi-fyne.exe
+/superlink
+/superlink.exe
 /update-helper
 /update-helper.exe
 /driver-agent

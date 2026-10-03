@@ -2,7 +2,7 @@
 build:
 	python3 tools/build.py
 run: build
-	./bin/navi-fyne
+	./bin/superlink
 package:
 	python3 tools/build.py --package
 drivers:

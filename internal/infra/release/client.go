@@ -7,7 +7,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/ealink1/navi-fyne/internal/upstream/appdata"
+	"github.com/ealink1/super-link/internal/upstream/appdata"
 	"io"
 	"net/http"
 	"os"
@@ -34,7 +34,7 @@ type releaseInfo struct {
 }
 
 func New(key string) *Client {
-	return &Client{PublicKey: key, API: "https://api.github.com/repos/ealink1/navi-fyne/releases/latest", HTTP: &http.Client{Timeout: 60 * time.Second, CheckRedirect: func(req *http.Request, via []*http.Request) error {
+	return &Client{PublicKey: key, API: "https://api.github.com/repos/ealink1/super-link/releases/latest", HTTP: &http.Client{Timeout: 60 * time.Second, CheckRedirect: func(req *http.Request, via []*http.Request) error {
 		if len(via) > 5 {
 			return errors.New("too many release redirects")
 		}
@@ -48,7 +48,7 @@ func (c *Client) get(ctx context.Context, address string, limit int64) ([]byte, 
 		return nil, err
 	}
 	request.Header.Set("Accept", "application/vnd.github+json")
-	request.Header.Set("User-Agent", "NaviFyne")
+	request.Header.Set("User-Agent", "SuperLink")
 	response, err := c.HTTP.Do(request)
 	if err != nil {
 		return nil, err
@@ -150,7 +150,7 @@ func (c *Client) Download(ctx context.Context, artifact Artifact, directory stri
 	if err != nil {
 		return "", err
 	}
-	req.Header.Set("User-Agent", "NaviFyne")
+	req.Header.Set("User-Agent", "SuperLink")
 	response, err := c.HTTP.Do(req)
 	if err != nil {
 		return "", err

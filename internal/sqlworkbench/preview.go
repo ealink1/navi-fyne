@@ -1,6 +1,6 @@
 package sqlworkbench
 
-import "github.com/ealink1/navi-fyne/internal/domain"
+import "github.com/ealink1/super-link/internal/domain"
 
 // PreviewRead uses metadata's literal identifier components, including dots
 // inside a table name. No UI path parsing or source dialect SQL is involved.

@@ -14,8 +14,8 @@ import (
 	"github.com/google/uuid"
 )
 
-const AppID = "io.github.ealink1.navifyne"
-const Marker = "navi-fyne.package.json"
+const AppID = "io.github.ealink1.superlink"
+const Marker = "superlink.package.json"
 
 type Package struct {
 	ID         string `json:"id"`
@@ -125,7 +125,7 @@ func Prepare(ctx context.Context, archive, updates, target, version, dataRoot st
 		return request, errors.New("package and signed manifest versions differ")
 	}
 	// The staging directory shares the target filesystem, so replacement is atomic.
-	stage, err := os.MkdirTemp(filepath.Dir(target), ".navi-fyne-stage-*")
+	stage, err := os.MkdirTemp(filepath.Dir(target), ".superlink-stage-*")
 	if err != nil {
 		return request, err
 	}
@@ -195,7 +195,7 @@ func ValidateRequest(r Request) error {
 	if filepath.Dir(r.Target) != filepath.Dir(r.Stage) || filepath.Dir(r.Target) != filepath.Dir(r.Backup) || r.Target == r.Stage || r.Target == r.Backup {
 		return errors.New("update staging and backup must be distinct siblings")
 	}
-	if !strings.HasPrefix(filepath.Base(r.Stage), ".navi-fyne-stage-") || r.Backup != r.Target+".backup-"+r.Token {
+	if !strings.HasPrefix(filepath.Base(r.Stage), ".superlink-stage-") || r.Backup != r.Target+".backup-"+r.Token {
 		return errors.New("invalid update staging or backup path")
 	}
 	if _, err := os.Lstat(r.Backup); !errors.Is(err, os.ErrNotExist) {

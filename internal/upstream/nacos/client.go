@@ -18,10 +18,10 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/connection"
-	proxytunnel "github.com/ealink1/navi-fyne/internal/upstream/proxy"
-	"github.com/ealink1/navi-fyne/internal/upstream/ssh"
-	"github.com/ealink1/navi-fyne/internal/upstream/tlsconfig"
+	"github.com/ealink1/super-link/internal/upstream/connection"
+	proxytunnel "github.com/ealink1/super-link/internal/upstream/proxy"
+	"github.com/ealink1/super-link/internal/upstream/ssh"
+	"github.com/ealink1/super-link/internal/upstream/tlsconfig"
 	"golang.org/x/sync/singleflight"
 )
 

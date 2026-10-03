@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/logger"
+	"github.com/ealink1/super-link/internal/upstream/logger"
 )
 
 // 本文件承载主进程侧的「在途查询取消」通道：agent 声明支持后，上下文取消先发取消

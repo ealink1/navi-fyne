@@ -71,7 +71,7 @@ def refresh(source):
     source_files = set(subprocess.check_output(['git', 'ls-tree', '-r', '--name-only', actual],
                                              cwd=source, text=True).splitlines())
     records, patch = [], []
-    with tempfile.TemporaryDirectory(prefix='navifyne-provenance-') as temporary:
+    with tempfile.TemporaryDirectory(prefix='superlink-provenance-') as temporary:
         bases, go_files = {}, []
         for target in retained_files():
             relative = target.relative_to(ROOT).as_posix()

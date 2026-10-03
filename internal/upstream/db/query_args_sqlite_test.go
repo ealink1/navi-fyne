@@ -8,8 +8,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/connection"
-	"github.com/ealink1/navi-fyne/internal/upstream/sqlparam"
+	"github.com/ealink1/super-link/internal/upstream/connection"
+	"github.com/ealink1/super-link/internal/upstream/sqlparam"
 )
 
 // newArgsTestSQLiteDB 打开内存 SQLite 并建好测试表，验证绑定执行端到端语义。

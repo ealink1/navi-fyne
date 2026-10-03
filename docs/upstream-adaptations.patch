@@ -436,7 +436,7 @@
 +
 +import (
 +	"context"
-+	"github.com/ealink1/navi-fyne/internal/upstream/db"
++	"github.com/ealink1/super-link/internal/upstream/db"
 +	"strings"
 +)
 +
@@ -526,8 +526,8 @@
 +
 +import (
 +	"context"
-+	"github.com/ealink1/navi-fyne/internal/upstream/connection"
-+	"github.com/ealink1/navi-fyne/internal/upstream/db"
++	"github.com/ealink1/super-link/internal/upstream/connection"
++	"github.com/ealink1/super-link/internal/upstream/db"
 +	"strings"
 +)
 +
@@ -565,7 +565,7 @@
 +	"io"
 +	"strings"
 +
-+	"github.com/ealink1/navi-fyne/internal/upstream/db"
++	"github.com/ealink1/super-link/internal/upstream/db"
 +)
 +
 +func decodeAgentRequest(line string, req *agentRequest) error {
@@ -597,7 +597,7 @@
 +	"math"
 +	"testing"
 +
-+	"github.com/ealink1/navi-fyne/internal/upstream/db"
++	"github.com/ealink1/super-link/internal/upstream/db"
 +)
 +
 +func TestAgentRequestDecodePreservesIntegerAndBinary(t *testing.T) {
@@ -658,7 +658,7 @@
 +import (
 +	"context"
 +	"fmt"
-+	"github.com/ealink1/navi-fyne/internal/upstream/db"
++	"github.com/ealink1/super-link/internal/upstream/db"
 +	"strings"
 +	"time"
 +)
@@ -759,8 +759,8 @@
 +import (
 +	"context"
 +	"fmt"
-+	"github.com/ealink1/navi-fyne/internal/upstream/connection"
-+	"github.com/ealink1/navi-fyne/internal/upstream/db"
++	"github.com/ealink1/super-link/internal/upstream/connection"
++	"github.com/ealink1/super-link/internal/upstream/db"
 +	"strings"
 +	"time"
 +)
@@ -864,7 +864,7 @@
 +
 +import (
 +	"context"
-+	"github.com/ealink1/navi-fyne/internal/upstream/db"
++	"github.com/ealink1/super-link/internal/upstream/db"
 +	"strings"
 +)
 +
@@ -1301,7 +1301,7 @@
 +	"encoding/base64"
 +	"errors"
 +
-+	"github.com/ealink1/navi-fyne/internal/upstream/connection"
++	"github.com/ealink1/super-link/internal/upstream/connection"
 +)
 +
 +// AgentBinaryCell is out-of-band type information. No magic value in a user's
@@ -1386,7 +1386,7 @@
 +	"reflect"
 +	"testing"
 +
-+	"github.com/ealink1/navi-fyne/internal/upstream/connection"
++	"github.com/ealink1/super-link/internal/upstream/connection"
 +)
 +
 +func TestAgentBinaryMetadataPreservesPrintableBinaryAndDoesNotReinterpretText(t *testing.T) {
@@ -1545,7 +1545,7 @@
 +	now := time.Now()
 +	template := &x509.Certificate{
 +		SerialNumber:          big.NewInt(1),
-+		Subject:               pkix.Name{CommonName: "Navi Fyne TLS test"},
++		Subject:               pkix.Name{CommonName: "SuperLink TLS test"},
 +		NotBefore:             now.Add(-time.Hour),
 +		NotAfter:              now.Add(time.Hour),
 +		KeyUsage:              x509.KeyUsageDigitalSignature | x509.KeyUsageCertSign,
@@ -1708,7 +1708,7 @@
 -// 已知限制：Args 经 JSON-lines 往返，time.Time 会序列化为 RFC3339 字符串、
 -// 整数解码为 float64——agent 侧驱动按字符串/浮点绑定，日期时间的会话时区
 -// 与隐式转换由驱动决定。直接编译（内置驱动）路径不受影响。
-+// Navi Fyne additionally requires the typedArguments handshake. Older v2
++// SuperLink additionally requires the typedArguments handshake. Older v2
 +// agents lose integer precision and binary/time types during JSON transport.
  
  // ErrOptionalDriverAgentParamsUnsupported 表示当前 agent 协议不支持参数绑定。

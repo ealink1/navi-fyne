@@ -8,8 +8,8 @@ import (
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/dialog"
-	"github.com/ealink1/navi-fyne/internal/domain"
-	"github.com/ealink1/navi-fyne/internal/sqlworkbench"
+	"github.com/ealink1/super-link/internal/domain"
+	"github.com/ealink1/super-link/internal/sqlworkbench"
 	"github.com/google/uuid"
 )
 

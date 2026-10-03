@@ -5,10 +5,10 @@ import (
 	"testing"
 
 	"fyne.io/fyne/v2/test"
-	"github.com/ealink1/navi-fyne/internal/domain"
-	adapter "github.com/ealink1/navi-fyne/internal/infra/runtime"
-	"github.com/ealink1/navi-fyne/internal/infra/secrets"
-	"github.com/ealink1/navi-fyne/internal/upstream/connection"
+	"github.com/ealink1/super-link/internal/domain"
+	adapter "github.com/ealink1/super-link/internal/infra/runtime"
+	"github.com/ealink1/super-link/internal/infra/secrets"
+	"github.com/ealink1/super-link/internal/upstream/connection"
 )
 
 func TestRememberPasswordDefaultsAndRetainsExistingChoice(t *testing.T) {

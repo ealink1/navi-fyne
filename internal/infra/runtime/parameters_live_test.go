@@ -11,9 +11,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ealink1/navi-fyne/internal/domain"
-	"github.com/ealink1/navi-fyne/internal/sqlworkbench"
-	"github.com/ealink1/navi-fyne/internal/upstream/connection"
+	"github.com/ealink1/super-link/internal/domain"
+	"github.com/ealink1/super-link/internal/sqlworkbench"
+	"github.com/ealink1/super-link/internal/upstream/connection"
 )
 
 // Exercise the actual JSON-lines agent, binder and transaction, not an in-process substitute.

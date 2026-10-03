@@ -5,7 +5,7 @@ package db
 import (
 	"testing"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/connection"
+	"github.com/ealink1/super-link/internal/upstream/connection"
 
 	"github.com/taosdata/driver-go/v3/taosWS"
 )

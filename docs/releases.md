@@ -1,5 +1,7 @@
 # 构建、签名与应用内更新
 
+> 名称与命令已于 2026-10-03 统一为 SuperLink；历史截图、产物哈希和验收结论仍对应记录当日版本，本次更名验证见 [完整更名记录](superlink-namespace-2026-10-03.md)。
+
 当前版本为 v0.1.0 Alpha。macOS arm64 的原生应用包及本地 Helper 升级已完成自检。
 尚未发布 GitHub Release、注入正式更新公钥、配置平台签名证书或完成 Windows / Linux
 的运行验收。以下是已实现的发布工具和维护者操作流程。
@@ -14,11 +16,11 @@ python3 tools/build.py --all-drivers --package --version 0.1.0
 
 | 位置 | 内容 |
 | --- | --- |
-| `bin/navi-fyne`、`bin/update-helper` | 主程序与更新 Helper；Windows 带 `.exe` |
+| `bin/superlink`、`bin/update-helper` | 主程序与更新 Helper；Windows 带 `.exe` |
 | `bin/drivers/` | 所选原生 Agent 和 `bundle.json`，供开发及可信本机离线导入 |
 | `bin/SuperLink.app/` | macOS 原生应用包，包含离线 SQLite、Helper 和许可文本 |
 | `bin/SuperLink/` | Linux / Windows Portable 应用目录，包含同样的基础资源 |
-| `dist/navi-fyne_<version>_<os>_<arch>.zip` | 一个完整应用目录的 ZIP |
+| `dist/superlink_<version>_<os>_<arch>.zip` | 一个完整应用目录的 ZIP |
 | `dist/<driver>-agent_<version>_<os>_<arch>[.exe]` | 单独的可选 Agent |
 | `dist/assets-<os>-<arch>.json` | 本平台资产清单：长度、SHA256、下载 URL 与驱动兼容信息 |
 
@@ -36,20 +38,20 @@ python3 tools/build.py --all-drivers --package --version 0.1.0
 
 ```sh
 # 目录和文件名可按维护者的密钥保管方式调整
-mkdir -p "$HOME/.config/navifyne-release"
-chmod 700 "$HOME/.config/navifyne-release"
+mkdir -p "$HOME/.config/superlink-release"
+chmod 700 "$HOME/.config/superlink-release"
 
 go run ./cmd/release-sign \
-  --generate-key-file "$HOME/.config/navifyne-release/ed25519.key"
+  --generate-key-file "$HOME/.config/superlink-release/ed25519.key"
 ```
 
 工具以 `O_EXCL` 创建文件，已有文件时拒绝覆盖，POSIX 文件权限为 0600；Windows
 另行配置该文件的访问 ACL。输出只包含公钥，不显示私钥。
 
-将输出的公钥配置为 `NAVIFYNE_RELEASE_PUBLIC_KEY`，再构建每个平台的应用：
+将输出的公钥配置为 `SUPERLINK_RELEASE_PUBLIC_KEY`，再构建每个平台的应用：
 
 ```sh
-export NAVIFYNE_RELEASE_PUBLIC_KEY='替换为生成工具输出的公钥'
+export SUPERLINK_RELEASE_PUBLIC_KEY='替换为生成工具输出的公钥'
 python3 tools/build.py --all-drivers --package --version 0.1.0
 ```
 
@@ -60,7 +62,7 @@ Repository Variable；不需要将私钥交给普通平台构建任务。未配�
 
 ## 3. 平台代码签名
 
-macOS 设置 `NAVIFYNE_MAC_SIGN_IDENTITY` 后，打包脚本先签名 SQLite Agent、Helper
+macOS 设置 `SUPERLINK_MAC_SIGN_IDENTITY` 后，打包脚本先签名 SQLite Agent、Helper
 和主程序，重新计算包内 SQLite 校验值，再签名并严格校验 `.app`，最后生成 ZIP。
 Ed25519 清单签名与操作系统代码签名承担不同职责，两者不能互相替代。
 
@@ -81,7 +83,7 @@ go run ./cmd/release-sign \
   --assets-dir dist \
   --version 0.1.0 \
   --channel stable \
-  --key-file "$HOME/.config/navifyne-release/ed25519.key"
+  --key-file "$HOME/.config/superlink-release/ed25519.key"
 ```
 
 工具逐个读取实际产物并检查长度、SHA256、仓库下载 URL 和版本，生成并验证：
@@ -95,7 +97,7 @@ go run ./cmd/release-sign \
 
 ## 5. GitHub Release 发布内容
 
-稳定发布使用目标仓库 `ealink1/navi-fyne`、tag `v0.1.0`，上传：
+稳定发布使用目标仓库 `ealink1/super-link`、tag `v0.1.0`，上传：
 
 1. 各平台完整应用 ZIP。
 2. 各平台可选 Agent。

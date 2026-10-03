@@ -7,8 +7,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/connection"
-	"github.com/ealink1/navi-fyne/internal/upstream/logger"
+	"github.com/ealink1/super-link/internal/upstream/connection"
+	"github.com/ealink1/super-link/internal/upstream/logger"
 )
 
 // 本文件承载人大金仓（Kingbase）驱动代理的 schema 与会话准备：连接后设置 search_path，

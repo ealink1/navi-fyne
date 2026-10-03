@@ -10,7 +10,7 @@ import (
 // 导致含占位符的 SQL 原样下发到数据库。宁可拒绝执行并提示升级，也不能让
 // 用户收到莫名的语法错误。
 //
-// Navi Fyne additionally requires the typedArguments handshake. Older v2
+// SuperLink additionally requires the typedArguments handshake. Older v2
 // agents lose integer precision and binary/time types during JSON transport.
 
 // ErrOptionalDriverAgentParamsUnsupported 表示当前 agent 协议不支持参数绑定。

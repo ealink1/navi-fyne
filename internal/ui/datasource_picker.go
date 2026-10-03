@@ -10,8 +10,8 @@ import (
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
-	"github.com/ealink1/navi-fyne/internal/domain"
-	"github.com/ealink1/navi-fyne/internal/upstream/connection"
+	"github.com/ealink1/super-link/internal/domain"
+	"github.com/ealink1/super-link/internal/upstream/connection"
 )
 
 var sourceCategories = []string{"全部", "关系型数据库", "国产数据库", "NoSQL 数据库", "向量数据库", "时序数据库", "消息队列", "配置中心", "其他"}

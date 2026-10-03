@@ -10,7 +10,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/ealink1/navi-fyne/internal/upstream/db"
+	"github.com/ealink1/super-link/internal/upstream/db"
 )
 
 // 本文件承载 driver-agent 的请求分发：读取循环与业务执行分离。

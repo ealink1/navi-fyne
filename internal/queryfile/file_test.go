@@ -38,7 +38,7 @@ func TestSQLFileRoundTripPermissionsAndNoClobber(t *testing.T) {
 	if read != text {
 		t.Fatal("failed write damaged document")
 	}
-	matches, _ := filepath.Glob(filepath.Join(filepath.Dir(path), ".navifyne-sql-*"))
+	matches, _ := filepath.Glob(filepath.Join(filepath.Dir(path), ".superlink-sql-*"))
 	if len(matches) != 0 {
 		t.Fatal("temporary SQL file leaked")
 	}

@@ -7,9 +7,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ealink1/navi-fyne/internal/application"
-	"github.com/ealink1/navi-fyne/internal/domain"
-	"github.com/ealink1/navi-fyne/internal/infra/secrets"
+	"github.com/ealink1/super-link/internal/application"
+	"github.com/ealink1/super-link/internal/domain"
+	"github.com/ealink1/super-link/internal/infra/secrets"
 )
 
 type delayedNoteVault struct {

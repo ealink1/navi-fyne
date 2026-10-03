@@ -7,9 +7,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ealink1/navi-fyne/internal/domain"
-	adapter "github.com/ealink1/navi-fyne/internal/infra/runtime"
-	"github.com/ealink1/navi-fyne/internal/upstream/sqlaudit"
+	"github.com/ealink1/super-link/internal/domain"
+	adapter "github.com/ealink1/super-link/internal/infra/runtime"
+	"github.com/ealink1/super-link/internal/upstream/sqlaudit"
 )
 
 // StreamQuery exports one read query with the same revision and session guards.

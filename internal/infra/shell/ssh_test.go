@@ -16,7 +16,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ealink1/navi-fyne/internal/domain"
+	"github.com/ealink1/super-link/internal/domain"
 	"github.com/pkg/sftp"
 	"golang.org/x/crypto/ssh"
 )

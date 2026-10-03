@@ -1,6 +1,6 @@
 package domain
 
-import "github.com/ealink1/navi-fyne/internal/upstream/connection"
+import "github.com/ealink1/super-link/internal/upstream/connection"
 
 // TableInfo carries driver metadata independently of the UI toolkit.
 type TableInfo struct {
